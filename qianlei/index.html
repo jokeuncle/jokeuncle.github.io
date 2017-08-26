@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<title>QianLei</title>
+	<link rel="stylesheet" href="css/jquery.fullpage.min.css">
+	<link rel="stylesheet" href="css/index.min.css">
+	<link rel="stylesheet" href="css/section.min.css">
+	<script>
+
+		
+	</script>
+</head>
+<body>
+	<!-- asidebar 侧栏模块 -->
+	<div id="menu-box">
+		<div class="title">
+			<div class="desc">
+				<div class="tel"><span>TEL:</span> 159-2178-2770</div>
+				<div class="we-chat"><span>WX:</span> qianlei228</div>
+			</div>
+		</div>
+		<ul id="menu">
+			<li><a href="#home_page">我的主页</a></li>
+			<li><a href="#about_self">有关于我</a></li>
+			<li><a href="#about_track">有关足迹</a></li>
+			<li><a href="#about_works">有关作品</a></li>
+			<li><a href="#love_film">我爱电影</a></li>
+			<li><a href="#love_music">我爱音乐</a></li>
+			<li><a href="#love_game">我爱游戏</a></li>
+			<li><a href="#love_word">我爱文字</a></li>
+		</ul>
+		<div class="page-info">IN:上海大学<br/>图书情报档案系<br/>2014-2017<br/></div>
+	</div>
+
+	<!-- 遮罩层及主页模块 -->
+	
+
+	<div id="fullpage">
+		<div id="mask">
+			<div class="preface">
+				<div class="preface-title">青春</div>
+				<div class="preface-content">
+					<p>有没有一种美丽能够成为永恒？</p>
+					<p>没有人告诉我答案，</p>
+					<p>只有天幕上划过的流星。</p>
+					<p>有没有一种回忆能够成为感动？</p>
+					<p>没有人告诉我答案，</p>
+					<p>只有雨霁后七色的彩虹。</p>
+					<p>怎么能说，</p>
+					<p>没有梦想的世界就不再美丽？</p>
+					<p>你看那孩童天真的笑容。</p>
+					<p>怎么能说，</p>
+					<p>没有灯光的夜晚就不再感动？</p>
+					<p>我们是青春</p>
+					<p>我们是夜空璀璨的星星</p>
+					<p>我们是不羁</p>
+					<p>我们是天边执着的飞鹰</p>
+				</div>
+			</div>
+		</div>
+		<div class="section home_page">我的主页</div>
+		<div class="section about_self">
+			<iframe src="../dist/index.html" frameborder="0"></iframe>
+		</div>
+		<div class="section about_track">有关足迹</div>
+		<div class="section about_works">有关作品</div>
+		<div class="section love_film">我爱电影</div>
+		<div class="section love_music">我爱音乐</div>
+		<div class="section love_game">我爱游戏</div>
+		<div class="section love_word">我爱文字</div>
+	</div>
+	<script src="js/jquery.js"></script>
+	<script src="js/jquery.fullPage.min.js"></script>
+	<script src="js/jquery.backstretch.min.js"></script>
+	<!-- <script src="js/jquery.slimscroll.min.js"></script> -->
+	<script>
+		$(document).ready(function(){
+			$('#fullpage').fullpage({
+				//Navigation
+				menu: '',
+				lockAnchors: false,
+				anchors:['home_page', 'about_self','about_track','about_works','love_film','love_music','love_game','love_word'],
+				navigation: false,
+				navigationPosition: 'right',
+				navigationTooltips: ['home_page', 'about_self','about_track','about_works','love_film','love_music','love_game','love_word'],
+				showActiveTooltip: false,
+				slidesNavigation: false,
+				slidesNavPosition: 'bottom',
+
+				//Scrolling
+				css3: true,
+				scrollingSpeed: 700,
+				autoScrolling: true,
+				fitToSection: true,
+				fitToSectionDelay: 1000,
+				scrollBar: false,
+				easing: 'easeInOutCubic',
+				easingcss3: 'ease',
+				loopBottom: false,
+				loopTop: false,
+				loopHorizontal: true,
+				continuousVertical: false,
+				continuousHorizontal: false,
+				scrollHorizontally: false,
+				interlockedSlides: false,
+				dragAndMove: false,
+				offsetSections: false,
+				resetSliders: false,
+				fadingEffect: false,
+				normalScrollElements: '#element1, .element2',
+				scrollOverflow: false,
+				scrollOverflowReset: false,
+				scrollOverflowOptions: null,
+				touchSensitivity: 15,
+				normalScrollElementTouchThreshold: 5,
+				bigSectionsDestination: null,
+
+				//Accessibility
+				keyboardScrolling: true,
+				animateAnchor: true,
+				recordHistory: true,
+
+				//Design
+				controlArrows: true,
+				verticalCentered: false,
+				sectionsColor : ['#f3704b', '#B3EE3A','#050505','#CD3333','#8e3e1f','#00ae9d','#892f1b'],
+				paddingTop: '0em',
+				paddingBottom: '0px',
+				fixedElements: '#header, .footer',
+				responsiveWidth: 0,
+				responsiveHeight: 0,
+				responsiveSlides: false,
+				parallax: false,
+				parallaxOptions: {type: 'reveal', percentage: 62, property: 'translate'},
+
+				//Custom selectors
+				sectionSelector: '.section',
+				slideSelector: '.slide',
+
+				lazyLoading: true,
+
+				//events
+				onLeave: function(index, nextIndex, direction){},
+				afterLoad: function(anchorLink, index){},
+				afterRender: function(){},
+				afterResize: function(){},
+				afterResponsive: function(isResponsive){},
+				afterSlideLoad: function(anchorLink, index, slideAnchor, slideIndex){},
+				onSlideLeave: function(anchorLink, index, slideIndex, direction, nextSlideIndex){}
+			});
+			$(".home_page").backstretch([
+			    {url:"img/1.jpg",duration:2500,transition:"fadeInOut"},
+			    {url:"img/2.jpg",duration:2500,transition:"fadeInOut"},
+			    {url:"img/3.jpg",duration:2500,transition:"fadeInOut"},
+			    {url:"img/4.jpg",duration:2500,transition:"fadeInOut"},
+			    {url:"img/5.jpg",duration:2500,transition:"fadeInOut"}
+			  ],{transitionDuration:2000});
+			$("#menu").click(function(event) {
+				var s = event.target;
+				$("#menu a").removeClass('current');
+				$(s).addClass('current');
+			});
+		});
+	</script>
+</body>
+</html>

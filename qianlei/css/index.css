@@ -1,0 +1,128 @@
+html{
+	font-size: 12px;
+	font-family: "Sans-Serif,Microsoft Yahei";
+}
+a{
+	text-decoration: none;
+	color: #fff;
+}
+#menu-box{
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 85px;
+	height: 100%;
+	background: url(../img/grass.gif);
+	z-index: 99999;
+}
+#menu-box .title{
+	position: relative;
+	height: 95px;
+	/*border: 1px dotted #fff;*/
+	color: #8B2323;
+	background: url(../img/ql.png) no-repeat center center;
+	background-size: 100% 100%;
+}
+#menu-box .title:hover .desc{
+	left: 85px;
+	opacity: 1;
+}
+#menu-box .title .desc{
+	position: absolute;
+	left: 120px;
+	width: 150px;
+	height: 100%;
+	padding: 15px 10px;
+	box-sizing: border-box;
+	font-size: 13px;
+	color: #fff;
+	text-align: center;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	background: #282828;
+	opacity: 0;
+	z-index: -1;
+	transition: all 0.45s;
+	pointer-events: none;
+}
+#menu-box .title .desc::before{
+	content: "";
+	position: absolute;
+	left: -20px;
+	top: 50%;
+	margin-top: -10px;
+	border: 10px solid #282828;
+	border-top-color: transparent;
+	border-bottom-color: transparent;
+	border-left-color: transparent;
+}
+#menu-box .title .desc div{
+	margin-bottom: 28px;
+}
+#menu-box .title .desc div span{
+	color: #CD950C;
+	text-decoration: underline;
+}
+#menu-box .page-info{
+	margin-top: 12px;
+	text-align: center;
+	font-size: 13px;
+	color: #fff;
+}
+#menu{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+#menu li{
+	border-bottom: 1px dotted #ccc;
+}
+#menu li a{
+	position: relative;
+	display: block;
+	box-sizing: border-box;
+	padding: 20px 10px;
+	text-align: center;
+}
+#menu li a::before,#menu li a::after{
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 0;
+	height: 100%;
+	background: #0D0D0D;
+	transition: width 0.35s;
+	z-index: -2;
+}
+#menu li a::before{
+	background: url(../img/sun.png) no-repeat;
+	transition: width 0.35s;
+	z-index: -2;
+}
+#menu li a::after{
+	background: #f3704b;
+	transition: width 0.35s 0.3s;
+	z-index: -1;
+}
+#menu li a:hover::before{
+	width: 100%;
+}
+#menu li a:hover::after{
+	width: 5px;
+}
+#mask{
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	padding-left: 85px;
+	background: rgba(0,0,0,.6);
+	z-index: 9999;
+}
+.current{
+	background: url(../img/sun.png) no-repeat;
+	font-weight: bolder;
+	color: #000;
+}

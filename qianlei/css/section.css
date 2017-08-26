@@ -1,0 +1,38 @@
+/*主页模块*/
+.home_page{
+	-webkit-filter: blur(5px);
+	filter: blur(5px);
+}
+#mask .preface .preface-title{
+	position: relative;
+	height: 95px;
+	padding-left: 20px;
+	line-height: 95px;
+	font-size: 50px;
+	color: #fff;
+}
+#mask .preface .preface-title::after{
+	content: "——Youth、Jeunesse、청춘、せいしゅん";
+	position: absolute;
+	left: 130px;
+	top: 100%;
+	width: 100%;
+	font-size: 15px;
+	line-height: 15px;
+}
+#mask .preface .preface-content{
+	padding-top: 35px;
+}
+#mask .preface .preface-content p{
+	margin-bottom: 10px;
+	padding-left: 80px;
+	font-size: 16px;
+	line-height: 16px;
+	color: #fff;
+	text-decoration: underline;
+}
+
+.about_self iframe{
+	width: 100%;
+	height: 100%;
+}

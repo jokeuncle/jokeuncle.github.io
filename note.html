@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>记录钱磊的那个她</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		html{
+			height: 100%;
+		}
+		svg{
+			position: absolute;
+			left: -800px;
+			top: -800px;
+			visibility: hidden;
+		}
+		body {
+			height: 100%;
+		  	font-family: 'Amatic SC', sans-serif;
+		  	background-size: 100% 100%;
+		  	overflow: hidden;
+		}
+		#main{
+			position: absolute;
+			left: 0;
+			top: 50%;
+			margin-top: -300px;
+			width: 400px;
+			height: 600px;
+			padding: 10px 20px;
+			box-sizing: border-box;
+			border-top-right-radius: 20px;
+			border-bottom-right-radius: 20px;
+			box-shadow: -3px -3px 3px 3px rgba(0,0,0,.5),5px 5px 5px 5px rgba(0,0,0,.5);
+			background: #fff url(qianlei/img/grass.gif) repeat;
+		}
+		#main::before{
+			content: "";
+			position: absolute;
+			right: 5px;
+			top: 5px;
+			width: 30px;
+			height: 30px;
+			background: rgba(0,0,0,.9);
+			border-radius: 50%;
+		}
+		#mask{
+			position: absolute;
+			width: 100%；
+			height: 100%;
+			left: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			background: rgba(0,0,0,.6);
+		}
+		#notes{
+			color: #fff;
+			border-top-right-radius: 20px;
+			border-bottom-right-radius: 20px;
+		}
+		#notes .notes-title{
+			font-size: 18px;
+			text-align: center;
+			margin-bottom: 10px;
+		}
+		#notes .notes-description{
+			font-size: 13px;
+			text-align: center;
+		}
+		#notes-list{
+			list-style-type: none;
+			background: rgba(0,0,0,.6);
+			border-radius: 10px;
+			margin-top: 15px;
+			padding: 3px 5px;
+			border-radius: 5px;
+			-webkit-animation: squiggly-anim 0.34s linear infinite;
+		          	animation: squiggly-anim 0.34s linear infinite;
+		}
+		#notes-list li{
+			text-decoration: underline;
+			margin-top: 6px;
+			font-size: 16px;
+		}
+		#notes-list li span::after{
+			content: ":";
+			font-weight: bolder;
+			margin: 3px;
+		}
+		@-webkit-keyframes squiggly-anim {
+		  0% {
+		    -webkit-filter: url("#squiggly-0");
+		            filter: url("#squiggly-0");
+		  }
+		  25% {
+		    -webkit-filter: url("#squiggly-1");
+		            filter: url("#squiggly-1");
+		  }
+		  50% {
+		    -webkit-filter: url("#squiggly-2");
+		            filter: url("#squiggly-2");
+		  }
+		  75% {
+		    -webkit-filter: url("#squiggly-3");
+		            filter: url("#squiggly-3");
+		  }
+		  100% {
+		    -webkit-filter: url("#squiggly-4");
+		            filter: url("#squiggly-4");
+		  }
+		}
+		@keyframes squiggly-anim {
+		  0% {
+		    -webkit-filter: url("#squiggly-0");
+		            filter: url("#squiggly-0");
+		  }
+		  25% {
+		    -webkit-filter: url("#squiggly-1");
+		            filter: url("#squiggly-1");
+		  }
+		  50% {
+		    -webkit-filter: url("#squiggly-2");
+		            filter: url("#squiggly-2");
+		  }
+		  75% {
+		    -webkit-filter: url("#squiggly-3");
+		            filter: url("#squiggly-3");
+		  }
+		  100% {
+		    -webkit-filter: url("#squiggly-4");
+		            filter: url("#squiggly-4");
+		  }
+		}
+	</style>
+</head>
+<body>
+	<div id="mask"></div>
+	<div id="main">
+		<div id="notes" class="ani">
+		<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+			<defs>
+			    <filter id="squiggly-0">
+			    	<feTurbulence id="turbulence" baseFrequency="0.02" numOctaves="3" result="noise" seed="0"/>
+			     	<feDisplacementMap id="displacement" in="SourceGraphic" in2="noise" scale="6" />
+			    </filter>
+			    <filter id="squiggly-1">
+			      	<feTurbulence id="turbulence" baseFrequency="0.02" numOctaves="3" result="noise" seed="1"/>
+					<feDisplacementMap in="SourceGraphic" in2="noise" scale="8" />
+			    </filter>
+			    <filter id="squiggly-2">
+			      	<feTurbulence id="turbulence" baseFrequency="0.02" numOctaves="3" result="noise" seed="2"/>
+					<feDisplacementMap in="SourceGraphic" in2="noise" scale="6" />
+			    </filter>
+			    <filter id="squiggly-3">
+			      	<feTurbulence id="turbulence" baseFrequency="0.02" numOctaves="3" result="noise" seed="3"/>
+					<feDisplacementMap in="SourceGraphic" in2="noise" scale="8" />
+			    </filter>
+			    <filter id="squiggly-4">
+			      	<feTurbulence id="turbulence" baseFrequency="0.02" numOctaves="3" result="noise" seed="4"/>
+					<feDisplacementMap in="SourceGraphic" in2="noise" scale="6" />
+			    </filter>
+			  </defs> 
+		</svg>
+		<div class="notes-title">爱情日记</div>
+		<div class="notes-description">记住你对我的好、对我的坏，恋爱中别耍无赖！</div>
+		<ul id="notes-list">
+			<li class="notes-item"><span class="date">2017.06.13</span>这一天，你给我做了很多饺子，给我买了一条裤袋，我很开森</li>
+			<li class="notes-item"><span class="date">2017.06.14</span></li>
+			<li class="notes-item"><span class="date">2017.06.15</span></li>
+			<li class="notes-item"><span class="date">2017.06.16</span></li>
+			<li class="notes-item"><span class="date">2017.06.17</span></li>
+			<li class="notes-item"><span class="date">2017.06.18</span></li>
+			<li class="notes-item"><span class="date">2017.06.19</span></li>
+			<li class="notes-item"><span class="date">2017.06.20</span></li>
+			<li class="notes-item"><span class="date">2017.06.21</span></li>
+			<li class="notes-item"><span class="date">2017.06.22</span></li>
+			<li class="notes-item"><span class="date">2017.06.23</span></li>
+			<li class="notes-item"><span class="date">2017.06.24</span></li>
+			<li class="notes-item"><span class="date">2017.06.25</span></li>
+			<li class="notes-item"><span class="date">2017.06.26</span></li>
+			<li class="notes-item"><span class="date">2017.06.27</span></li>
+			<li class="notes-item"><span class="date">2017.06.28</span></li>
+			<li class="notes-item"><span class="date">2017.06.29</span></li>
+			<li class="notes-item"><span class="date">2017.06.30</span></li>
+		</ul>
+	</div>
+	</div>
+	<script src="qianlei/js/jquery.js"></script>
+	<script src="qianlei/js/jquery.backstretch.min.js"></script>
+	<script src="qianlei/js/jquery.slimscroll.min.js"></script>
+	<script>	
+		$(function(){
+			$("body").backstretch([
+			    {url:"qianlei/img/1.jpg",duration:2500,transition:"fadeInOut"},
+			    {url:"qianlei/img/2.jpg",duration:2500,transition:"fadeInOut"},
+			    {url:"qianlei/img/3.jpg",duration:2500,transition:"fadeInOut"},
+			    {url:"qianlei/img/4.jpg",duration:2500,transition:"fadeInOut"},
+			    {url:"qianlei/img/5.jpg",duration:2500,transition:"fadeInOut"}
+			  ],{transitionDuration:2000});
+		    $('#notes-list').slimScroll({
+		        height: '520px'
+		    });
+		});
+	</script>
+</body>
+</html>
+
+
+
