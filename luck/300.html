@@ -4,6 +4,17 @@
 	<meta charset="UTF-8">
 	<title>随机抽号码</title>
 	<style>
+		.greet{
+			position: fixed;
+			right: 0;
+			top: 20px;
+			width: 500px;
+			height: 80px;
+			text-align: center;
+			font-size: 40px;
+			line-height: 80px;
+			box-shadow: 3px 3px 5px rgba(0,0,0,.5);
+		}
 		.self{
 			position: absolute;
 			left: 0;
@@ -37,12 +48,14 @@
 			line-height: 200px;
 			transition: all .35s;
 		}
-		.amin-area .num{
+		.main-area .num-area{
 			position: absolute;
 			width: 100%;
 			height: 100%;
 			left: 0;
 			top: 0;
+			color: #fff;
+			transition: none;
 		}
 		.main-area .btn{
 			font-size: 20px;
@@ -68,6 +81,7 @@
 	</style>
 </head>
 <body>
+	<div class="greet">祝你们晚会玩的愉快！</div>
 	<div class="self">
 		<div class="desc">找女朋友，扫我或加微信<span style="color: white;font-size: 20px;margin-left: 5px;">qianlei228</span></div>
 	</div>
@@ -94,6 +108,7 @@
 		}
 		function replaceMainArea(num){
 			num_area.innerHTML = num;
+			num_area.style.background = "rgb("+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+")";
 		}
 		function mainLogic(){
 			var randomNum = generateRandomNum();
