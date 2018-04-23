@@ -50,13 +50,19 @@
             let container = document.querySelector('.lottery-wrapper');
             let html = "";
             lotterys.forEach(lottery=>{
+                let temp = lottery;
+                let reg0 = /abs/;
+                let reg1 = /abn/;
+                let reg2 = /corp/;
+                let reg3 = /mid/;
+                temp = temp.replace(reg0,"").replace(reg1,"").replace(reg2,"").replace(reg3,"");
                 let ele = 
                 `<tr class="lottery-row">
-                    <td class="val">${lottery}</span>
-                    <td class="mid">${lottery==='mid'?1:0}</span>
-                    <td class="abn">${lottery==='abn'?1:0}</span>
-                    <td class="abs">${lottery==='abs'?1:0}</span>
-                    <td class="corp">${lottery==='corp'?1:0}</span>
+                    <td class="val">${temp}</span>
+                    <td class="mid">${/mid/.test(lottery)?1:0}</span>
+                    <td class="abn">${/abn/.test(lottery)?1:0}</span>
+                    <td class="abs">${/abs/.test(lottery)?1:0}</span>
+                    <td class="corp">${/corp/.test(lottery)?1:0}</span>
                 </div>`;
                 html += ele;
             });
