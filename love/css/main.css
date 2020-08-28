@@ -85,7 +85,7 @@ body{
 }
 .common img{
 	width: 80px;
-	height: 80px;
+	/* height: 80px; */
 	transition: all 0.5s;
 }
 .common{
@@ -95,6 +95,10 @@ body{
 	list-style: none;
 }
 .common li{
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-items: center;
 	cursor: pointer;
 	width: 80px;
 	height: 80px;
@@ -156,4 +160,19 @@ ul:after,.common:after{
 .hover{
 	display: none;
 	opacity: 0;
+}
+
+@keyframes heartbeat {
+	0% {
+	transform:rotate(45deg) scale(0.8,0.8);
+	opacity:1;
+}
+25% {
+	transform:rotate(200deg) scale(1.1,1.1);
+	opacity:0.8;
+}
+100% {
+	transform:rotate(360deg) scale(0.8,0.8);
+	opacity:1;
+}
 }

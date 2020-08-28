@@ -39,4 +39,9 @@ $(document).ready(function(){
 			'transform':'scale(1,1)'
 		});
 	})
+
+	var lises = document.querySelectorAll('li');
+	lises.forEach(function(li,index) {
+		li.style.animation = 'heartbeat 3s ' + index * 0.1 + 's' + ' infinite ease';
+	});
 })
