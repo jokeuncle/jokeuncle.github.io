@@ -1,6 +1,6 @@
 # Lei's Personal Website
 
-超精美的个人主页，采用 Astro + Three.js 构建，融合 3D 立体风格、打字机效果和滚动动画。
+超精美个人主页，采用 Astro + Three.js 构建，融合 3D 立体风格、打字机效果和滚动动画。
 
 ## ✨ 特性
 
