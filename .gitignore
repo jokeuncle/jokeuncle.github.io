@@ -8,6 +8,9 @@ dist/
 dist-astro/
 .astro/
 
+# Archive (old files)
+# archive/ - Keep archive in git for reference
+
 # Environment variables
 .env
 .env.local
