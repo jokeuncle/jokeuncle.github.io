@@ -1,0 +1,17 @@
+{
+  "name": "lei-personal-site",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.15",
+    "astro": "^5.1.0",
+    "three": "^0.182.0"
+  }
+}

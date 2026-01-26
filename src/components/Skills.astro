@@ -1,0 +1,228 @@
+---
+// Skills Component - 3D hovering skill cards
+
+const skills = [
+  {
+    category: '前端开发',
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="16 18 22 12 16 6"></polyline>
+      <polyline points="8 6 2 12 8 18"></polyline>
+    </svg>`,
+    items: ['JavaScript', 'TypeScript', 'React', 'Vue.js', 'HTML5', 'CSS3'],
+    color: '#6366f1'
+  },
+  {
+    category: '样式与动画',
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+    </svg>`,
+    items: ['Tailwind CSS', 'SCSS/Sass', 'CSS Animations', 'GSAP', 'Framer Motion'],
+    color: '#8b5cf6'
+  },
+  {
+    category: '工具与框架',
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+    </svg>`,
+    items: ['Vite', 'Webpack', 'Astro', 'Next.js', 'Node.js', 'Git'],
+    color: '#22d3ee'
+  },
+  {
+    category: '设计与体验',
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10"></circle>
+      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+      <line x1="12" y1="17" x2="12.01" y2="17"></line>
+    </svg>`,
+    items: ['Figma', 'UI/UX', '响应式设计', 'Accessibility', 'SEO优化'],
+    color: '#ec4899'
+  }
+];
+---
+
+<section class="skills section" id="skills">
+  <div class="container">
+    <div class="section-header fade-up">
+      <span class="section-tag">技能专长</span>
+      <h2 class="section-title">
+        <span class="gradient-text">我的技术栈</span>
+      </h2>
+      <p class="section-desc">
+        多年积累的开发技能，助力构建卓越的数字体验
+      </p>
+    </div>
+    
+    <div class="skills-grid">
+      {skills.map((skill, index) => (
+        <div class={`skill-card card-3d fade-up stagger-${index + 1}`} style={`--card-color: ${skill.color}`}>
+          <div class="skill-icon" set:html={skill.icon} />
+          <h3 class="skill-category">{skill.category}</h3>
+          <ul class="skill-items">
+            {skill.items.map(item => (
+              <li class="skill-item">
+                <span class="skill-dot"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+          <div class="skill-glow"></div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .skills {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .skills::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  
+  .section-tag {
+    display: inline-block;
+    padding: 0.375rem 1rem;
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: 2rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--accent-primary);
+    margin-bottom: 1rem;
+  }
+  
+  .section-title {
+    margin-bottom: 1rem;
+  }
+  
+  .section-desc {
+    color: var(--text-secondary);
+    font-size: 1.125rem;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .skill-card {
+    position: relative;
+    padding: 2rem;
+    border-radius: 1.25rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .skill-card:hover {
+    transform: translateY(-8px) rotateX(5deg) rotateY(-2deg);
+    border-color: var(--card-color);
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.3),
+      0 0 40px color-mix(in srgb, var(--card-color) 20%, transparent);
+  }
+  
+  .skill-icon {
+    width: 56px;
+    height: 56px;
+    background: color-mix(in srgb, var(--card-color) 15%, transparent);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--card-color);
+    margin-bottom: 1.25rem;
+    transition: all var(--transition-normal);
+  }
+  
+  .skill-card:hover .skill-icon {
+    transform: scale(1.1) rotate(-5deg);
+  }
+  
+  .skill-category {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+  }
+  
+  .skill-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+  
+  .skill-item {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+    transition: color var(--transition-fast);
+  }
+  
+  .skill-card:hover .skill-item {
+    color: var(--text-primary);
+  }
+  
+  .skill-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--card-color);
+    border-radius: 50%;
+    flex-shrink: 0;
+    opacity: 0.6;
+    transition: all var(--transition-fast);
+  }
+  
+  .skill-card:hover .skill-dot {
+    opacity: 1;
+    transform: scale(1.3);
+  }
+  
+  .skill-glow {
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, var(--card-color) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+    pointer-events: none;
+    filter: blur(60px);
+  }
+  
+  .skill-card:hover .skill-glow {
+    opacity: 0.15;
+  }
+  
+  @media (max-width: 768px) {
+    .skills-grid {
+      grid-template-columns: 1fr;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+  }
+</style>
