@@ -1,27 +1,38 @@
 ---
 // Contact Component - Contact form and social links
 
+const EMAIL = '827919619@qq.com';
+const WECHAT_ID = 'N-429228';
+
 const socialLinks = [
   {
     name: 'GitHub',
+    label: 'jokeuncle',
     url: 'https://github.com/jokeuncle',
-    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+    type: 'link',
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
       <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
     </svg>`
   },
   {
     name: 'Email',
-    url: 'mailto:lei@example.com',
-    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    label: EMAIL,
+    url: `mailto:${EMAIL}`,
+    type: 'copy',
+    copyValue: EMAIL,
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
       <polyline points="22,6 12,13 2,6"></polyline>
     </svg>`
   },
   {
-    name: 'LinkedIn',
-    url: 'https://linkedin.com',
-    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+    name: 'WeChat',
+    label: WECHAT_ID,
+    type: 'copy',
+    copyValue: WECHAT_ID,
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295.072 0 .133-.024.193-.06l1.987-1.146a.92.92 0 0 1 .733-.103 10.27 10.27 0 0 0 2.71.385c.262 0 .523-.012.781-.034a5.85 5.85 0 0 1-.255-1.68c0-3.514 3.42-6.367 7.638-6.367.27 0 .54.018.808.054C16.953 4.41 13.16 2.188 8.691 2.188zM5.785 6.578a1.087 1.087 0 1 1 0 2.174 1.087 1.087 0 0 1 0-2.174zm5.813 0a1.087 1.087 0 1 1 0 2.174 1.087 1.087 0 0 1 0-2.174z"/>
+      <path d="M24 14.79c0-3.388-3.298-6.142-7.367-6.142-4.225 0-7.51 2.754-7.51 6.142s3.285 6.142 7.51 6.142a8.94 8.94 0 0 0 2.318-.31.788.788 0 0 1 .627.087l1.696.978c.05.03.106.052.166.052.135 0 .25-.113.25-.252 0-.06-.024-.121-.04-.182l-.347-1.265a.51.51 0 0 1 .185-.572C23.001 18.387 24 16.69 24 14.79zm-9.766-1.07a.92.92 0 1 1 0-1.84.92.92 0 0 1 0 1.84zm4.81 0a.92.92 0 1 1 0-1.84.92.92 0 0 1 0 1.84z"/>
     </svg>`
   }
 ];
@@ -31,33 +42,59 @@ const socialLinks = [
   <div class="container">
     <div class="contact-wrapper">
       <div class="contact-info fade-up">
-        <span class="section-tag">联系我</span>
+        <span class="section-tag">联系我 · Reach Out</span>
         <h2 class="section-title">
-          <span class="gradient-text">一起创造</span>
+          <span class="gradient-text">把机会</span>
           <br />
-          <span>精彩项目</span>
+          <span>抛过来</span>
         </h2>
         <p class="contact-desc">
-          无论是项目合作、技术交流，还是随便聊聊，
-          都欢迎随时联系我。期待与你的交流！
+          AI 原生项目、技术合作、合伙创业、或者只是想聊聊 LLM / Agent / 工程范式 —— 都欢迎直接找我。通常 24h 内回复。
         </p>
         
         <div class="social-links">
-          {socialLinks.map(link => (
-            <a 
-              href={link.url} 
-              class="social-link"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={link.name}
-            >
-              <span class="social-icon" set:html={link.icon} />
-              <span class="social-name">{link.name}</span>
-            </a>
-          ))}
+          {socialLinks.map((link) => {
+            const isCopy = link.type === 'copy';
+            const commonProps = {
+              class: 'social-link',
+              'data-copy': isCopy ? link.copyValue : undefined,
+              'data-label': link.name
+            };
+            const inner = (
+              <>
+                <span class="social-icon" set:html={link.icon} />
+                <span class="social-text">
+                  <span class="social-name">{link.name}</span>
+                  <span class="social-handle">{link.label}</span>
+                </span>
+                <span class="social-action">
+                  {isCopy ? (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                  ) : (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M7 17L17 7"></path>
+                      <polyline points="7 7 17 7 17 17"></polyline>
+                    </svg>
+                  )}
+                </span>
+              </>
+            );
+            return link.url ? (
+              <a href={link.url} target={link.url.startsWith('mailto') ? undefined : '_blank'} rel="noopener noreferrer" {...commonProps}>
+                {inner}
+              </a>
+            ) : (
+              <button type="button" {...commonProps}>
+                {inner}
+              </button>
+            );
+          })}
         </div>
       </div>
-      
+
       <div class="contact-card fade-up stagger-2">
         <div class="contact-card-header">
           <div class="card-dots">
@@ -65,37 +102,55 @@ const socialLinks = [
             <span></span>
             <span></span>
           </div>
-          <span class="card-title">发送消息</span>
+          <span class="card-title">i-want-you.sh</span>
+          <span class="card-status">
+            <span class="card-status-dot"></span>
+            ready to receive
+          </span>
         </div>
-        
-        <form class="contact-form" id="contact-form">
-          <div class="form-group">
-            <label for="name">姓名</label>
-            <input type="text" id="name" name="name" placeholder="你的名字" required />
+
+        <form class="contact-form" id="contact-form" data-target-email={EMAIL}>
+          <div class="form-intro">
+            <span class="form-intro-eyebrow">RECRUITER MODE</span>
+            <h3 class="form-intro-title">
+              <span class="point-emoji" aria-hidden="true">🫵</span>
+              <span class="gradient-text">I want you</span>
+              <span>, Lei.</span>
+            </h3>
+            <p class="form-intro-desc">把你想给我的机会、合作、或者只是想聊的话题写下来 —— 这条消息会带着你预填好的内容直接飞向我的邮箱。</p>
           </div>
-          
+
           <div class="form-group">
-            <label for="email">邮箱</label>
+            <label for="name">你是 / Your name</label>
+            <input type="text" id="name" name="name" placeholder="比如：某某 · 某团队负责人" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">回信地址 / Your email</label>
             <input type="email" id="email" name="email" placeholder="your@email.com" required />
           </div>
-          
+
           <div class="form-group">
-            <label for="message">消息</label>
-            <textarea id="message" name="message" rows="4" placeholder="想说点什么..." required></textarea>
+            <label for="message">想给我的机会 / Pitch</label>
+            <textarea id="message" name="message" rows="4" placeholder="一句话讲清你的场景 + 你想让我做什么 —— 越具体越快回复。" required></textarea>
           </div>
-          
+
           <button type="submit" class="btn btn-primary submit-btn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="22" y1="2" x2="11" y2="13"></line>
               <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
             </svg>
-            发送消息
+            <span class="submit-main">I Want You · 把机会发给我</span>
           </button>
+          <p class="form-hint">提交会打开你的邮件客户端，内容预填好直发到 <code>{EMAIL}</code> · 通常 24h 内回复</p>
         </form>
-        
+
         <div class="card-glow"></div>
       </div>
     </div>
+
+    <!-- Toast for copy feedback -->
+    <div class="copy-toast" id="copy-toast" role="status" aria-live="polite">已复制</div>
   </div>
   
   <!-- Background decoration -->
@@ -172,35 +227,86 @@ const socialLinks = [
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: 1rem 1.25rem;
+    padding: 0.9rem 1.1rem;
     background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: 0.875rem;
     color: var(--text-secondary);
     transition: all var(--transition-normal);
     text-decoration: none;
+    font-family: inherit;
+    width: 100%;
+    cursor: pointer;
+    text-align: left;
   }
-  
+
   .social-link:hover {
     background: var(--bg-tertiary);
     border-color: var(--accent-primary);
     color: var(--text-primary);
-    transform: translateX(8px);
+    transform: translateX(6px);
   }
-  
+
   .social-icon {
     display: flex;
     align-items: center;
     justify-content: center;
     transition: color var(--transition-fast);
+    flex-shrink: 0;
   }
-  
+
   .social-link:hover .social-icon {
     color: var(--accent-cyan);
   }
-  
+
+  .social-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    flex: 1;
+    min-width: 0;
+  }
+
   .social-name {
+    font-size: 0.78rem;
+    color: var(--text-tertiary);
     font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  .social-handle {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .social-action {
+    color: var(--text-tertiary);
+    transition: color var(--transition-fast), transform var(--transition-fast);
+    flex-shrink: 0;
+  }
+
+  .social-link:hover .social-action {
+    color: var(--accent-cyan);
+    transform: translateX(2px);
+  }
+
+  /* Briefly show "已复制" state on the icon */
+  .social-link.copied {
+    border-color: var(--accent-cyan);
+    color: var(--accent-cyan);
+  }
+
+  .social-link.copied .social-action::after {
+    content: '✓';
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  .social-link.copied .social-action svg {
+    display: none;
   }
   
   /* Contact Card */
@@ -220,6 +326,86 @@ const socialLinks = [
     padding: 1rem 1.5rem;
     background: rgba(0, 0, 0, 0.2);
     border-bottom: 1px solid var(--border-color);
+  }
+
+  .card-status {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.2rem 0.6rem;
+    background: rgba(34, 211, 238, 0.08);
+    border: 1px solid rgba(34, 211, 238, 0.25);
+    border-radius: 999px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.68rem;
+    color: var(--accent-cyan);
+    letter-spacing: 0.02em;
+  }
+
+  .card-status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-cyan);
+    box-shadow: 0 0 6px var(--accent-cyan);
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  /* === I Want You intro === */
+  .form-intro {
+    margin-bottom: 0.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+  }
+
+  .form-intro-eyebrow {
+    display: inline-block;
+    padding: 0.2rem 0.55rem;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(236, 72, 153, 0.2));
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 999px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: var(--text-primary);
+    margin-bottom: 0.7rem;
+  }
+
+  .form-intro-title {
+    font-size: clamp(1.5rem, 3vw, 1.85rem);
+    font-weight: 700;
+    line-height: 1.25;
+    margin: 0 0 0.6rem;
+    display: inline;
+    color: var(--text-primary);
+  }
+
+  .form-intro-title .point-emoji {
+    display: inline-block;
+    margin-right: 0.45rem;
+    animation: point-wiggle 2.6s ease-in-out infinite;
+    transform-origin: 70% 70%;
+  }
+
+  @keyframes point-wiggle {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    20% { transform: rotate(-6deg) scale(1.05); }
+    40% { transform: rotate(8deg) scale(1.1); }
+    60% { transform: rotate(-4deg) scale(1.05); }
+  }
+
+  .form-intro-desc {
+    margin: 0.6rem 0 0;
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.65;
+    max-width: none;
+  }
+
+  .submit-main {
+    font-weight: 600;
+    letter-spacing: 0.01em;
   }
   
   .card-dots {
@@ -293,6 +479,50 @@ const socialLinks = [
     margin-top: 0.5rem;
     width: 100%;
   }
+
+  .form-hint {
+    margin: 0.75rem 0 0;
+    font-size: 0.78rem;
+    color: var(--text-tertiary);
+    text-align: center;
+    line-height: 1.5;
+    max-width: none;
+  }
+
+  .form-hint code {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.78rem;
+    color: var(--accent-cyan);
+    padding: 0.1rem 0.35rem;
+    background: rgba(34, 211, 238, 0.08);
+    border-radius: 0.3rem;
+  }
+
+  /* Copy toast */
+  .copy-toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translate(-50%, 1rem);
+    padding: 0.65rem 1.2rem;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--accent-cyan);
+    border-radius: 999px;
+    color: var(--accent-cyan);
+    font-size: 0.85rem;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(34, 211, 238, 0.15);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s;
+    z-index: 100;
+  }
+
+  .copy-toast.visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
   
   .card-glow {
     position: absolute;
@@ -310,18 +540,93 @@ const socialLinks = [
       grid-template-columns: 1fr;
       gap: 3rem;
     }
-    
+
     .contact-info {
       text-align: center;
     }
-    
+
     .social-links {
       max-width: 400px;
       margin: 0 auto;
     }
-    
+
     .social-link:hover {
       transform: translateY(-4px);
     }
   }
 </style>
+
+<script>
+  // Copy-on-click for social links with [data-copy], and mailto submit for the form
+  document.addEventListener('DOMContentLoaded', () => {
+    const toast = document.getElementById('copy-toast');
+    let toastTimer: number | undefined;
+
+    function showToast(message: string) {
+      if (!toast) return;
+      toast.textContent = message;
+      toast.classList.add('visible');
+      if (toastTimer) window.clearTimeout(toastTimer);
+      toastTimer = window.setTimeout(() => {
+        toast.classList.remove('visible');
+      }, 1600);
+    }
+
+    async function copyText(text: string) {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch {
+        // Fallback for older browsers / non-secure context
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        let ok = false;
+        try {
+          ok = document.execCommand('copy');
+        } catch {
+          ok = false;
+        }
+        document.body.removeChild(ta);
+        return ok;
+      }
+    }
+
+    document.querySelectorAll<HTMLElement>('.social-link[data-copy]').forEach((el) => {
+      el.addEventListener('click', async (e) => {
+        const value = el.dataset.copy;
+        if (!value) return;
+        // For mailto anchors, let the native action proceed AND copy in parallel
+        const isAnchor = el.tagName === 'A';
+        if (!isAnchor) e.preventDefault();
+        const ok = await copyText(value);
+        if (ok) {
+          el.classList.add('copied');
+          showToast(`已复制 ${el.dataset.label || ''} · ${value}`);
+          window.setTimeout(() => el.classList.remove('copied'), 1500);
+        }
+      });
+    });
+
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const targetEmail = form.dataset.targetEmail || '';
+        const name = (form.elements.namedItem('name') as HTMLInputElement)?.value?.trim() || '';
+        const email = (form.elements.namedItem('email') as HTMLInputElement)?.value?.trim() || '';
+        const message = (form.elements.namedItem('message') as HTMLTextAreaElement)?.value?.trim() || '';
+
+        const subject = `来自 ${name || '访客'} 的消息`;
+        const body = `${message}\n\n— 来自 ${name || '访客'}${email ? ` <${email}>` : ''}\n（通过个人主页联系表单发送）`;
+
+        const href = `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = href;
+        showToast('正在打开邮件客户端…');
+      });
+    }
+  });
+</script>

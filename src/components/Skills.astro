@@ -1,64 +1,109 @@
 ---
-// Skills Component - 3D hovering skill cards
+// Skills Component - capabilities organized around AI-era engineering
+import BgText from '@/components/BgText.astro';
+
+const ragText =
+  "Retrieval-Augmented Generation is the standard architectural pattern for grounding large language models in private, current, or large-scale knowledge that cannot fit in a context window. The canonical pipeline has four stages — ingest, embed, retrieve, generate. During ingest, raw documents are normalized, chunked along semantic boundaries, and enriched with metadata such as source, title, section, and timestamps. The embed stage transforms each chunk into a dense vector via a sentence- or document-level encoder, then writes it to a vector store along with the metadata. At query time, the user's question is itself embedded and used to retrieve the top-k most similar chunks from the store, typically through approximate nearest neighbor algorithms like HNSW or IVF. The retrieved chunks are formatted into the model's prompt — often with a system instruction defining the model's role and explicit citation requirements — and the model generates a grounded answer. The frontier of RAG has moved far beyond this baseline. Hybrid retrieval combines dense embeddings with lexical search to recover exact terms. Reranking applies a cross-encoder over initial candidates to lift precision. Query rewriting expands or decomposes a user's input into multiple sub-queries. Graph-based retrieval models relationships between entities, not just text similarity. Long-context architectures explore when retrieval-then-stuff approaches outperform RAG, and when they do not. Evaluation is now a discipline of its own — faithfulness, context recall, context precision, answer correctness — and tools like RAGAS, TruLens, and OpenAI Evals make these metrics first-class. Beyond RAG, the broader practice of context engineering treats the model's input as a designed artifact: every token in the prompt is justified, the order of evidence matters, and the system prompt itself is versioned, evaluated, and shipped like code. Modern AI engineering is, increasingly, the disciplined assembly of context.";
 
 const skills = [
   {
-    category: '前端开发',
-    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <polyline points="16 18 22 12 16 6"></polyline>
-      <polyline points="8 6 2 12 8 18"></polyline>
+    category: 'LLM 工程',
+    tagline: 'Building reliable LLM-powered systems',
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/>
+      <path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/>
+      <path d="M5 14l.6 1.6L7.2 16l-1.6.4L5 18l-.6-1.6L2.8 16l1.6-.4z"/>
     </svg>`,
-    items: ['JavaScript', 'TypeScript', 'React', 'Vue.js', 'HTML5', 'CSS3'],
+    items: [
+      'Prompt / Context Engineering',
+      'RAG · Vector Search · Embeddings',
+      'Function Calling · Structured Output',
+      'Streaming UX · Token-level Control',
+      'Evals · Tracing · Guardrails'
+    ],
     color: '#6366f1'
   },
   {
-    category: '样式与动画',
-    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+    category: 'Agent 系统与协议',
+    tagline: 'Composable agents that ship work',
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="2.5"/>
+      <circle cx="4" cy="6" r="2"/>
+      <circle cx="20" cy="6" r="2"/>
+      <circle cx="4" cy="18" r="2"/>
+      <circle cx="20" cy="18" r="2"/>
+      <path d="M9.7 10.7L5.4 7.4M14.3 10.7l4.3-3.3M9.7 13.3l-4.3 3.3M14.3 13.3l4.3 3.3"/>
     </svg>`,
-    items: ['Tailwind CSS', 'SCSS/Sass', 'CSS Animations', 'GSAP', 'Framer Motion'],
-    color: '#8b5cf6'
-  },
-  {
-    category: '工具与框架',
-    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
-    </svg>`,
-    items: ['Vite', 'Webpack', 'Astro', 'Next.js', 'Node.js', 'Git'],
+    items: [
+      'Multi-Agent Orchestration',
+      'Tool Use · MCP · A2A',
+      'Stateful Memory · Long-Context',
+      'Planning · Reflection · Routing',
+      'Sandboxed Execution · Recovery'
+    ],
     color: '#22d3ee'
   },
   {
-    category: '设计与体验',
-    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <circle cx="12" cy="12" r="10"></circle>
-      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-      <line x1="12" y1="17" x2="12.01" y2="17"></line>
+    category: 'AI-Native 开发流程',
+    tagline: 'Reshaping the SDLC with AI in the loop',
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="3" width="20" height="14" rx="2"/>
+      <polyline points="6 8 9 11 6 14"/>
+      <line x1="12" y1="14" x2="16" y2="14"/>
+      <path d="M19 19l.6 1.5L21 21l-1.4.5L19 23l-.6-1.5L17 21l1.4-.5z"/>
     </svg>`,
-    items: ['Figma', 'UI/UX', '响应式设计', 'Accessibility', 'SEO优化'],
+    items: [
+      'Spec-Driven Development',
+      'Agentic Coding (Claude Code · Cursor)',
+      'Codegen · Auto-Review Pipelines',
+      'Eval-Driven Iteration',
+      'AI Workflow as Versioned Artifact'
+    ],
+    color: '#8b5cf6'
+  },
+  {
+    category: '工程地基 · 10+ 年',
+    tagline: 'The fullstack craft that makes AI shippable',
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="12 2 22 8.5 12 15 2 8.5"/>
+      <polyline points="2 13 12 19.5 22 13"/>
+      <polyline points="2 17.5 12 24 22 17.5" opacity="0.5"/>
+    </svg>`,
+    items: [
+      'TypeScript · React · Vue · Astro',
+      'Node · Edge · Serverless · BFF',
+      'Real-time · WebSocket · SSE · Streaming',
+      'System Design · Performance · Observability',
+      '0→1 Product · DevEx · Platform Engineering'
+    ],
     color: '#ec4899'
   }
 ];
 ---
 
 <section class="skills section" id="skills">
+  <BgText text={ragText} duration={12} opacity={0.5} fade={0.9} stripe={['rgba(34, 211, 238, 0.5)', 'rgba(139, 92, 246, 0.95)', 'rgba(236, 72, 153, 0.6)']} angle={100} />
   <div class="container">
     <div class="section-header fade-up">
-      <span class="section-tag">技能专长</span>
+      <span class="section-tag">技术栈 · AI Era</span>
       <h2 class="section-title">
-        <span class="gradient-text">我的技术栈</span>
+        <span class="gradient-text">以 AI 原生方式</span>
+        <br />
+        <span>重新组织的工程能力</span>
       </h2>
       <p class="section-desc">
-        多年积累的开发技能，助力构建卓越的数字体验
+        10+ 年大厂研发沉淀的工程地基 × LLM 时代的新范式 —— 既能把模型变成可靠产品，也能让工程链路被 AI 重塑。
       </p>
     </div>
-    
+
     <div class="skills-grid">
       {skills.map((skill, index) => (
         <div class={`skill-card card-3d fade-up stagger-${index + 1}`} style={`--card-color: ${skill.color}`}>
           <div class="skill-icon" set:html={skill.icon} />
           <h3 class="skill-category">{skill.category}</h3>
+          <p class="skill-tagline">{skill.tagline}</p>
           <ul class="skill-items">
-            {skill.items.map(item => (
+            {skill.items.map((item) => (
               <li class="skill-item">
                 <span class="skill-dot"></span>
                 {item}
@@ -76,6 +121,12 @@ const skills = [
   .skills {
     position: relative;
     overflow: hidden;
+    isolation: isolate;
+  }
+
+  .skills > .container {
+    position: relative;
+    z-index: 1;
   }
   
   .skills::before {
@@ -160,10 +211,19 @@ const skills = [
   }
   
   .skill-category {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: 1rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .skill-tagline {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    margin: 0 0 1rem;
+    max-width: none;
+    letter-spacing: 0.01em;
   }
   
   .skill-items {

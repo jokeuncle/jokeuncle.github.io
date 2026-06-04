@@ -1,58 +1,176 @@
 ---
-// Projects Component - Showcasing existing projects
+// Projects Component - Featured personal projects + past work highlights
+import BgText from '@/components/BgText.astro';
 
-const projects = [
+const mcpText =
+  "The Model Context Protocol (MCP) is an open standard for connecting AI assistants to external tools, data sources, and runtimes through a single uniform interface. An MCP server exposes three primary surface areas — tools, resources, and prompts — over a simple JSON-RPC transport (stdio for local, SSE for remote). Tools are functions the model invokes with typed arguments; resources are read-only documents the model can pull into context; prompts are reusable templates with named parameters that any client can pull and instantiate. Discoverability is built in: clients ask the server what it offers and the server replies with typed schemas. The protocol's real power is composition — a single chat client can simultaneously connect to a git server, a database server, a Slack server, and a custom in-house server, and the model reasons across all of them transparently. Production deployments add proxying, observability, rate limiting, scope-based access control, audit logs, and version management around the base protocol, turning a developer-friendly interface into an enterprise substrate. Done right, MCP collapses the integration cost of new AI capabilities to near zero, and reshapes the economics of AI engineering inside an organization. The aspect.yaml manifest format extends this idea further: it bundles a prompt, the tools it requires, the evals it must pass, and the contextual rules it operates under into a single distributable artifact. A client can pull an aspect by name, just like a package, and inherit a complete, verified workflow capability. This is the core insight behind AI.Aspect and SkillAI Hub — that AI engineering paradigms should be packaged, versioned, signed, and shipped just like containerized software. The result is not just developer ergonomics; it is the only viable way to govern AI capability proliferation inside a real organization, where compliance, audit, evaluation, and incident response are not optional. MCP plus aspect manifests plus a registry equals the missing distribution layer for the AI-native software era.";
+
+const featuredProjects = [
   {
-    title: '阿里盒马小镇2.0互动游戏',
-    description: '大型互动游戏平台，支持多人在线、实时同步与丰富的游戏玩法',
+    name: 'VibeOS',
+    tagline: 'AI-Native Operating System for the SDLC',
+    taglineCn: '用 AI 原生范式，重构软件开发生命周期',
+    description:
+      '把 AI 作为开发流程的第一公民 —— 从产品意图、规格、编码、评审到部署，每一环都是 AI 增强的协作过程，而不是事后叠加的工具层。让"想法 → 可上线产物"成为一段连续、可观测、可回放的对话。',
+    status: '研发中',
+    statusType: 'building',
+    link: '#',
+    glyph: 'vibe',
+    tags: ['AI-Native', 'SDLC', 'Agent OS', 'Dev Platform'],
+    color: '#6366f1',
+    accent: '#22d3ee'
+  },
+  {
+    name: 'AI.Aspect',
+    tagline: 'Distribute AI engineering paradigms like container images',
+    taglineCn: '像 Docker 镜像一样，分发可复用的 AI 工程范式',
+    description:
+      '把成熟的 AI 工程模式 —— 提示、工具、工作流、评测、上下文规则 —— 打包成可分发的工件。任何 AI 客户端 pull 下来即刻获得完整任务能力，就像 docker pull 拉取一个运行时。让范式像依赖一样自然流动。',
+    status: '探索中',
+    statusType: 'exploring',
+    link: '#',
+    glyph: '◐',
+    tags: ['AI Engineering', 'Distribution', 'Protocol', 'Interop'],
+    color: '#22d3ee',
+    accent: '#ec4899'
+  },
+  {
+    name: 'SkillAI Hub',
+    tagline: 'Enterprise hub for MCP servers & AI skill artifacts',
+    taglineCn: '公司级 MCP 与 AI 物料的分发、托管、运营中枢',
+    description:
+      '在一家跨境支付公司牵头搭建的 AI 工程中枢 —— 把零散在各团队的 prompt、tool、agent skill 和 MCP server，收敛到一个有版本、有评测、有运营的平台。让最佳实践能被全公司复用，让 MCP 接入像 npm install 一样轻，同时承接合规、限流、灰度、可观测等"让 AI 真正跑在生产"的能力。',
+    status: '生产中',
+    statusType: 'production',
+    link: '#',
+    glyph: '⌘',
+    tags: ['MCP', 'SkillOps', 'Enterprise', 'Platform'],
+    color: '#8b5cf6',
+    accent: '#ec4899'
+  }
+];
+
+const workProjects = [
+  {
+    title: '阿里 · 盒马小镇 2.0 互动游戏',
+    description: '大型多人互动游戏平台 —— 自研实时同步内核、状态广播与场景调度，让运营活动变成可玩的内容',
+    metrics: [
+      { label: 'DAU', value: '百万级' },
+      { label: '同时在线', value: '10W+' },
+      { label: '消息吞吐', value: '万级/s' }
+    ],
     link: '#',
     icon: '🎮',
-    tags: ['互动游戏', '实时同步', 'Canvas', 'WebSocket'],
+    tags: ['多人在线', '实时同步', 'Canvas', 'WebSocket'],
     color: '#6366f1'
   },
   {
-    title: '美团BFF搭建平台',
-    description: '企业级 BFF（Backend for Frontend）搭建平台，提升前后端协作效率',
+    title: '拼多多 · 多多果园等互动游戏',
+    description: '亿级用户量级的互动游戏系统 —— 重度性能优化 + 容灾设计，保证活动期峰值稳定',
+    metrics: [
+      { label: 'MAU', value: '亿级' },
+      { label: '峰值 QPS', value: '十万+' },
+      { label: '可用性', value: '99.99%' }
+    ],
+    link: '#',
+    icon: '🌳',
+    tags: ['高并发', '性能优化', '游戏引擎', '容灾'],
+    color: '#ec4899'
+  },
+  {
+    title: '美团 · BFF 搭建平台',
+    description: '企业级 BFF（Backend for Frontend）搭建平台 —— 模块化、可视化、协议聚合，把前后端协作变成接口编排',
+    metrics: [
+      { label: '接入业务线', value: '30+' },
+      { label: '日均请求', value: '十亿+' },
+      { label: '开发提效', value: '~50%' }
+    ],
     link: '#',
     icon: '🏗️',
-    tags: ['BFF', '微服务', 'Node.js', '企业级'],
+    tags: ['BFF', '微服务', 'Node.js', '平台化'],
     color: '#8b5cf6'
   },
   {
-    title: '字节前端研发部署平台',
-    description: '一站式前端研发与部署平台，支持 CI/CD、多环境管理与自动化发布',
+    title: '字节 · 一站式前端研发部署平台',
+    description: 'CI/CD、多环境、灰度发布、监控告警一体化的前端研发底座，覆盖大量业务团队的日常发布',
+    metrics: [
+      { label: '服务团队', value: '100+' },
+      { label: '日均发布', value: '千次+' },
+      { label: '平均上线时长', value: '↓ 60%' }
+    ],
     link: '#',
     icon: '🚀',
-    tags: ['CI/CD', 'DevOps', '自动化', '部署'],
+    tags: ['CI/CD', 'DevOps', '研发基础设施', '自动化'],
     color: '#22d3ee'
-  },
-  {
-    title: '拼多多果园互动游戏',
-    description: '高并发互动游戏系统，支持百万级用户同时在线，流畅的游戏体验',
-    link: '#',
-    icon: '🌳',
-    tags: ['高并发', '性能优化', '互动', '游戏引擎'],
-    color: '#ec4899'
   }
 ];
 ---
 
 <section class="projects section" id="projects">
+  <BgText text={mcpText} duration={11} opacity={0.55} fade={0.8} stripe={['rgba(139, 92, 246, 0.5)', 'rgba(99, 102, 241, 0.95)', 'rgba(34, 211, 238, 0.65)']} />
   <div class="container">
     <div class="section-header fade-up">
       <span class="section-tag">项目作品</span>
       <h2 class="section-title">
-        <span class="gradient-text">精选项目</span>
+        <span class="gradient-text">正在打造</span>
       </h2>
       <p class="section-desc">
-        探索我的创意项目与实验作品
+        从 AI-Native 工具到工程范式分发，再到企业级 AI 平台 —— 用 10+ 年工程经验，探索下一代软件开发的形态
       </p>
     </div>
-    
+
+    <div class="featured-grid">
+      {featuredProjects.map((project, index) => (
+        <a
+          href={project.link}
+          class={`featured-card fade-up stagger-${index + 1}`}
+          style={`--project-color: ${project.color}; --project-accent: ${project.accent};`}
+        >
+          <div class="featured-header">
+            <div class="featured-mark" aria-hidden="true">{project.glyph}</div>
+            <div class="featured-title-wrap">
+              <h3 class="featured-name">{project.name}</h3>
+              <p class="featured-tagline">{project.tagline}</p>
+              <p class="featured-tagline-cn">{project.taglineCn}</p>
+            </div>
+            <span class={`featured-status status-${project.statusType}`}>
+              <span class="status-dot"></span>
+              {project.status}
+            </span>
+          </div>
+
+          <p class="featured-desc">{project.description}</p>
+
+          <div class="featured-footer">
+            <div class="featured-tags">
+              {project.tags.map((tag) => (
+                <span class="featured-tag">{tag}</span>
+              ))}
+            </div>
+            <div class="featured-arrow" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+          </div>
+
+          <div class="featured-glow"></div>
+          <div class="featured-border" aria-hidden="true"></div>
+        </a>
+      ))}
+    </div>
+
+    <div class="subsection-divider fade-up" aria-hidden="true">
+      <span class="divider-line"></span>
+      <span class="divider-label">履历亮点 · Past Work</span>
+      <span class="divider-line"></span>
+    </div>
+
     <div class="projects-grid">
-      {projects.map((project, index) => (
-        <a 
-          href={project.link} 
+      {workProjects.map((project, index) => (
+        <a
+          href={project.link}
           class={`project-card fade-up stagger-${index + 1}`}
           style={`--project-color: ${project.color}`}
         >
@@ -60,8 +178,18 @@ const projects = [
           <div class="project-content">
             <h3 class="project-title">{project.title}</h3>
             <p class="project-desc">{project.description}</p>
+            {project.metrics && (
+              <div class="project-metrics">
+                {project.metrics.map((m) => (
+                  <span class="project-metric">
+                    <span class="metric-value">{m.value}</span>
+                    <span class="metric-label">{m.label}</span>
+                  </span>
+                ))}
+              </div>
+            )}
             <div class="project-tags">
-              {project.tags.map(tag => (
+              {project.tags.map((tag) => (
                 <span class="project-tag">{tag}</span>
               ))}
             </div>
@@ -93,6 +221,13 @@ const projects = [
   .projects {
     background: var(--bg-secondary);
     position: relative;
+    isolation: isolate;
+  }
+
+  /* Keep BgText behind everything but above the section background */
+  .projects > .container {
+    position: relative;
+    z-index: 1;
   }
   
   .projects::before {
@@ -133,6 +268,253 @@ const projects = [
     margin: 0 auto;
   }
   
+  /* === Featured projects (VibeOS / AI.Aspect / SkillAI Hub) === */
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+
+  .featured-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 2rem;
+    background:
+      linear-gradient(180deg, color-mix(in srgb, var(--project-color) 6%, transparent), transparent 40%),
+      var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 1.5rem;
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.4s, box-shadow 0.4s;
+    isolation: isolate;
+  }
+
+  .featured-card:hover {
+    transform: translateY(-6px);
+    border-color: color-mix(in srgb, var(--project-color) 60%, transparent);
+    box-shadow:
+      0 24px 60px rgba(0, 0, 0, 0.35),
+      0 0 50px color-mix(in srgb, var(--project-color) 18%, transparent);
+  }
+
+  .featured-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .featured-mark {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--project-color);
+    background:
+      linear-gradient(135deg,
+        color-mix(in srgb, var(--project-color) 18%, transparent),
+        color-mix(in srgb, var(--project-accent) 12%, transparent));
+    border: 1px solid color-mix(in srgb, var(--project-color) 35%, transparent);
+    flex-shrink: 0;
+  }
+
+  .featured-title-wrap {
+    min-width: 0;
+  }
+
+  .featured-name {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--text-primary);
+    margin: 0 0 0.4rem;
+    letter-spacing: -0.01em;
+  }
+
+  .featured-tagline {
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: var(--text-secondary);
+    margin: 0 0 0.2rem;
+    max-width: none;
+    font-weight: 500;
+  }
+
+  .featured-tagline-cn {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--text-tertiary);
+    margin: 0;
+    max-width: none;
+  }
+
+  .featured-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    white-space: nowrap;
+    background: color-mix(in srgb, var(--project-color) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--project-color) 30%, transparent);
+    color: var(--project-color);
+    flex-shrink: 0;
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 8px currentColor;
+    animation: status-pulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes status-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.45; transform: scale(0.85); }
+  }
+
+  .featured-desc {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin: 0;
+    max-width: none;
+  }
+
+  .featured-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
+  }
+
+  .featured-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .featured-tag {
+    padding: 0.25rem 0.6rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 0.4rem;
+    font-size: 0.7rem;
+    color: var(--text-tertiary);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    transition: color var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .featured-card:hover .featured-tag {
+    color: var(--text-secondary);
+    border-color: color-mix(in srgb, var(--project-color) 25%, transparent);
+  }
+
+  .featured-arrow {
+    color: var(--text-tertiary);
+    transition: transform var(--transition-normal), color var(--transition-normal);
+    flex-shrink: 0;
+  }
+
+  .featured-card:hover .featured-arrow {
+    color: var(--project-color);
+    transform: translateX(4px);
+  }
+
+  .featured-glow {
+    position: absolute;
+    top: -40%;
+    right: -30%;
+    width: 70%;
+    height: 180%;
+    background: radial-gradient(ellipse, var(--project-accent) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+    filter: blur(80px);
+    z-index: -1;
+  }
+
+  .featured-card:hover .featured-glow {
+    opacity: 0.18;
+  }
+
+  /* Animated gradient border that lights up on hover */
+  .featured-border {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg,
+      transparent,
+      color-mix(in srgb, var(--project-color) 60%, transparent),
+      transparent,
+      color-mix(in srgb, var(--project-accent) 60%, transparent),
+      transparent);
+    background-size: 300% 300%;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+    animation: border-flow 6s linear infinite;
+  }
+
+  .featured-card:hover .featured-border {
+    opacity: 1;
+  }
+
+  @keyframes border-flow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+  }
+
+  /* === Subsection divider between featured and past work === */
+  .subsection-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0 auto 2.5rem;
+    max-width: 600px;
+    color: var(--text-tertiary);
+  }
+
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+  }
+
+  .divider-label {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* === Past work grid (existing compact cards) === */
   .projects-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -196,6 +578,38 @@ const projects = [
     font-size: 0.9375rem;
     line-height: 1.5;
     margin-bottom: 0.75rem;
+  }
+
+  .project-metrics {
+    display: flex;
+    gap: 1.2rem;
+    margin: 0.4rem 0 0.85rem;
+    padding: 0.65rem 0.8rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    flex-wrap: wrap;
+  }
+
+  .project-metric {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+  }
+
+  .metric-value {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--project-color);
+    line-height: 1.2;
+  }
+
+  .metric-label {
+    font-size: 0.68rem;
+    color: var(--text-tertiary);
+    letter-spacing: 0.04em;
   }
   
   .project-tags {
@@ -263,21 +677,41 @@ const projects = [
     .projects-grid {
       grid-template-columns: 1fr;
     }
+    .featured-grid {
+      grid-template-columns: 1fr;
+    }
   }
-  
+
   @media (max-width: 600px) {
     .project-card {
       flex-direction: column;
       text-align: center;
       padding: 1.5rem;
     }
-    
+
     .project-arrow {
       display: none;
     }
-    
+
     .project-tags {
       justify-content: center;
+    }
+
+    .featured-card {
+      padding: 1.5rem;
+    }
+
+    .featured-header {
+      grid-template-columns: auto 1fr;
+    }
+
+    .featured-status {
+      grid-column: 1 / -1;
+      justify-self: flex-start;
+    }
+
+    .featured-name {
+      font-size: 1.25rem;
     }
   }
 </style>

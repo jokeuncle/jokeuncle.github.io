@@ -1,0 +1,541 @@
+---
+// Playground - an interactive terminal-style demo of AI.Aspect.
+// It mocks the CLI experience so visitors can "feel" the concept.
+---
+
+<section class="playground section" id="playground" aria-label="AI.Aspect Playground">
+  <div class="container">
+    <div class="section-header fade-up">
+      <span class="section-tag">Playground · 摸一下</span>
+      <h2 class="section-title">
+        <span class="gradient-text">在终端里感受</span>
+        <span class="title-cn">AI.Aspect</span>
+      </h2>
+      <p class="section-desc">
+        与其听我描述"像 Docker 镜像一样分发 AI 工程范式"，不如点几个命令亲手试一下。下面是一个 mock 但语义真实的 CLI 会话。
+      </p>
+    </div>
+
+    <div class="terminal fade-up stagger-1">
+      <div class="terminal-bar">
+        <div class="bar-dots">
+          <span></span><span></span><span></span>
+        </div>
+        <span class="bar-title">ai-aspect · interactive demo</span>
+        <span class="bar-status">
+          <span class="status-led"></span>
+          mock mode
+        </span>
+      </div>
+
+      <div class="terminal-body" id="playground-body" aria-live="polite">
+        <div class="line line-comment"># 试试这些命令，看看 AI 工程范式像依赖一样被拉下来是什么感觉</div>
+        <div class="line line-comment"># —— 点击右侧或下方的命令运行</div>
+        <div class="line line-prompt"><span class="prompt-prefix">~/jokeuncle</span> <span class="prompt-arrow">›</span> <span class="prompt-cursor">▍</span></div>
+      </div>
+
+      <div class="terminal-chips" id="playground-chips">
+        <button type="button" class="cmd-chip" data-cmd="aspect search code-review">
+          <span class="chip-key">$</span> aspect search code-review
+        </button>
+        <button type="button" class="cmd-chip" data-cmd="aspect pull lei/code-review">
+          <span class="chip-key">$</span> aspect pull lei/code-review
+        </button>
+        <button type="button" class="cmd-chip" data-cmd="aspect run lei/code-review --pr 1234">
+          <span class="chip-key">$</span> aspect run lei/code-review --pr 1234
+        </button>
+        <button type="button" class="cmd-chip" data-cmd="aspect inspect lei/code-review">
+          <span class="chip-key">$</span> aspect inspect lei/code-review
+        </button>
+        <button type="button" class="cmd-chip cmd-chip-secondary" data-cmd="__clear">
+          <span class="chip-key">⌫</span> clear
+        </button>
+      </div>
+    </div>
+
+    <p class="playground-note fade-up">
+      <span>这不是真实 CLI —— 但 <strong>schema、流程、输出形态都是我对 AI.Aspect 的真实设想</strong>。想看真实版本可以 <a href="#contact">直接找我聊</a>。</span>
+    </p>
+  </div>
+</section>
+
+<style>
+  .playground {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .section-tag {
+    display: inline-block;
+    padding: 0.375rem 1rem;
+    background: rgba(34, 211, 238, 0.08);
+    border: 1px solid rgba(34, 211, 238, 0.22);
+    border-radius: 2rem;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.82rem;
+    color: var(--accent-cyan);
+    margin-bottom: 1rem;
+    letter-spacing: 0.02em;
+  }
+
+  .section-title {
+    margin-bottom: 1rem;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .title-cn {
+    color: var(--text-tertiary);
+    font-size: 0.7em;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 500;
+  }
+
+  .section-desc {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    max-width: 620px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* === Terminal === */
+  .terminal {
+    max-width: 920px;
+    margin: 0 auto;
+    background:
+      linear-gradient(180deg, rgba(15, 17, 26, 0.96), rgba(10, 11, 18, 0.98));
+    border: 1px solid rgba(99, 102, 241, 0.22);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow:
+      0 30px 60px rgba(0, 0, 0, 0.5),
+      0 0 50px rgba(99, 102, 241, 0.12);
+  }
+
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1.1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .bar-dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .bar-dots span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  .bar-dots span:nth-child(1) { background: #ff5f57; }
+  .bar-dots span:nth-child(2) { background: #febc2e; }
+  .bar-dots span:nth-child(3) { background: #28c840; }
+
+  .bar-title {
+    flex: 1;
+    text-align: center;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.78rem;
+    color: var(--text-tertiary);
+    letter-spacing: 0.02em;
+  }
+
+  .bar-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.18rem 0.6rem;
+    background: rgba(34, 211, 238, 0.08);
+    border: 1px solid rgba(34, 211, 238, 0.22);
+    border-radius: 999px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.65rem;
+    color: var(--accent-cyan);
+    letter-spacing: 0.04em;
+  }
+
+  .status-led {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent-cyan);
+    box-shadow: 0 0 6px var(--accent-cyan);
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .terminal-body {
+    padding: 1.2rem 1.4rem;
+    min-height: 320px;
+    max-height: 520px;
+    overflow-y: auto;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.85rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    scroll-behavior: smooth;
+  }
+
+  .terminal-body::-webkit-scrollbar {
+    width: 6px;
+  }
+  .terminal-body::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 3px;
+  }
+
+  .line {
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .line + .line {
+    margin-top: 0.15rem;
+  }
+
+  .line-comment {
+    color: var(--text-tertiary);
+    opacity: 0.7;
+  }
+
+  .line-prompt {
+    color: var(--text-primary);
+  }
+
+  .prompt-prefix {
+    color: #67e8f9;
+  }
+
+  .prompt-arrow {
+    color: var(--accent-primary);
+    margin: 0 0.4rem;
+  }
+
+  .prompt-cursor {
+    display: inline-block;
+    color: var(--accent-cyan);
+    animation: cursor-blink 0.9s step-end infinite;
+  }
+
+  @keyframes cursor-blink {
+    50% { opacity: 0; }
+  }
+
+  .line-output {
+    color: var(--text-secondary);
+  }
+
+  .line-success { color: #34d399; }
+  .line-info    { color: #67e8f9; }
+  .line-warn    { color: #fbbf24; }
+  .line-error   { color: #f87171; }
+  .line-key     { color: var(--accent-primary); }
+  .line-value   { color: var(--text-primary); }
+  .line-dim     { color: var(--text-tertiary); opacity: 0.8; }
+
+  .progress-bar {
+    display: inline-block;
+    color: #22d3ee;
+    letter-spacing: -1px;
+  }
+
+  /* === Chips === */
+  .terminal-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.85rem 1.1rem 1rem;
+    background: rgba(0, 0, 0, 0.25);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .cmd-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.85rem;
+    background: rgba(99, 102, 241, 0.08);
+    border: 1px solid rgba(99, 102, 241, 0.22);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .cmd-chip:hover {
+    background: rgba(99, 102, 241, 0.18);
+    border-color: var(--accent-primary);
+    color: var(--text-primary);
+    transform: translateY(-1px);
+  }
+
+  .cmd-chip:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .cmd-chip-secondary {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.1);
+    margin-left: auto;
+  }
+
+  .chip-key {
+    color: var(--accent-cyan);
+    font-weight: 600;
+  }
+
+  /* === Footer note === */
+  .playground-note {
+    text-align: center;
+    margin: 2rem auto 0;
+    max-width: 720px;
+    color: var(--text-tertiary);
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+
+  .playground-note strong {
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .playground-note a {
+    color: var(--accent-cyan);
+    text-decoration: underline;
+    text-decoration-color: rgba(34, 211, 238, 0.4);
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 640px) {
+    .terminal-body {
+      font-size: 0.78rem;
+      padding: 1rem;
+    }
+    .cmd-chip {
+      font-size: 0.72rem;
+      padding: 0.35rem 0.7rem;
+    }
+    .cmd-chip-secondary {
+      margin-left: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .status-led,
+    .prompt-cursor {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  type Line = { text: string; cls?: string };
+
+  const responses: Record<string, Line[]> = {
+    'aspect search code-review': [
+      { text: 'Searching aspects on registry.ai-aspect.io …', cls: 'line-dim' },
+      { text: '' },
+      { text: 'NAME                          STARS   PULLS    LATEST   SUMMARY', cls: 'line-key' },
+      { text: 'lei/code-review               ★ 4.9   12,431   v1.4.2   Multi-stage code review (lint→sec→perf→arch)', cls: 'line-value' },
+      { text: 'anthropic/code-review-base    ★ 4.8   38,902   v2.1.0   Reference review aspect bundled with Claude', cls: 'line-value' },
+      { text: 'oss/pr-summary                ★ 4.6    8,712   v0.9.0   Concise PR summary + risk flags', cls: 'line-value' },
+      { text: '' },
+      { text: 'Found 3 aspects · 19,945 keys indexed · search took 38ms', cls: 'line-dim' }
+    ],
+    'aspect pull lei/code-review': [
+      { text: 'Resolving lei/code-review …', cls: 'line-dim' },
+      { text: '  └─ manifest:  aspect.yaml      ✓ 1.4 KB', cls: 'line-success' },
+      { text: '  └─ prompts:   review.prompt   ✓ 8.2 KB · 4 staged turns', cls: 'line-success' },
+      { text: '  └─ tools:     git, eslint, semgrep, perf-probe  ✓ 4 declared', cls: 'line-success' },
+      { text: '  └─ evals:     12 cases · pass-rate 96.3%', cls: 'line-success' },
+      { text: '  └─ context:   rules/, examples/, refs/  ✓ 22 files', cls: 'line-success' },
+      { text: '' },
+      { text: '[████████████████████████] 100%   ·   verified by sigstore', cls: 'line-info' },
+      { text: '' },
+      { text: '✓ Pulled lei/code-review@1.4.2 (38.4 KB, 0.8s)', cls: 'line-success' },
+      { text: '  Compatible clients: claude · cursor · vscode-mcp · openai-agent · custom', cls: 'line-dim' },
+      { text: '', },
+      { text: '  → run with `aspect run lei/code-review --on <target>`', cls: 'line-dim' }
+    ],
+    'aspect run lei/code-review --pr 1234': [
+      { text: '▸ Loading aspect lei/code-review@1.4.2', cls: 'line-info' },
+      { text: '▸ Binding to client: claude-3.7-sonnet via MCP', cls: 'line-info' },
+      { text: '▸ Fetching PR #1234 metadata … 23 files · +412/-87', cls: 'line-info' },
+      { text: '' },
+      { text: 'Stage 1 · LINT     [▓▓▓▓▓▓▓▓▓▓] done  · 4 minor', cls: 'line-success' },
+      { text: 'Stage 2 · SEC      [▓▓▓▓▓▓▓▓▓▓] done  · 1 high (sql-injection-risk)', cls: 'line-warn' },
+      { text: 'Stage 3 · PERF     [▓▓▓▓▓▓▓▓▓▓] done  · n+1 query in users.controller.ts', cls: 'line-warn' },
+      { text: 'Stage 4 · ARCH     [▓▓▓▓▓▓▓▓▓▓] done  · 2 suggestions on layering', cls: 'line-success' },
+      { text: '' },
+      { text: '────────── Review Summary ──────────', cls: 'line-key' },
+      { text: '  Verdict:        REQUEST CHANGES', cls: 'line-warn' },
+      { text: '  Confidence:     0.91', cls: 'line-value' },
+      { text: '  Critical:       1   ·  Major: 2   ·  Minor: 4', cls: 'line-value' },
+      { text: '  Tokens used:    18,402 in · 3,118 out  ($0.038)', cls: 'line-dim' },
+      { text: '  Trace:          aspect://run/3f8c2e1a  (replay any time)', cls: 'line-dim' },
+      { text: '' },
+      { text: '✓ Review posted to PR #1234 · 7 inline comments', cls: 'line-success' }
+    ],
+    'aspect inspect lei/code-review': [
+      { text: '# aspect.yaml — lei/code-review@1.4.2', cls: 'line-comment' },
+      { text: 'name:        lei/code-review', cls: 'line-key' },
+      { text: 'version:     1.4.2', cls: 'line-value' },
+      { text: 'kind:        agent.workflow', cls: 'line-value' },
+      { text: 'description: Multi-stage code review with explainable verdict', cls: 'line-value' },
+      { text: '', },
+      { text: 'inputs:', cls: 'line-key' },
+      { text: '  - name: target   type: git.pr | file.diff', cls: 'line-value' },
+      { text: '  - name: depth    type: enum(lite,standard,deep)  default: standard', cls: 'line-value' },
+      { text: '', },
+      { text: 'tools:', cls: 'line-key' },
+      { text: '  - mcp: git · eslint · semgrep · perf-probe', cls: 'line-value' },
+      { text: '', },
+      { text: 'stages:', cls: 'line-key' },
+      { text: '  - lint   { model: haiku, parallel: true }', cls: 'line-value' },
+      { text: '  - sec    { model: sonnet, tools: [semgrep] }', cls: 'line-value' },
+      { text: '  - perf   { model: sonnet, tools: [perf-probe] }', cls: 'line-value' },
+      { text: '  - arch   { model: opus,   context: refs/ }', cls: 'line-value' },
+      { text: '', },
+      { text: 'evals:       12 cases · pass-rate 96.3% · last run 3h ago', cls: 'line-dim' },
+      { text: 'compat:      claude>=3.5 · cursor>=0.45 · any-mcp-client', cls: 'line-dim' }
+    ]
+  };
+
+  const body = document.getElementById('playground-body') as HTMLDivElement | null;
+  const chips = document.getElementById('playground-chips') as HTMLDivElement | null;
+  if (!body || !chips) {
+    console.warn('[Playground] missing elements');
+  }
+
+  let isRunning = false;
+
+  function sleep(ms: number) {
+    return new Promise((r) => setTimeout(r, ms));
+  }
+
+  function setChipsDisabled(disabled: boolean) {
+    chips?.querySelectorAll<HTMLButtonElement>('.cmd-chip').forEach((c) => {
+      c.disabled = disabled;
+    });
+  }
+
+  function removeTrailingCursor() {
+    if (!body) return;
+    const last = body.lastElementChild;
+    if (last && last.classList.contains('line-prompt') && last.textContent?.trim().endsWith('▍')) {
+      // remove just the cursor element so the prompt stays visible without blink
+      const cursor = last.querySelector('.prompt-cursor');
+      cursor?.remove();
+    }
+  }
+
+  function addCommandEcho(cmd: string) {
+    if (!body) return;
+    removeTrailingCursor();
+    const div = document.createElement('div');
+    div.className = 'line line-prompt';
+    div.innerHTML = `<span class="prompt-prefix">~/jokeuncle</span> <span class="prompt-arrow">›</span> ${cmd}`;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function addPromptCaret() {
+    if (!body) return;
+    const div = document.createElement('div');
+    div.className = 'line line-prompt';
+    div.innerHTML = `<span class="prompt-prefix">~/jokeuncle</span> <span class="prompt-arrow">›</span> <span class="prompt-cursor">▍</span>`;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  async function streamLine(text: string, cls?: string) {
+    if (!body) return;
+    const div = document.createElement('div');
+    div.className = 'line' + (cls ? ' ' + cls : '');
+    body.appendChild(div);
+
+    if (!text) {
+      div.innerHTML = '&nbsp;';
+      return;
+    }
+
+    // For really long lines we type in chunks for snappier feel
+    const chunkSize = text.length > 60 ? 4 : 2;
+    let i = 0;
+    while (i < text.length) {
+      div.textContent = text.slice(0, i + chunkSize);
+      i += chunkSize;
+      body.scrollTop = body.scrollHeight;
+      await sleep(8 + Math.random() * 12);
+    }
+    div.textContent = text;
+  }
+
+  function clearTerminal() {
+    if (!body) return;
+    body.innerHTML = `
+      <div class="line line-comment"># 已清屏 —— 再来一次？</div>
+      <div class="line line-prompt"><span class="prompt-prefix">~/jokeuncle</span> <span class="prompt-arrow">›</span> <span class="prompt-cursor">▍</span></div>
+    `;
+  }
+
+  async function runCommand(cmd: string) {
+    if (isRunning || !body) return;
+
+    if (cmd === '__clear') {
+      clearTerminal();
+      return;
+    }
+
+    isRunning = true;
+    setChipsDisabled(true);
+
+    addCommandEcho(cmd);
+
+    // Small "thinking" pause
+    await sleep(180 + Math.random() * 200);
+
+    const lines = responses[cmd];
+    if (!lines) {
+      await streamLine(`zsh: command not found: ${cmd.split(' ')[0]}`, 'line-error');
+    } else {
+      for (const line of lines) {
+        await streamLine(line.text, line.cls);
+        // Slight beat between non-empty lines
+        if (line.text) await sleep(40 + Math.random() * 80);
+      }
+    }
+
+    await sleep(200);
+    addPromptCaret();
+
+    isRunning = false;
+    setChipsDisabled(false);
+  }
+
+  chips?.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    const chip = target.closest<HTMLButtonElement>('.cmd-chip');
+    if (!chip || chip.disabled) return;
+    const cmd = chip.dataset.cmd;
+    if (!cmd) return;
+    runCommand(cmd);
+  });
+</script>

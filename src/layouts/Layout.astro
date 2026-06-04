@@ -1,5 +1,6 @@
 ---
 import '@/styles/global.css';
+import ResumeChat from '@/components/ResumeChat.astro';
 
 interface Props {
   title?: string;
@@ -45,7 +46,9 @@ const {
     </div>
 
     <slot />
-    
+
+    <ResumeChat />
+
     <!-- Scroll Animation Script -->
     <script>
       // Intersection Observer for scroll animations

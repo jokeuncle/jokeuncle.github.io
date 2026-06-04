@@ -1,0 +1,262 @@
+---
+// Now - what I'm focused on right now. Update this weekly.
+// Inspired by Derek Sivers' "now page" idea.
+
+const lastUpdated = '2026-06-04';
+
+const items = [
+  {
+    tag: 'SHIPPING',
+    color: 'cyan',
+    text: '推进 **SkillAI Hub** 在生产环境的下一个里程碑 —— 让 MCP server 的灰度发布、调用链追踪、合规审计真正闭环。'
+  },
+  {
+    tag: 'BUILDING',
+    color: 'indigo',
+    text: '把 **VibeOS** 的 spec-driven dev workflow 跑通在自己的项目里 —— 让"产品意图 → 可上线 PR"变成一段可回放的对话。'
+  },
+  {
+    tag: 'EXPLORING',
+    color: 'pink',
+    text: '**AI.Aspect** 的协议草案 —— 一个 aspect.yaml 该长什么样？分发渠道走 npm 还是新做一个 registry？'
+  },
+  {
+    tag: 'LEARNING',
+    color: 'violet',
+    text: '泡在最新的几篇 agent eval / context engineering 论文里，把可迁移的方法回流到 SkillAI Hub 的评测体系。'
+  },
+  {
+    tag: 'OPEN-TO',
+    color: 'amber',
+    text: '想认识更多在做 **AI 原生工具 / 开发者基础设施 / 企业 AI 平台** 方向的人 —— 即使只是交换观点也欢迎。'
+  }
+];
+---
+
+<section class="now-section section" id="now" aria-label="Now">
+  <div class="container">
+    <div class="section-header fade-up">
+      <span class="section-tag">/now · 此刻在做</span>
+      <h2 class="section-title">
+        <span class="gradient-text">Now</span>
+        <span class="title-cn">· 这周的我</span>
+      </h2>
+      <p class="section-desc">
+        一个活的、每周更新的快照 —— 比简历更新鲜，比朋友圈更聚焦。
+        <span class="last-updated">
+          Last updated <time datetime={lastUpdated}>{lastUpdated}</time>
+          <span class="live-dot" aria-hidden="true"></span>
+        </span>
+      </p>
+    </div>
+
+    <div class="now-timeline">
+      {items.map((item, i) => (
+        <div class={`now-item fade-up stagger-${(i % 4) + 1}`} data-color={item.color}>
+          <span class="now-tag">{item.tag}</span>
+          <p class="now-text" set:html={item.text
+            .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+          } />
+          <span class="now-rail" aria-hidden="true"></span>
+        </div>
+      ))}
+    </div>
+
+    <p class="now-footer fade-up">
+      <span class="footer-line">想看下一帧？过几周再回来 —— 或者直接 <a href="#contact">问我本人</a>。</span>
+    </p>
+  </div>
+</section>
+
+<style>
+  .now-section {
+    background: var(--bg-secondary);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .now-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+
+  .section-tag {
+    display: inline-block;
+    padding: 0.375rem 1rem;
+    background: rgba(34, 211, 238, 0.08);
+    border: 1px solid rgba(34, 211, 238, 0.22);
+    border-radius: 2rem;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.82rem;
+    color: var(--accent-cyan);
+    margin-bottom: 1rem;
+    letter-spacing: 0.02em;
+  }
+
+  .section-title {
+    margin-bottom: 1rem;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .title-cn {
+    color: var(--text-tertiary);
+    font-size: 0.65em;
+    font-weight: 500;
+  }
+
+  .section-desc {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    max-width: 580px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  .last-updated {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: 0.4rem;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.78rem;
+    color: var(--text-tertiary);
+    padding: 0.15rem 0.55rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 999px;
+  }
+
+  .last-updated time {
+    color: var(--accent-cyan);
+  }
+
+  .live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-cyan);
+    box-shadow: 0 0 8px var(--accent-cyan);
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  /* === Timeline === */
+  .now-timeline {
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    position: relative;
+  }
+
+  .now-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 1.2rem;
+    align-items: flex-start;
+    padding: 1.1rem 1.4rem 1.1rem 1.4rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+
+  .now-item:hover {
+    transform: translateX(4px);
+  }
+
+  .now-item[data-color='cyan']    { --item-color: #22d3ee; }
+  .now-item[data-color='indigo']  { --item-color: #6366f1; }
+  .now-item[data-color='pink']    { --item-color: #ec4899; }
+  .now-item[data-color='violet']  { --item-color: #8b5cf6; }
+  .now-item[data-color='amber']   { --item-color: #f59e0b; }
+
+  .now-item:hover {
+    border-color: color-mix(in srgb, var(--item-color) 40%, transparent);
+  }
+
+  .now-rail {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--item-color);
+    opacity: 0.65;
+    box-shadow: 0 0 14px color-mix(in srgb, var(--item-color) 60%, transparent);
+  }
+
+  .now-tag {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--item-color);
+    padding: 0.2rem 0.55rem;
+    background: color-mix(in srgb, var(--item-color) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--item-color) 28%, transparent);
+    border-radius: 6px;
+    align-self: flex-start;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .now-text {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin: 0;
+    max-width: none;
+  }
+
+  .now-text strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .now-footer {
+    text-align: center;
+    margin: 2.5rem auto 0;
+    color: var(--text-tertiary);
+    font-size: 0.85rem;
+    max-width: none;
+  }
+
+  .now-footer a {
+    color: var(--accent-cyan);
+    text-decoration: underline;
+    text-decoration-color: rgba(34, 211, 238, 0.4);
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 640px) {
+    .now-item {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+      padding: 1rem 1.1rem 1rem 1.3rem;
+    }
+    .now-tag {
+      align-self: flex-start;
+    }
+    .last-updated {
+      display: inline-flex;
+      margin-top: 0.4rem;
+    }
+  }
+</style>

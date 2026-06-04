@@ -1,6 +1,11 @@
 ---
 // Hero Component - 3D floating background with typewriter effect
-const roles = ['前端开发者', '自由开发者', '创意极客', 'UI/UX 爱好者'];
+import BgText from '@/components/BgText.astro';
+
+const roles = ['AI 工程师', 'AI-Native Builder', '系统设计者', '范式实践者'];
+
+const transformerText =
+  "The Transformer is a deep learning architecture introduced by Vaswani et al. in 2017 in the seminal paper Attention Is All You Need. It replaces recurrence and convolution with a pure self-attention mechanism, enabling massive parallelism and long-range dependency modeling that earlier RNNs and LSTMs struggled to capture. The canonical model stacks an encoder and a decoder, each composed of identical layers built from two sublayers — multi-head self-attention and a position-wise feed-forward network — wrapped by residual connections and layer normalization. Because attention is permutation-invariant, positional information is injected through sinusoidal positional encodings or learned embeddings so the model can reason about token order. Scaled dot-product attention computes softmax(QK^T / √d_k) V, where the scaling factor stabilizes gradients for large key dimensions. Multi-head attention projects queries, keys, and values into several subspaces in parallel, letting the model attend to different relational patterns simultaneously — syntactic, semantic, coreferential, positional — before concatenating and projecting the heads back. The decoder mirrors the encoder but adds a masked self-attention layer that prevents tokens from attending to future positions during autoregressive generation, plus an encoder-decoder cross-attention that conditions output on the source sequence. Modern descendants specialize this blueprint: GPT collapses to a decoder-only stack and trains with next-token prediction; BERT uses an encoder-only stack with masked-language-model and next-sentence-prediction objectives; T5 keeps the full encoder-decoder and frames every problem as text-to-text; Vision Transformers (ViT) split images into patch tokens; Whisper, AudioLM, and MusicGen apply the same machinery to spectrograms; AlphaFold leverages it for protein structure. Scaling laws by Kaplan, Hoffmann, and others showed that loss falls predictably as parameters, data, and compute grow together, motivating the leap from BERT-base at 110M to GPT-3 at 175B and beyond. Efficiency innovations — FlashAttention's IO-aware kernels, rotary positional embeddings (RoPE), grouped-query and multi-query attention, sparse and sliding-window attention, mixture-of-experts layers, KV caching, speculative decoding — have together pushed context windows past one million tokens while keeping latency tractable. Today the Transformer is the foundational substrate of modern artificial intelligence — language, vision, audio, code, robotics, multimodal reasoning, and agentic systems all converge on the same essential building block: attention, residuals, normalization, and feed-forward projection, stacked deep and trained at scale.";
 ---
 
 <section class="hero" id="home">
@@ -11,6 +16,7 @@ const roles = ['前端开发者', '自由开发者', '创意极客', 'UI/UX 爱�
     <div class="gradient-orb orb-2"></div>
     <div class="gradient-orb orb-3"></div>
     <div class="grid-overlay"></div>
+    <BgText text={transformerText} duration={9} opacity={1} />
   </div>
   
   <!-- Content -->
@@ -27,7 +33,7 @@ const roles = ['前端开发者', '自由开发者', '创意极客', 'UI/UX 爱�
     
     <div class="hero-subtitle fade-up stagger-2">
       <span class="typewriter-prefix">我是</span>
-      <span class="typewriter" id="typewriter"></span>
+      <span class="typewriter" id="typewriter" data-roles={JSON.stringify(roles)}></span>
       <span class="cursor">|</span>
     </div>
     
@@ -57,7 +63,7 @@ const roles = ['前端开发者', '自由开发者', '创意极客', 'UI/UX 爱�
     
     <div class="hero-stats fade-up stagger-5">
       <div class="stat">
-        <span class="stat-value">5+</span>
+        <span class="stat-value">10+</span>
         <span class="stat-label">年开发经验</span>
       </div>
       <div class="stat-divider"></div>
@@ -90,7 +96,10 @@ const roles = ['前端开发者', '自由开发者', '创意极客', 'UI/UX 爱�
     justify-content: center;
     position: relative;
     overflow: hidden;
+    /* Top reserves space for the fixed header; bottom reserves space for the
+       scroll indicator so it never overlaps hero-stats */
     padding-top: 5rem;
+    padding-bottom: 7rem;
   }
   
   /* Background Effects */
@@ -167,12 +176,111 @@ const roles = ['前端开发者', '自由开发者', '创意极客', 'UI/UX 爱�
   .grid-overlay {
     position: absolute;
     inset: 0;
-    background-image: 
+    background-image:
       linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
       linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
     background-size: 60px 60px;
     mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
     -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+  }
+
+  /* Transformer prose backdrop with a sweeping scan-light highlight */
+  .transformer-text {
+    position: absolute;
+    inset: 0;
+    /* Center the paragraph vertically in the hero so it sits behind the
+       content area, not pinned to the top */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(3rem, 8vh, 6rem) clamp(1.5rem, 6vw, 5rem);
+    overflow: hidden;
+    pointer-events: none;
+    user-select: none;
+    /* Soft radial fade so the text feels like an ambient layer, not a wall */
+    mask-image: radial-gradient(ellipse at 50% 50%, black 0%, black 40%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 0%, black 40%, transparent 80%);
+    z-index: 1;
+  }
+
+  .transformer-text p {
+    /* Override global `p { max-width: 65ch }` so the backdrop fills the hero */
+    max-width: none;
+    width: 100%;
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: clamp(0.7rem, 0.95vw, 0.95rem);
+    line-height: 1.85;
+    letter-spacing: 0.01em;
+    text-align: justify;
+    margin: 0;
+    hyphens: auto;
+    /* The gradient itself paints both the dim base text AND the bright scan band.
+       Stops outside the band stay at the dim base color so characters always have
+       a faint readable hue; the bright stripe of cyan/indigo sweeps across. */
+    background-image: linear-gradient(
+      105deg,
+      rgba(148, 163, 184, 0.10) 0%,
+      rgba(148, 163, 184, 0.10) 38%,
+      rgba(99, 102, 241, 0.55) 44%,
+      rgba(34, 211, 238, 1) 50%,
+      rgba(236, 72, 153, 0.7) 56%,
+      rgba(148, 163, 184, 0.10) 62%,
+      rgba(148, 163, 184, 0.10) 100%
+    );
+    background-size: 240% 100%;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    /* Soft glow so the bright stripe pops without the dim base getting smeared */
+    filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.12));
+    animation: transformer-scan 9s linear infinite;
+  }
+
+  /* Inline children inherit color:transparent from <p>, but text-fill-color
+     doesn't inherit by default — set it explicitly so the parent's clipped
+     gradient shows through em/code/sup/sub glyphs. */
+  .transformer-text em,
+  .transformer-text code,
+  .transformer-text sup,
+  .transformer-text sub {
+    -webkit-text-fill-color: transparent;
+  }
+
+  .transformer-text em {
+    font-style: italic;
+  }
+
+  .transformer-text code {
+    font-family: inherit;
+    font-size: 0.95em;
+  }
+
+  @keyframes transformer-scan {
+    0% {
+      background-position: 140% 0;
+    }
+    100% {
+      background-position: -140% 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .transformer-text p {
+      animation: none;
+      background-position: 0 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .transformer-text {
+      padding: 2.5rem 1rem;
+    }
+    .transformer-text p {
+      font-size: 0.7rem;
+      line-height: 1.7;
+    }
   }
   
   /* Content */
@@ -370,7 +478,12 @@ const roles = ['前端开发者', '自由开发者', '创意极客', 'UI/UX 爱�
   }
 </style>
 
-<script type="module" define:vars={{ roles }}>
+<script>
+  // Astro hoists this module script so Vite can transform the `import 'three'`
+  // and rewrite bare specifiers. Avoid `define:vars` here — it would force the
+  // script to render inline, breaking module resolution in the browser.
+  import * as THREE from 'three';
+
   // Typewriter Effect
   class Typewriter {
     constructor(element, words, wait = 3000) {
@@ -382,25 +495,25 @@ const roles = ['前端开发者', '自由开发者', '创意极客', 'UI/UX 爱�
       this.isDeleting = false;
       this.type();
     }
-    
+
     type() {
       const current = this.wordIndex % this.words.length;
       const fullTxt = this.words[current];
-      
+
       if (this.isDeleting) {
         this.txt = fullTxt.substring(0, this.txt.length - 1);
       } else {
         this.txt = fullTxt.substring(0, this.txt.length + 1);
       }
-      
+
       this.element.textContent = this.txt;
-      
+
       let typeSpeed = 100;
-      
+
       if (this.isDeleting) {
         typeSpeed /= 2;
       }
-      
+
       if (!this.isDeleting && this.txt === fullTxt) {
         typeSpeed = this.wait;
         this.isDeleting = true;
@@ -409,17 +522,24 @@ const roles = ['前端开发者', '自由开发者', '创意极客', 'UI/UX 爱�
         this.wordIndex++;
         typeSpeed = 500;
       }
-      
+
       setTimeout(() => this.type(), typeSpeed);
     }
   }
-  
-  // Initialize typewriter
+
+  // Initialize typewriter — read words from a data attribute on the element
+  // so we don't need `define:vars` and the script can stay a clean module.
   document.addEventListener('DOMContentLoaded', () => {
     const typewriterEl = document.getElementById('typewriter');
-    if (typewriterEl) {
-      new Typewriter(typewriterEl, roles, 2000);
+    if (!typewriterEl) return;
+    let roles = ['AI 工程师'];
+    try {
+      const raw = typewriterEl.getAttribute('data-roles');
+      if (raw) roles = JSON.parse(raw);
+    } catch (err) {
+      console.warn('[Hero] invalid data-roles', err);
     }
+    new Typewriter(typewriterEl, roles, 2000);
   });
 
   // Three.js background
@@ -432,8 +552,6 @@ const roles = ['前端开发者', '自由开发者', '创意极客', 'UI/UX 爱�
       container.style.display = 'none';
       return;
     }
-
-    const THREE = await import('three');
 
     const renderer = new THREE.WebGLRenderer({
       antialias: true,

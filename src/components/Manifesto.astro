@@ -1,0 +1,250 @@
+---
+// Manifesto - a strong first-person statement bridging "who I was" → "what I'm building"
+---
+
+<section class="manifesto" id="manifesto" aria-label="Manifesto">
+  <div class="manifesto-bg" aria-hidden="true">
+    <div class="bg-glow bg-glow-a"></div>
+    <div class="bg-glow bg-glow-b"></div>
+    <div class="bg-grid"></div>
+  </div>
+
+  <div class="container">
+    <div class="manifesto-inner">
+      <div class="manifesto-eyebrow fade-up">
+        <span class="eyebrow-dot"></span>
+        Manifesto · 我的判断
+      </div>
+
+      <h2 class="manifesto-title fade-up stagger-1">
+        <span class="line line-1">下一个十年，</span>
+        <span class="line line-2">软件不再是 <span class="hl">"被编写"</span> 的产物，</span>
+        <span class="line line-3">而是被 <span class="hl hl-cyan">"对齐"</span> 出来的。</span>
+      </h2>
+
+      <p class="manifesto-sub fade-up stagger-2">
+        这是我现在 All-in <strong>AI 原生工程范式</strong> 的原因 —— 不是为了"加一个 AI 功能"，
+        而是相信整条软件生产链路的底层正在被重写。
+        <br />
+        <span class="sub-line-2">VibeOS、AI.Aspect、SkillAI Hub —— 都是这个判断的具体落点。</span>
+      </p>
+
+      <div class="manifesto-meta fade-up stagger-3">
+        <span class="meta-tag">10+ 年工程沉淀</span>
+        <span class="meta-divider">·</span>
+        <span class="meta-tag">面向下一代研发链路</span>
+        <span class="meta-divider">·</span>
+        <span class="meta-tag">第一人称投入</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .manifesto {
+    position: relative;
+    padding: clamp(6rem, 14vh, 10rem) 0;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .manifesto-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bg-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.35;
+  }
+
+  .bg-glow-a {
+    width: 700px;
+    height: 700px;
+    top: -200px;
+    left: -150px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.6), transparent 60%);
+    animation: manifesto-float 14s ease-in-out infinite;
+  }
+
+  .bg-glow-b {
+    width: 600px;
+    height: 600px;
+    bottom: -200px;
+    right: -100px;
+    background: radial-gradient(circle, rgba(34, 211, 238, 0.45), transparent 60%);
+    animation: manifesto-float 16s ease-in-out infinite -8s;
+  }
+
+  @keyframes manifesto-float {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(40px, -30px); }
+  }
+
+  .bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(99, 102, 241, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99, 102, 241, 0.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse at center, black 0%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 75%);
+  }
+
+  .manifesto-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .manifesto-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem;
+    background: rgba(34, 211, 238, 0.08);
+    border: 1px solid rgba(34, 211, 238, 0.22);
+    border-radius: 999px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--accent-cyan);
+    margin-bottom: 2.5rem;
+  }
+
+  .eyebrow-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-cyan);
+    box-shadow: 0 0 8px var(--accent-cyan);
+    animation: pulse-glow 2.5s ease-in-out infinite;
+  }
+
+  .manifesto-title {
+    font-size: clamp(1.85rem, 5vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+    margin: 0 0 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+  }
+
+  .manifesto-title .line {
+    display: block;
+  }
+
+  .manifesto-title .hl {
+    position: relative;
+    color: var(--accent-primary);
+    font-weight: 800;
+    background: linear-gradient(120deg, #818cf8, #6366f1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .manifesto-title .hl-cyan {
+    background: linear-gradient(120deg, #67e8f9, #22d3ee, #818cf8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Sweep-light layer over the whole title to echo the Transformer hero effect */
+  .manifesto-title::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      100deg,
+      transparent 0%,
+      transparent 45%,
+      rgba(255, 255, 255, 0.16) 50%,
+      transparent 55%,
+      transparent 100%
+    );
+    background-size: 220% 100%;
+    mix-blend-mode: overlay;
+    animation: manifesto-sweep 7s linear infinite;
+  }
+
+  @keyframes manifesto-sweep {
+    0% { background-position: 220% 0; }
+    100% { background-position: -120% 0; }
+  }
+
+  .manifesto-sub {
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    line-height: 1.85;
+    color: var(--text-secondary);
+    max-width: 720px;
+    margin: 0 auto 2.5rem;
+  }
+
+  .manifesto-sub strong {
+    color: var(--accent-cyan);
+    font-weight: 600;
+  }
+
+  .sub-line-2 {
+    display: inline-block;
+    margin-top: 0.4rem;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.92em;
+    color: var(--text-tertiary);
+    letter-spacing: 0.01em;
+  }
+
+  .manifesto-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.78rem;
+    color: var(--text-tertiary);
+    padding: 0.6rem 1.4rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 999px;
+  }
+
+  .meta-divider {
+    color: var(--accent-primary);
+    opacity: 0.6;
+  }
+
+  @media (max-width: 640px) {
+    .manifesto {
+      padding: 5rem 0;
+    }
+    .manifesto-title {
+      font-size: 1.65rem;
+      line-height: 1.4;
+    }
+    .manifesto-meta {
+      font-size: 0.7rem;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bg-glow,
+    .manifesto-title::after,
+    .eyebrow-dot {
+      animation: none;
+    }
+  }
+</style>

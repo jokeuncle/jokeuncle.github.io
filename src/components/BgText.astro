@@ -1,0 +1,121 @@
+---
+// BgText - reusable "scan-light over technical prose" backdrop.
+// Pulled out of Hero so each section can carry a different domain document
+// (Transformer / MCP spec / RAG paper) and share the same scan effect.
+
+interface Props {
+  /** Full prose to render. Will be justified and scanned. */
+  text: string;
+  /** Animation duration in seconds (default 9s). Larger = slower scan. */
+  duration?: number;
+  /** Base dim color of the prose, expressed as a CSS color string. */
+  baseColor?: string;
+  /** Three gradient stops for the moving bright stripe (left, peak, right). */
+  stripe?: [string, string, string];
+  /** Diagonal angle in degrees for the gradient (default 105). */
+  angle?: number;
+  /** Center-fade mask intensity. 0 = fully visible everywhere, 1 = strong vignette. */
+  fade?: number;
+  /** Optional inline opacity override (0-1). */
+  opacity?: number;
+}
+
+const {
+  text,
+  duration = 9,
+  baseColor = 'rgba(148, 163, 184, 0.10)',
+  stripe = ['rgba(99, 102, 241, 0.55)', 'rgba(34, 211, 238, 1)', 'rgba(236, 72, 153, 0.7)'],
+  angle = 105,
+  fade = 0.6,
+  opacity = 1
+} = Astro.props;
+
+// Build the gradient — dim base color outside the bright stripe.
+const gradient = `linear-gradient(${angle}deg,
+  ${baseColor} 0%,
+  ${baseColor} 38%,
+  ${stripe[0]} 44%,
+  ${stripe[1]} 50%,
+  ${stripe[2]} 56%,
+  ${baseColor} 62%,
+  ${baseColor} 100%)`;
+
+// Center-stronger radial mask; `fade` controls how soft the edges become.
+const innerStop = Math.max(20, 50 - fade * 30);
+const outerStop = Math.min(95, 70 + fade * 15);
+const maskGradient = `radial-gradient(ellipse at 50% 50%, black 0%, black ${innerStop}%, transparent ${outerStop}%)`;
+---
+
+<div
+  class="bg-text"
+  aria-hidden="true"
+  style={`
+    --bg-gradient: ${gradient};
+    --bg-mask: ${maskGradient};
+    --bg-duration: ${duration}s;
+    --bg-opacity: ${opacity};
+  `}
+>
+  <p>{text}</p>
+</div>
+
+<style>
+  .bg-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(3rem, 8vh, 6rem) clamp(1.5rem, 6vw, 5rem);
+    overflow: hidden;
+    pointer-events: none;
+    user-select: none;
+    mask-image: var(--bg-mask);
+    -webkit-mask-image: var(--bg-mask);
+    opacity: var(--bg-opacity);
+    z-index: 0;
+  }
+
+  .bg-text p {
+    max-width: none;
+    width: 100%;
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: clamp(0.7rem, 0.92vw, 0.9rem);
+    line-height: 1.85;
+    letter-spacing: 0.01em;
+    text-align: justify;
+    margin: 0;
+    hyphens: auto;
+    background-image: var(--bg-gradient);
+    background-size: 240% 100%;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.1));
+    animation: bg-text-scan var(--bg-duration) linear infinite;
+  }
+
+  @keyframes bg-text-scan {
+    0%   { background-position: 140% 0; }
+    100% { background-position: -140% 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bg-text p {
+      animation: none;
+      background-position: 0 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .bg-text {
+      padding: 2.5rem 1rem;
+    }
+    .bg-text p {
+      font-size: 0.68rem;
+      line-height: 1.7;
+    }
+  }
+</style>

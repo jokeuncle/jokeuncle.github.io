@@ -1,0 +1,912 @@
+---
+// ResumeChat - AI-style conversational resume modal.
+// Triggered by any element with `data-resume-chat` (or matching href="#resume-chat").
+// Responses are first-person ("我") to feel like Lei is replying through an AI client.
+
+const suggestions = [
+  '你是谁？',
+  '聊聊 VibeOS',
+  'AI.Aspect 是什么？',
+  'SkillAI Hub 是什么？',
+  '工作经历',
+  '怎么联系你？'
+];
+
+// Initial greeting shown when the chat opens
+const greeting =
+  '你好 👋 我是 Lei —— 我把自己当作一个可对话的简历放在这里。\n\n10+ 年研发经验，现在在一家跨境支付公司主导 AI 工程，同时推进个人项目 VibeOS、AI.Aspect。你可以问我任何关于我的事：经历、技术栈、在做的项目、合作方式……我会以第一人称如实回答。\n\n要不要从下面这几个问题开始？';
+---
+
+<div class="resume-chat" id="resume-chat" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="resume-chat-title">
+  <div class="resume-chat-backdrop" data-resume-chat-close></div>
+
+  <div class="resume-chat-window" role="document">
+    <!-- Animated gradient border -->
+    <div class="window-border" aria-hidden="true"></div>
+
+    <!-- Header -->
+    <header class="chat-header">
+      <div class="chat-identity">
+        <div class="chat-avatar">
+          <span class="avatar-glyph">L</span>
+          <span class="avatar-ring" aria-hidden="true"></span>
+        </div>
+        <div class="chat-meta">
+          <h2 class="chat-name" id="resume-chat-title">
+            Lei <span class="chat-model">· lei-1.0</span>
+          </h2>
+          <div class="chat-status">
+            <span class="status-led"></span>
+            在线 · 以第一人称回答关于我的问题
+          </div>
+        </div>
+      </div>
+      <button class="chat-close" type="button" data-resume-chat-close aria-label="关闭对话">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Messages -->
+    <main class="chat-body" id="resume-chat-body" aria-live="polite" data-greeting={greeting}>
+      <!-- messages get injected here -->
+    </main>
+
+    <!-- Suggestion chips -->
+    <div class="chat-suggestions" id="resume-chat-suggestions">
+      {suggestions.map((s) => (
+        <button type="button" class="suggestion-chip" data-suggestion={s}>{s}</button>
+      ))}
+    </div>
+
+    <!-- Input -->
+    <form class="chat-input" id="resume-chat-form" autocomplete="off">
+      <div class="input-wrap">
+        <span class="input-prefix" aria-hidden="true">›</span>
+        <input
+          type="text"
+          id="resume-chat-input"
+          name="message"
+          placeholder="问点关于我的事 …"
+          aria-label="输入问题"
+          autocomplete="off"
+        />
+      </div>
+      <button type="submit" class="send-btn" aria-label="发送">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </form>
+
+    <div class="chat-footer">
+      <span class="footer-hint">本对话由预制内容驱动 · 想真聊真人 · 直接 <button type="button" class="footer-link" data-resume-chat-action="contact">看联系方式</button></span>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* === Overlay === */
+  .resume-chat {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    padding: 1.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .resume-chat[data-open='true'] {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .resume-chat[hidden] {
+    display: none;
+  }
+
+  .resume-chat-backdrop {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(900px 600px at 30% 20%, rgba(99, 102, 241, 0.18), transparent 60%),
+      radial-gradient(700px 500px at 80% 80%, rgba(34, 211, 238, 0.14), transparent 60%),
+      rgba(8, 8, 14, 0.78);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  /* === Window === */
+  .resume-chat-window {
+    position: relative;
+    width: min(720px, 100%);
+    height: min(720px, calc(100vh - 3rem));
+    display: flex;
+    flex-direction: column;
+    background:
+      linear-gradient(180deg, rgba(20, 20, 30, 0.88), rgba(12, 12, 18, 0.92));
+    border-radius: 1.5rem;
+    border: 1px solid rgba(99, 102, 241, 0.22);
+    box-shadow:
+      0 30px 80px rgba(0, 0, 0, 0.55),
+      0 0 60px rgba(99, 102, 241, 0.12);
+    overflow: hidden;
+    transform: translateY(16px) scale(0.98);
+    opacity: 0;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
+    isolation: isolate;
+  }
+
+  .resume-chat[data-open='true'] .resume-chat-window {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+
+  /* Slowly flowing gradient border */
+  .window-border {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg,
+      rgba(99, 102, 241, 0.5),
+      rgba(34, 211, 238, 0.4),
+      rgba(236, 72, 153, 0.4),
+      rgba(99, 102, 241, 0.5));
+    background-size: 300% 300%;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+    animation: window-border-flow 12s linear infinite;
+    opacity: 0.7;
+  }
+
+  @keyframes window-border-flow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+  }
+
+  /* === Header === */
+  .chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.1rem 1.4rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .chat-identity {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    min-width: 0;
+  }
+
+  .chat-avatar {
+    position: relative;
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1, #22d3ee);
+    flex-shrink: 0;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 8px 24px rgba(99, 102, 241, 0.35);
+  }
+
+  .avatar-glyph {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 700;
+    color: white;
+    font-size: 1.1rem;
+  }
+
+  .avatar-ring {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1.5px dashed rgba(34, 211, 238, 0.35);
+    animation: avatar-spin 14s linear infinite;
+  }
+
+  @keyframes avatar-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .chat-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+
+  .chat-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .chat-model {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: var(--text-tertiary);
+  }
+
+  .chat-status {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .status-led {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #22d3ee;
+    box-shadow: 0 0 8px #22d3ee;
+    animation: led-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes led-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .chat-close {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .chat-close:hover {
+    background: rgba(236, 72, 153, 0.12);
+    border-color: rgba(236, 72, 153, 0.3);
+    color: #ec4899;
+  }
+
+  /* === Body / Messages === */
+  .chat-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem 1.4rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    scroll-behavior: smooth;
+  }
+
+  .chat-body::-webkit-scrollbar {
+    width: 6px;
+  }
+  .chat-body::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .chat-body::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 3px;
+  }
+
+  .message {
+    display: flex;
+    gap: 0.75rem;
+    max-width: 100%;
+    animation: msg-in 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes msg-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .message.user {
+    justify-content: flex-end;
+  }
+
+  .msg-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .message.ai .msg-avatar {
+    background: linear-gradient(135deg, #6366f1, #22d3ee);
+    color: white;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+  }
+
+  .msg-bubble {
+    padding: 0.85rem 1rem;
+    border-radius: 14px;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-width: 85%;
+  }
+
+  .message.ai .msg-bubble {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: var(--text-primary);
+    border-top-left-radius: 4px;
+  }
+
+  .message.user .msg-bubble {
+    background: linear-gradient(135deg,
+      rgba(99, 102, 241, 0.25),
+      rgba(34, 211, 238, 0.18));
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    color: var(--text-primary);
+    border-top-right-radius: 4px;
+  }
+
+  /* Inline code-ish styling within bubbles */
+  .msg-bubble code {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.85em;
+    padding: 0.05em 0.4em;
+    background: rgba(34, 211, 238, 0.12);
+    border-radius: 4px;
+    color: #22d3ee;
+  }
+
+  .msg-bubble strong {
+    color: var(--accent-cyan);
+    font-weight: 600;
+  }
+
+  /* Blinking caret while AI is streaming */
+  .msg-bubble.streaming::after {
+    content: '▍';
+    color: #22d3ee;
+    margin-left: 2px;
+    animation: caret-blink 0.9s step-end infinite;
+  }
+
+  @keyframes caret-blink {
+    50% { opacity: 0; }
+  }
+
+  /* Typing indicator (three dots) */
+  .typing-dots {
+    display: inline-flex;
+    gap: 4px;
+    align-items: center;
+    height: 1.2em;
+  }
+  .typing-dots span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--text-tertiary);
+    animation: typing-bounce 1.4s infinite ease-in-out;
+  }
+  .typing-dots span:nth-child(2) { animation-delay: 0.15s; }
+  .typing-dots span:nth-child(3) { animation-delay: 0.3s; }
+
+  @keyframes typing-bounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-4px); opacity: 1; }
+  }
+
+  /* === Suggestions === */
+  .chat-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0 1.4rem 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    padding-top: 0.85rem;
+  }
+
+  .suggestion-chip {
+    padding: 0.4rem 0.85rem;
+    background: rgba(99, 102, 241, 0.08);
+    border: 1px solid rgba(99, 102, 241, 0.18);
+    border-radius: 999px;
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+
+  .suggestion-chip:hover {
+    background: rgba(99, 102, 241, 0.16);
+    border-color: rgba(99, 102, 241, 0.4);
+    color: var(--text-primary);
+    transform: translateY(-1px);
+  }
+
+  /* === Input === */
+  .chat-input {
+    display: flex;
+    gap: 0.6rem;
+    padding: 0.75rem 1.4rem 0.9rem;
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .input-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1rem;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .input-wrap:focus-within {
+    border-color: rgba(99, 102, 241, 0.5);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+  }
+
+  .input-prefix {
+    color: #22d3ee;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .input-wrap input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.95rem;
+    min-width: 0;
+  }
+
+  .input-wrap input::placeholder {
+    color: var(--text-tertiary);
+  }
+
+  .send-btn {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, #6366f1, #22d3ee);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+    box-shadow: 0 6px 18px rgba(99, 102, 241, 0.35);
+  }
+
+  .send-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(99, 102, 241, 0.5);
+  }
+
+  .send-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* === Footer === */
+  .chat-footer {
+    padding: 0.6rem 1.4rem 0.9rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    background: rgba(0, 0, 0, 0.15);
+  }
+
+  .footer-hint {
+    font-size: 0.72rem;
+    color: var(--text-tertiary);
+    text-align: center;
+    display: block;
+  }
+
+  .footer-link {
+    background: none;
+    border: none;
+    color: var(--accent-cyan);
+    cursor: pointer;
+    padding: 0;
+    font: inherit;
+    text-decoration: underline;
+    text-decoration-color: rgba(34, 211, 238, 0.4);
+    text-underline-offset: 2px;
+  }
+
+  /* === Mobile === */
+  @media (max-width: 640px) {
+    .resume-chat {
+      padding: 0.5rem;
+    }
+    .resume-chat-window {
+      height: calc(100vh - 1rem);
+      border-radius: 1rem;
+    }
+    .chat-header {
+      padding: 0.9rem 1rem;
+    }
+    .chat-body {
+      padding: 1rem 1rem 0.5rem;
+    }
+    .chat-suggestions,
+    .chat-input,
+    .chat-footer {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    .msg-bubble {
+      max-width: 90%;
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .avatar-ring,
+    .window-border,
+    .status-led {
+      animation: none !important;
+    }
+  }
+</style>
+
+<script>
+  // === Intent matching & response bank ===
+  type Intent = {
+    keys: RegExp[];
+    answer: string | (() => string);
+    followups?: string[];
+  };
+
+  const intents: Intent[] = [
+    {
+      keys: [/^(你好|您好|hi|hello|hey|嗨|在吗|哈喽)/i],
+      answer:
+        '你好！我是 **Lei**，32 岁，10+ 年大厂研发出身，现在在一家跨境支付公司主导 AI 工程，同时在做几个个人项目。你可以问我"最近在搞什么"，或者直接挑下面的话题。',
+      followups: ['你是谁？', '聊聊 VibeOS', '你的技术栈']
+    },
+    {
+      keys: [/你是谁|介绍.*你|介绍.*自己|about you|who are you|介绍下/i],
+      answer:
+        '我是 **Lei**（钱磊），32 岁，上海大学本科毕业。一路在 **IBM / Ebay** 实习起步，后来在 **阿里巴巴 → 拼多多 → 美团 → 字节跳动** 做了 10 年研发，在上海、深圳、北京之间穿梭。\n\n现在我在一家**跨境支付公司**主导 AI 工程方向，同时在推进几条主线：\n\n• **VibeOS** —— AI 原生的 SDLC 操作系统\n• **AI.Aspect** —— 让 AI 工程范式像 Docker 镜像一样被分发\n• **SkillAI Hub** —— 公司内部的 MCP & AI 物料分发、托管、运营平台（已生产落地）\n\n用一句话总结自己：**一个用 10+ 年工程经验，正在把 AI 真正落到产品和组织里的人。**',
+      followups: ['聊聊 VibeOS', 'AI.Aspect 是什么？', 'SkillAI Hub 是什么？']
+    },
+    {
+      keys: [/vibeos|vibe os/i],
+      answer:
+        '**VibeOS** 是我现在最投入的个人项目 —— *AI-Native Operating System for the SDLC*。\n\n一句话：**用 AI 原生范式重构软件开发生命周期。**\n\n传统的 IDE / CI / 协作工具，是在工程链路上"叠加"AI；VibeOS 反过来，把 AI 当成第一公民来重新设计这条链路 —— 从产品意图、规格、编码、评审到部署，每一环都是 AI 增强的协作过程，而不是事后塞进去的功能。\n\n目标是让"想法 → 可上线产物"成为一段**连续、可观测、可回放**的对话，而不是一堆割裂的工具切换。\n\n目前研发中，欢迎一起聊想法。',
+      followups: ['AI.Aspect 是什么？', 'SkillAI Hub 是什么？', '你的技术栈']
+    },
+    {
+      keys: [/aspect|ai\.aspect|工程范式|镜像|分发ai/i],
+      answer:
+        '**AI.Aspect** 是我的另一个探索 —— *Distribute AI engineering paradigms like container images*。\n\n核心想法：让成熟的 AI 工程模式（提示、工具、工作流、评测、上下文规则）像 Docker 镜像一样被打包、分发、复用。\n\n任何 AI 客户端（Claude、Cursor、自研 agent…）只要 `pull` 一个 Aspect，就能即时获得一整套完整的任务能力，就像 `docker pull` 拉取一个运行时。\n\n它在解一个真问题：现在 prompt 和 agent 工作流的复用度极低，知识被锁在各自的项目里。AI.Aspect 想让这些范式像依赖一样自然流动。',
+      followups: ['聊聊 VibeOS', 'SkillAI Hub 是什么？']
+    },
+    {
+      keys: [/skillai|skill ai|skill hub|物料|公司项目|公司.*ai|跨境支付|当前公司/i],
+      answer:
+        '**SkillAI Hub** 是我在当前公司（一家跨境支付公司）牵头搭建的**公司级 AI 工程中枢** —— 已在生产中。\n\n要解决的痛点很现实：各团队都在做 AI，但 prompt、agent、tool、MCP server 散落在各处，知识无法沉淀、能力无法复用、上线缺少治理。\n\nSkillAI Hub 把这些"AI 物料"全部收敛到一个平台：\n\n• **分发** · 像 npm registry 一样发布 / 拉取 prompt、agent skill、MCP server\n• **托管** · 一键托管运行 MCP server，对所有 AI 客户端开放接入\n• **运营** · 版本管理、灰度发布、Eval、调用链追踪、限流、合规审计\n\n它让"某个团队踩出来的最佳实践"能被全公司复用，让 AI 在金融级合规要求下也能跑稳。\n\n你可以把它理解成：[[AI.Aspect]] 的理念在一个真实组织里的落地实例。',
+      followups: ['聊聊 VibeOS', 'AI.Aspect 是什么？', '工作经历']
+    },
+    {
+      keys: [/经历|经验|履历|工作|职业|career|experience|大厂|背景|past/i],
+      answer:
+        '10+ 年研发经验，按时间线：\n\n• **实习** · IBM · Ebay\n• **阿里巴巴** · 盒马小镇 2.0 互动游戏（多人在线、实时同步）\n• **拼多多** · 多多果园等互动游戏，百万级并发\n• **美团** · 企业级 BFF（Backend for Frontend）搭建平台\n• **字节跳动** · 一站式前端研发部署平台（CI/CD · 多环境 · 自动化发布）\n• **现在** · 跨境支付公司，主导 AI 工程方向，落地 [[SkillAI Hub]]；同时推进个人项目 [[VibeOS]] / [[AI.Aspect]]\n\n工作轨迹：上海 · 深圳 · 北京。\n\n这一路给了我两个底层能力：**把复杂系统做稳**，以及**把工程链路平台化** —— 这两点放到 AI 时代特别能复用，因为 LLM 应用本质上还是分布式系统 + 一条新的研发链路。',
+      followups: ['你的技术栈', '聊聊 VibeOS', '怎么联系你？']
+    },
+    {
+      keys: [/技术栈|skill|stack|技能|擅长|能做什么|tech/i],
+      answer:
+        '分四块讲：\n\n**1. LLM 工程** · Prompt / Context Engineering, RAG, Function Calling, 结构化输出, Evals, 可观测性\n**2. Agent 系统与协议** · 多 Agent 编排, Tool Use, **MCP**, A2A, 长上下文记忆, 沙箱执行\n**3. AI-Native 开发流程** · Spec-Driven Dev, Agentic Coding（Claude Code / Cursor）, 代码生成 + 自动评审管线\n**4. 工程地基（10+ 年沉淀）** · TypeScript · React / Vue / Astro · Node / Edge / Serverless · 实时流式 · 系统设计 · 性能 · 0→1 平台与开发者基础设施\n\n前三块是新范式，第四块是"让 AI 真正能上线"的底层能力 —— 两者结合才是我现在做事情的方法。',
+      followups: ['聊聊 VibeOS', 'SkillAI Hub 是什么？']
+    },
+    {
+      keys: [/联系|contact|邮箱|email|微信|wechat|加你|找你|reach/i],
+      answer:
+        '可以这样找到我：\n\n• **邮箱** · `827919619@qq.com`\n• **微信** · `N-429228`\n• **GitHub** · `github.com/jokeuncle`\n\n聊合作、技术、或者就是想认识下，都欢迎，通常 24h 内回复。',
+      followups: ['你是谁？', '合作机会']
+    },
+    {
+      keys: [/教育|学历|大学|毕业|education|school|college|university/i],
+      answer:
+        '**上海大学** · 本科全日制。\n\n大学阶段就开始往工程方向用力 —— 实习去了 IBM 和 Ebay，毕业后直接进了阿里巴巴，后来一路走过拼多多 / 美团 / 字节，现在在跨境支付公司主导 AI。\n\n比起学历，我更想强调的是：10+ 年里每一段都在做有挑战的系统 —— 互动游戏、BFF、研发部署平台、AI 平台 —— 不同领域但同一个底层能力：**把复杂的工程链路抽象成可复用的平台**。',
+      followups: ['工作经历', '聊聊 VibeOS']
+    },
+    {
+      keys: [/年龄|多大|how old|岁/i],
+      answer:
+        '32 岁。10+ 年工程经验里，前 8 年在大厂打地基，后面这 2-3 年集中在 AI 工程范式和工具上 —— 现在的我比 25 岁那会儿更想清楚要造什么。',
+      followups: ['工作经历', '你的技术栈']
+    },
+    {
+      keys: [/地点|哪里|where|城市|location|city|坐标|base|在哪|工作地/i],
+      answer:
+        '工作轨迹在 **上海 · 深圳 · 北京** 之间穿梭过 —— 互联网大厂的几个主要据点都待过。具体当前坐标可以直接问本人（邮箱 / 微信都行）。',
+      followups: ['工作经历', '怎么联系你？']
+    },
+    {
+      keys: [/ai|大模型|llm|gpt|claude|gemini|模型|生成式|看法|怎么看|观点/i],
+      answer:
+        '我对 AI 的判断很简单：**这不是又一波技术浪潮，是软件开发本身的基底在换。**\n\n所以我不把它当作"加一个 AI 功能"来做，而是想清楚三层：\n\n1. **流程层** · 怎么让整条 SDLC 从工具协作变成 AI 协作？→ [[VibeOS]]\n2. **范式层** · 怎么让 AI 工程范式被复用、被分发？→ [[AI.Aspect]]\n3. **组织层** · 怎么让一家公司的 AI 物料被治理、被运营？→ [[SkillAI Hub]]\n\n其它技术细节（RAG、agent、eval、MCP、流式…）都是为这三件事服务的零件。',
+      followups: ['聊聊 VibeOS', 'AI.Aspect 是什么？', 'SkillAI Hub 是什么？']
+    },
+    {
+      keys: [/合作|hire|招聘|外包|项目机会|opportunity|offer|挖你|挖我|招你/i],
+      answer:
+        '开放合作中 —— 几类比较对胃口：\n\n• **AI 原生工具 / 开发者基础设施**方向的早期项目（创始团队或核心成员）\n• 已有产品要做 **"AI 化改造"**，需要懂工程 + 懂模型的人\n• **企业 AI 平台 / MCP 基础设施**类的咨询或共建\n• 技术合伙 / 顾问 / 短期高强度交付 都可以聊\n\n直接邮件 `827919619@qq.com` 或者微信 `N-429228`，把你想做的事一句话讲清就行 —— 越具体越快回复。',
+      followups: ['怎么联系你？', 'SkillAI Hub 是什么？']
+    },
+    {
+      keys: [/(谢谢|thanks|thank you|多谢|感谢|辛苦)/i],
+      answer: '客气啦 🙏 有任何后续想法，邮箱 / 微信随时都行。'
+    },
+    {
+      keys: [/再见|bye|拜拜|goodbye|回头见/i],
+      answer: '回头见 👋 想继续聊随时再打开。'
+    }
+  ];
+
+  const fallbacks = [
+    '这个问题我没准备好"预制答案"，不过你可以直接邮件 `827919619@qq.com` 或者微信 `N-429228` 问本人 —— 我会很快回复。\n\n或者你也可以问我：项目、技术栈、工作经历、怎么联系。',
+    '抱歉这个问得有点超纲了 🙇 我这版对话主要覆盖：**我是谁 / vibeos / AI.Aspect / 技术栈 / 工作经历 / 联系方式**。其它的直接问本人最靠谱。',
+    '我对这块还没准备答案，要不换个角度？比如问问 vibeos、AI.Aspect、或者技术栈，我能给你更具体的内容。'
+  ];
+
+  function matchIntent(text: string): Intent | null {
+    const normalized = text.toLowerCase().trim();
+    for (const intent of intents) {
+      if (intent.keys.some((k) => k.test(normalized))) {
+        return intent;
+      }
+    }
+    return null;
+  }
+
+  function pickFallback() {
+    return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+  }
+
+  // === DOM helpers ===
+  const root = document.getElementById('resume-chat') as HTMLDivElement | null;
+  const body = document.getElementById('resume-chat-body') as HTMLDivElement | null;
+  const form = document.getElementById('resume-chat-form') as HTMLFormElement | null;
+  const input = document.getElementById('resume-chat-input') as HTMLInputElement | null;
+  const suggestionsBar = document.getElementById('resume-chat-suggestions') as HTMLDivElement | null;
+
+  if (!root || !body || !form || !input || !suggestionsBar) {
+    console.warn('[ResumeChat] missing elements');
+  }
+
+  let isStreaming = false;
+  let hasGreeted = false;
+
+  function open() {
+    if (!root) return;
+    root.hidden = false;
+    root.setAttribute('aria-hidden', 'false');
+    // double rAF so the `hidden` removal flushes before the transition kicks in
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        root.setAttribute('data-open', 'true');
+      });
+    });
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => input?.focus(), 200);
+    if (!hasGreeted) {
+      hasGreeted = true;
+      const greeting = body?.getAttribute('data-greeting') || '';
+      streamAssistant(greeting);
+    }
+  }
+
+  function close() {
+    if (!root) return;
+    root.removeAttribute('data-open');
+    document.body.style.overflow = '';
+    setTimeout(() => {
+      root.hidden = true;
+      root.setAttribute('aria-hidden', 'true');
+    }, 350);
+  }
+
+  function scrollToBottom() {
+    if (!body) return;
+    body.scrollTo({ top: body.scrollHeight, behavior: 'smooth' });
+  }
+
+  // Minimal markdown-ish formatting for bubbles (bold, inline code, [[link]])
+  function renderInline(text: string): string {
+    const escape = (s: string) =>
+      s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return escape(text)
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/`([^`]+)`/g, '<code>$1</code>')
+      .replace(/\[\[([^\]]+)\]\]/g, '<strong>$1</strong>');
+  }
+
+  function appendUserMessage(text: string) {
+    if (!body) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'message user';
+    wrap.innerHTML = `<div class="msg-bubble">${renderInline(text)}</div>`;
+    body.appendChild(wrap);
+    scrollToBottom();
+  }
+
+  function appendAssistantSkeleton(): { bubble: HTMLDivElement; wrap: HTMLDivElement } {
+    const wrap = document.createElement('div');
+    wrap.className = 'message ai';
+    wrap.innerHTML = `
+      <div class="msg-avatar">L</div>
+      <div class="msg-bubble streaming"></div>
+    `;
+    body!.appendChild(wrap);
+    const bubble = wrap.querySelector('.msg-bubble') as HTMLDivElement;
+    return { bubble, wrap };
+  }
+
+  function appendTyping(): HTMLDivElement {
+    const wrap = document.createElement('div');
+    wrap.className = 'message ai';
+    wrap.innerHTML = `
+      <div class="msg-avatar">L</div>
+      <div class="msg-bubble"><span class="typing-dots"><span></span><span></span><span></span></span></div>
+    `;
+    body!.appendChild(wrap);
+    scrollToBottom();
+    return wrap;
+  }
+
+  async function sleep(ms: number) {
+    return new Promise((r) => setTimeout(r, ms));
+  }
+
+  function setSuggestions(list: string[]) {
+    if (!suggestionsBar) return;
+    suggestionsBar.innerHTML = '';
+    list.forEach((s) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'suggestion-chip';
+      btn.dataset.suggestion = s;
+      btn.textContent = s;
+      suggestionsBar.appendChild(btn);
+    });
+  }
+
+  async function streamText(target: HTMLDivElement, fullText: string) {
+    const rendered = renderInline(fullText);
+    // We stream the *plain* text char by char, then on completion swap to
+    // the markdown-rendered HTML so bold/code/links light up.
+    let i = 0;
+    const chars = [...fullText];
+    while (i < chars.length) {
+      // Slight burst pattern: type 1-3 chars per tick for a natural cadence
+      const step = chars[i] === '\n' ? 1 : 1 + Math.floor(Math.random() * 2);
+      target.textContent = chars.slice(0, i + step).join('');
+      i += step;
+      scrollToBottom();
+      const ch = chars[i - 1];
+      let delay = 14 + Math.random() * 22;
+      if (ch === '。' || ch === '\n' || ch === '.') delay += 80;
+      else if (ch === '，' || ch === ',' || ch === '·') delay += 30;
+      await sleep(delay);
+    }
+    target.innerHTML = rendered;
+    target.classList.remove('streaming');
+    scrollToBottom();
+  }
+
+  async function streamAssistant(text: string, followups?: string[]) {
+    if (!body) return;
+    isStreaming = true;
+    // Show typing dots briefly first
+    const typingWrap = appendTyping();
+    await sleep(420 + Math.random() * 380);
+    typingWrap.remove();
+
+    const { bubble } = appendAssistantSkeleton();
+    scrollToBottom();
+    await streamText(bubble, text);
+
+    if (followups && followups.length) setSuggestions(followups);
+    isStreaming = false;
+  }
+
+  async function handleUserInput(text: string) {
+    const trimmed = text.trim();
+    if (!trimmed || isStreaming) return;
+    appendUserMessage(trimmed);
+    input!.value = '';
+
+    const intent = matchIntent(trimmed);
+    const answer = intent ? (typeof intent.answer === 'function' ? intent.answer() : intent.answer) : pickFallback();
+    const followups = intent?.followups;
+    await streamAssistant(answer, followups);
+  }
+
+  // === Event wiring ===
+  function isTriggerElement(el: EventTarget | null): el is HTMLElement {
+    if (!(el instanceof HTMLElement)) return false;
+    if (el.hasAttribute('data-resume-chat')) return true;
+    const anchor = el.closest('a');
+    if (anchor && (anchor.getAttribute('href') === '#resume-chat' || anchor.hasAttribute('data-resume-chat'))) return true;
+    return el.closest('[data-resume-chat]') !== null;
+  }
+
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (!target) return;
+
+    // Open
+    if (isTriggerElement(target)) {
+      e.preventDefault();
+      open();
+      return;
+    }
+
+    // Close
+    if (target.closest('[data-resume-chat-close]')) {
+      close();
+      return;
+    }
+
+    // Footer action → contact intent
+    const actionEl = target.closest('[data-resume-chat-action]') as HTMLElement | null;
+    if (actionEl && actionEl.dataset.resumeChatAction === 'contact') {
+      handleUserInput('怎么联系你？');
+      return;
+    }
+
+    // Suggestion chip
+    const chip = target.closest('.suggestion-chip') as HTMLButtonElement | null;
+    if (chip && chip.dataset.suggestion) {
+      handleUserInput(chip.dataset.suggestion);
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && root && root.getAttribute('data-open') === 'true') {
+      close();
+    }
+  });
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    handleUserInput(input!.value);
+  });
+</script>
