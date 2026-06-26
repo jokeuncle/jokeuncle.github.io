@@ -10,7 +10,7 @@ export async function GET(context: APIContext) {
 
   return rss({
     title: 'Lei 的博客',
-    description: '技术文章、项目经验与生活感悟',
+    description: 'AI 工具、自动化、工程实践与项目记录',
     site: context.site || 'https://jokeuncle.github.io',
     items: sortedPosts.map((post) => ({
       title: post.data.title,
@@ -21,4 +21,3 @@ export async function GET(context: APIContext) {
     customData: `<language>zh-CN</language>`,
   });
 }
-

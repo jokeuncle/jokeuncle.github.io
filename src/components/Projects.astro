@@ -1,50 +1,50 @@
 ---
-// Projects Component - Featured personal projects + past work highlights
+// Projects Component - Featured public projects + proof points
 import BgText from '@/components/BgText.astro';
 
 const mcpText =
-  "The Model Context Protocol (MCP) is an open standard for connecting AI assistants to external tools, data sources, and runtimes through a single uniform interface. An MCP server exposes three primary surface areas — tools, resources, and prompts — over a simple JSON-RPC transport (stdio for local, SSE for remote). Tools are functions the model invokes with typed arguments; resources are read-only documents the model can pull into context; prompts are reusable templates with named parameters that any client can pull and instantiate. Discoverability is built in: clients ask the server what it offers and the server replies with typed schemas. The protocol's real power is composition — a single chat client can simultaneously connect to a git server, a database server, a Slack server, and a custom in-house server, and the model reasons across all of them transparently. Production deployments add proxying, observability, rate limiting, scope-based access control, audit logs, and version management around the base protocol, turning a developer-friendly interface into an enterprise substrate. Done right, MCP collapses the integration cost of new AI capabilities to near zero, and reshapes the economics of AI engineering inside an organization. The aspect.yaml manifest format extends this idea further: it bundles a prompt, the tools it requires, the evals it must pass, and the contextual rules it operates under into a single distributable artifact. A client can pull an aspect by name, just like a package, and inherit a complete, verified workflow capability. This is the core insight behind AI.Aspect and SkillAI Hub — that AI engineering paradigms should be packaged, versioned, signed, and shipped just like containerized software. The result is not just developer ergonomics; it is the only viable way to govern AI capability proliferation inside a real organization, where compliance, audit, evaluation, and incident response are not optional. MCP plus aspect manifests plus a registry equals the missing distribution layer for the AI-native software era.";
+  "MCP gives AI clients a small, typed way to call tools and read resources. RAG gives models a way to answer from real documents instead of memory. The projects here sit in that practical middle ground: turn messy files into searchable context, turn HTTP endpoints into MCP tools, turn daily reading into notes, and turn local AI sessions into visible desktop signals. The important part is not the vocabulary. The important part is whether the tool can be installed, run, checked, and improved over time.";
 
 const featuredProjects = [
   {
-    name: 'VibeOS',
-    tagline: 'AI-Native Operating System for the SDLC',
-    taglineCn: '用 AI 原生范式，重构软件开发生命周期',
+    name: 'Cairn / DocsGraph',
+    tagline: 'Local-first document graph for coding agents',
+    taglineCn: '把文档整理成 Agent 能按需读取的上下文',
     description:
-      '把 AI 作为开发流程的第一公民 —— 从产品意图、规格、编码、评审到部署，每一环都是 AI 增强的协作过程，而不是事后叠加的工具层。让"想法 → 可上线产物"成为一段连续、可观测、可回放的对话。',
-    status: '研发中',
-    statusType: 'building',
-    link: '#',
-    glyph: 'vibe',
-    tags: ['AI-Native', 'SDLC', 'Agent OS', 'Dev Platform'],
+      '把 README、Markdown、PDF 等资料建成 Tree、Summary、Entity、XRef、Vector 多层索引，再通过 MCP 暴露给 Codex、Claude Code、Cursor 等客户端。目标很直接：少塞整篇文档，多拿刚好够用的上下文。',
+    status: '已发布 alpha',
+    statusType: 'production',
+    link: 'https://github.com/jokeuncle/cairn',
+    glyph: 'DG',
+    tags: ['MCP', 'RAG', 'DocsGraph', 'PyPI'],
     color: '#6366f1',
     accent: '#22d3ee'
   },
   {
-    name: 'AI.Aspect',
-    tagline: 'Distribute AI engineering paradigms like container images',
-    taglineCn: '像 Docker 镜像一样，分发可复用的 AI 工程范式',
+    name: 'Lumen Brief',
+    tagline: 'Daily AI brief to local knowledge base',
+    taglineCn: '把每天的信息源整理成能复用的笔记',
     description:
-      '把成熟的 AI 工程模式 —— 提示、工具、工作流、评测、上下文规则 —— 打包成可分发的工件。任何 AI 客户端 pull 下来即刻获得完整任务能力，就像 docker pull 拉取一个运行时。让范式像依赖一样自然流动。',
-    status: '探索中',
-    statusType: 'exploring',
-    link: '#',
-    glyph: '◐',
-    tags: ['AI Engineering', 'Distribution', 'Protocol', 'Interop'],
+      '一个面向个人学习的自动化简报 CLI。它聚合 AI 研究、开源模型、工具和岗位趋势，输出卡片、HTML 预览、Obsidian 笔记、NotebookLM 资料包和每日归档。',
+    status: '日常运行',
+    statusType: 'building',
+    link: 'https://github.com/jokeuncle/aibrief',
+    glyph: 'LB',
+    tags: ['CLI', 'Obsidian', 'NotebookLM', 'Automation'],
     color: '#22d3ee',
     accent: '#ec4899'
   },
   {
-    name: 'SkillAI Hub',
-    tagline: 'Enterprise hub for MCP servers & AI skill artifacts',
-    taglineCn: '公司级 MCP 与 AI 物料的分发、托管、运营中枢',
+    name: 'MCPort',
+    tagline: 'HTTP API to MCP tool bridge',
+    taglineCn: '把已有 API 配成 AI 客户端能调用的工具',
     description:
-      '在一家跨境支付公司牵头搭建的 AI 工程中枢 —— 把零散在各团队的 prompt、tool、agent skill 和 MCP server，收敛到一个有版本、有评测、有运营的平台。让最佳实践能被全公司复用，让 MCP 接入像 npm install 一样轻，同时承接合规、限流、灰度、可观测等"让 AI 真正跑在生产"的能力。',
-    status: '生产中',
-    statusType: 'production',
-    link: '#',
-    glyph: '⌘',
-    tags: ['MCP', 'SkillOps', 'Enterprise', 'Platform'],
+      '一个 HTTP-to-MCP 管理服务。Web UI 里配置 endpoint、参数、鉴权和 OpenAPI 导入，运行时通过 /mcp 暴露为 typed tools，让旧接口更快进入工具调用工作流。',
+    status: '构建中',
+    statusType: 'exploring',
+    link: 'https://github.com/jokeuncle/mcport',
+    glyph: 'MP',
+    tags: ['FastAPI', 'FastMCP', 'OpenAPI', 'Tool Calling'],
     color: '#8b5cf6',
     accent: '#ec4899'
   }
@@ -52,55 +52,55 @@ const featuredProjects = [
 
 const workProjects = [
   {
-    title: '阿里 · 盒马小镇 2.0 互动游戏',
-    description: '大型多人互动游戏平台 —— 自研实时同步内核、状态广播与场景调度，让运营活动变成可玩的内容',
+    title: 'Sotto · 桌面上的每日观察',
+    description: '基于 Tauri 的 macOS 小工具，调用本地 Claude/Codex CLI 生成每日短内容，并以低打扰窗口沉在桌面层。',
     metrics: [
-      { label: 'DAU', value: '百万级' },
-      { label: '同时在线', value: '10W+' },
-      { label: '消息吞吐', value: '万级/s' }
+      { label: '形态', value: '桌面应用' },
+      { label: '发布', value: 'Cask/DMG' },
+      { label: '重点', value: '低打扰' }
     ],
-    link: '#',
-    icon: '🎮',
-    tags: ['多人在线', '实时同步', 'Canvas', 'WebSocket'],
+    link: 'https://github.com/jokeuncle/sotto',
+    icon: 'SO',
+    tags: ['Tauri', 'Rust', 'React', 'Local CLI'],
     color: '#6366f1'
   },
   {
-    title: '拼多多 · 多多果园等互动游戏',
-    description: '亿级用户量级的互动游戏系统 —— 重度性能优化 + 容灾设计，保证活动期峰值稳定',
+    title: 'Red Green Light · AI 会话状态灯',
+    description: '菜单栏交通灯应用，通过本地 hook server 接收编码会话事件，用 tray icon 和 SSE 页面显示 idle、working、waiting 状态。',
     metrics: [
-      { label: 'MAU', value: '亿级' },
-      { label: '峰值 QPS', value: '十万+' },
-      { label: '可用性', value: '99.99%' }
+      { label: '入口', value: '菜单栏' },
+      { label: '通信', value: 'HTTP/SSE' },
+      { label: '用途', value: '状态可见' }
     ],
-    link: '#',
-    icon: '🌳',
-    tags: ['高并发', '性能优化', '游戏引擎', '容灾'],
+    link: 'https://github.com/jokeuncle/red-green-light',
+    icon: 'RG',
+    tags: ['Tauri', 'Hooks', 'SSE', 'Tray App'],
     color: '#ec4899'
   },
   {
-    title: '美团 · BFF 搭建平台',
-    description: '企业级 BFF（Backend for Frontend）搭建平台 —— 模块化、可视化、协议聚合，把前后端协作变成接口编排',
+    title: 'Luma District · 3D 商业街区原型',
+    description: 'React Three Fiber 做的 3D 商业街区原型，把铺位、商家、货架、营销位、购物车和 WebXR 入口放进同一个体验里。',
     metrics: [
-      { label: '接入业务线', value: '30+' },
-      { label: '日均请求', value: '十亿+' },
-      { label: '开发提效', value: '~50%' }
+      { label: '形态', value: '3D Web' },
+      { label: '测试', value: '7 files' },
+      { label: '方向', value: 'Commerce' }
     ],
-    link: '#',
-    icon: '🏗️',
-    tags: ['BFF', '微服务', 'Node.js', '平台化'],
+    link: 'https://github.com/jokeuncle/luma-district',
+    icon: 'LD',
+    tags: ['Three.js', 'R3F', 'WebXR', 'Prototype'],
     color: '#8b5cf6'
   },
   {
-    title: '字节 · 一站式前端研发部署平台',
-    description: 'CI/CD、多环境、灰度发布、监控告警一体化的前端研发底座，覆盖大量业务团队的日常发布',
+    title: 'Shadow Curve Atlas · 曲线形态扫描',
+    description: '从分时曲线中提取斜率、曲率、回撤、突破、修复率等特征，做形态聚类、候选复盘和实时相似度扫描。',
     metrics: [
-      { label: '服务团队', value: '100+' },
-      { label: '日均发布', value: '千次+' },
-      { label: '平均上线时长', value: '↓ 60%' }
+      { label: '类型', value: '数据工具' },
+      { label: '流程', value: '闭环复盘' },
+      { label: '重点', value: '特征工程' }
     ],
-    link: '#',
-    icon: '🚀',
-    tags: ['CI/CD', 'DevOps', '研发基础设施', '自动化'],
+    link: 'https://github.com/jokeuncle/shadow-curve-atlas',
+    icon: 'SC',
+    tags: ['Python', 'Pattern Mining', 'Scanner', 'Automation'],
     color: '#22d3ee'
   }
 ];
@@ -115,7 +115,7 @@ const workProjects = [
         <span class="gradient-text">正在打造</span>
       </h2>
       <p class="section-desc">
-        从 AI-Native 工具到工程范式分发，再到企业级 AI 平台 —— 用 10+ 年工程经验，探索下一代软件开发的形态
+        这些是我近期认真做的东西。有些已经能用，有些还在长大，但它们都来自真实需求：文档怎么被读到、工具怎么被调用、信息怎么沉淀、桌面怎么少打扰。
       </p>
     </div>
 
@@ -163,7 +163,7 @@ const workProjects = [
 
     <div class="subsection-divider fade-up" aria-hidden="true">
       <span class="divider-line"></span>
-      <span class="divider-label">履历亮点 · Past Work</span>
+      <span class="divider-label">更多作品 · More Work</span>
       <span class="divider-line"></span>
     </div>
 
@@ -268,7 +268,7 @@ const workProjects = [
     margin: 0 auto;
   }
   
-  /* === Featured projects (VibeOS / AI.Aspect / SkillAI Hub) === */
+  /* === Featured public projects === */
   .featured-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -552,7 +552,10 @@ const workProjects = [
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--project-color);
     flex-shrink: 0;
     transition: all var(--transition-normal);
   }

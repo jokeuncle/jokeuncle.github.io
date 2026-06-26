@@ -2,7 +2,7 @@
 // Hero Component - 3D floating background with typewriter effect
 import BgText from '@/components/BgText.astro';
 
-const roles = ['AI 工程师', 'AI-Native Builder', '系统设计者', '范式实践者'];
+const roles = ['AI 工具开发者', '自动化实践者', '前端工程师', '长期主义 Builder'];
 
 const transformerText =
   "The Transformer is a deep learning architecture introduced by Vaswani et al. in 2017 in the seminal paper Attention Is All You Need. It replaces recurrence and convolution with a pure self-attention mechanism, enabling massive parallelism and long-range dependency modeling that earlier RNNs and LSTMs struggled to capture. The canonical model stacks an encoder and a decoder, each composed of identical layers built from two sublayers — multi-head self-attention and a position-wise feed-forward network — wrapped by residual connections and layer normalization. Because attention is permutation-invariant, positional information is injected through sinusoidal positional encodings or learned embeddings so the model can reason about token order. Scaled dot-product attention computes softmax(QK^T / √d_k) V, where the scaling factor stabilizes gradients for large key dimensions. Multi-head attention projects queries, keys, and values into several subspaces in parallel, letting the model attend to different relational patterns simultaneously — syntactic, semantic, coreferential, positional — before concatenating and projecting the heads back. The decoder mirrors the encoder but adds a masked self-attention layer that prevents tokens from attending to future positions during autoregressive generation, plus an encoder-decoder cross-attention that conditions output on the source sequence. Modern descendants specialize this blueprint: GPT collapses to a decoder-only stack and trains with next-token prediction; BERT uses an encoder-only stack with masked-language-model and next-sentence-prediction objectives; T5 keeps the full encoder-decoder and frames every problem as text-to-text; Vision Transformers (ViT) split images into patch tokens; Whisper, AudioLM, and MusicGen apply the same machinery to spectrograms; AlphaFold leverages it for protein structure. Scaling laws by Kaplan, Hoffmann, and others showed that loss falls predictably as parameters, data, and compute grow together, motivating the leap from BERT-base at 110M to GPT-3 at 175B and beyond. Efficiency innovations — FlashAttention's IO-aware kernels, rotary positional embeddings (RoPE), grouped-query and multi-query attention, sparse and sliding-window attention, mixture-of-experts layers, KV caching, speculative decoding — have together pushed context windows past one million tokens while keeping latency tractable. Today the Transformer is the foundational substrate of modern artificial intelligence — language, vision, audio, code, robotics, multimodal reasoning, and agentic systems all converge on the same essential building block: attention, residuals, normalization, and feed-forward projection, stacked deep and trained at scale.";
@@ -38,9 +38,9 @@ const transformerText =
     </div>
     
     <p class="hero-desc fade-up stagger-3">
-      热爱用代码构建优雅的数字体验，专注于现代 Web 技术与创意交互设计。
+      我做 AI 工具、自动化和开发者体验。
       <br />
-      让每一个像素都充满意义。
+      把想法做成能跑、能用、能继续长大的作品。
     </p>
     
     <div class="hero-cta fade-up stagger-4">
@@ -50,7 +50,7 @@ const transformerText =
           <polyline points="10 17 15 12 10 7"/>
           <line x1="15" y1="12" x2="3" y2="12"/>
         </svg>
-        查看作品
+        看看作品
       </a>
       <a href="#contact" class="btn btn-secondary">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -64,17 +64,17 @@ const transformerText =
     <div class="hero-stats fade-up stagger-5">
       <div class="stat">
         <span class="stat-value">10+</span>
-        <span class="stat-label">年开发经验</span>
+        <span class="stat-label">年工程经验</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat">
-        <span class="stat-value">50+</span>
-        <span class="stat-label">完成项目</span>
+        <span class="stat-value">6+</span>
+        <span class="stat-label">公开项目</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat">
-        <span class="stat-value">∞</span>
-        <span class="stat-label">学习热情</span>
+        <span class="stat-value">4</span>
+        <span class="stat-label">发布形态</span>
       </div>
     </div>
   </div>
@@ -367,8 +367,9 @@ const transformerText =
     font-size: 1.25rem;
     color: var(--text-secondary);
     margin: 0 auto 2.5rem;
-    max-width: 600px;
+    max-width: min(760px, 100%);
     line-height: 1.8;
+    text-wrap: balance;
   }
   
   .hero-cta {

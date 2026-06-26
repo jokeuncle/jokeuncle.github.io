@@ -1,20 +1,20 @@
 ---
-// ResumeChat - AI-style conversational resume modal.
+// ResumeChat - conversational resume modal.
 // Triggered by any element with `data-resume-chat` (or matching href="#resume-chat").
 // Responses are first-person ("我") to feel like Lei is replying through an AI client.
 
 const suggestions = [
   '你是谁？',
-  '聊聊 VibeOS',
-  'AI.Aspect 是什么？',
-  'SkillAI Hub 是什么？',
-  '工作经历',
+  'Cairn 是什么？',
+  'Lumen Brief 怎么用？',
+  'MCPort 有什么用？',
+  '做过哪些项目？',
   '怎么联系你？'
 ];
 
 // Initial greeting shown when the chat opens
 const greeting =
-  '你好 👋 我是 Lei —— 我把自己当作一个可对话的简历放在这里。\n\n10+ 年研发经验，现在在一家跨境支付公司主导 AI 工程，同时推进个人项目 VibeOS、AI.Aspect。你可以问我任何关于我的事：经历、技术栈、在做的项目、合作方式……我会以第一人称如实回答。\n\n要不要从下面这几个问题开始？';
+  '你好，我是 Lei。10+ 年工程经验，最近主要做 AI 工具、MCP/RAG、信息自动化和桌面效率工具。\n\n我喜欢把想法做成能跑的东西：有入口、有命令、有发布记录，也有继续打磨的空间。你可以问我的项目、技术栈、合作方式或联系方式。';
 ---
 
 <div class="resume-chat" id="resume-chat" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="resume-chat-title">
@@ -37,7 +37,7 @@ const greeting =
           </h2>
           <div class="chat-status">
             <span class="status-led"></span>
-            在线 · 以第一人称回答关于我的问题
+            在线 · 项目、经验、合作方式
           </div>
         </div>
       </div>
@@ -50,9 +50,10 @@ const greeting =
     </header>
 
     <!-- Messages -->
-    <main class="chat-body" id="resume-chat-body" aria-live="polite" data-greeting={greeting}>
+    <main class="chat-body" id="resume-chat-body" aria-live="polite">
       <!-- messages get injected here -->
     </main>
+    <script type="application/json" id="resume-chat-greeting" set:html={JSON.stringify(greeting)}></script>
 
     <!-- Suggestion chips -->
     <div class="chat-suggestions" id="resume-chat-suggestions">
@@ -69,7 +70,7 @@ const greeting =
           type="text"
           id="resume-chat-input"
           name="message"
-          placeholder="问点关于我的事 …"
+          placeholder="问项目、技术栈或合作方式 …"
           aria-label="输入问题"
           autocomplete="off"
         />
@@ -83,7 +84,7 @@ const greeting =
     </form>
 
     <div class="chat-footer">
-      <span class="footer-hint">本对话由预制内容驱动 · 想真聊真人 · 直接 <button type="button" class="footer-link" data-resume-chat-action="contact">看联系方式</button></span>
+      <span class="footer-hint">想深入聊具体项目 · 直接 <button type="button" class="footer-link" data-resume-chat-action="contact">看联系方式</button></span>
     </div>
   </div>
 </div>
@@ -595,95 +596,107 @@ const greeting =
     {
       keys: [/^(你好|您好|hi|hello|hey|嗨|在吗|哈喽)/i],
       answer:
-        '你好！我是 **Lei**，32 岁，10+ 年大厂研发出身，现在在一家跨境支付公司主导 AI 工程，同时在做几个个人项目。你可以问我"最近在搞什么"，或者直接挑下面的话题。',
-      followups: ['你是谁？', '聊聊 VibeOS', '你的技术栈']
+        '你好，我是 **Lei**。我有 10+ 年工程经验，最近主要做 AI 工具、MCP/RAG、信息自动化和桌面效率工具。\n\n我比较在意一件事：想法最后要落到能用的工具里。你可以问我具体项目、技术栈、合作方式，或者直接看 GitHub。',
+      followups: ['你是谁？', 'Cairn 是什么？', '你的技术栈']
     },
     {
       keys: [/你是谁|介绍.*你|介绍.*自己|about you|who are you|介绍下/i],
       answer:
-        '我是 **Lei**（钱磊），32 岁，上海大学本科毕业。一路在 **IBM / Ebay** 实习起步，后来在 **阿里巴巴 → 拼多多 → 美团 → 字节跳动** 做了 10 年研发，在上海、深圳、北京之间穿梭。\n\n现在我在一家**跨境支付公司**主导 AI 工程方向，同时在推进几条主线：\n\n• **VibeOS** —— AI 原生的 SDLC 操作系统\n• **AI.Aspect** —— 让 AI 工程范式像 Docker 镜像一样被分发\n• **SkillAI Hub** —— 公司内部的 MCP & AI 物料分发、托管、运营平台（已生产落地）\n\n用一句话总结自己：**一个用 10+ 年工程经验，正在把 AI 真正落到产品和组织里的人。**',
-      followups: ['聊聊 VibeOS', 'AI.Aspect 是什么？', 'SkillAI Hub 是什么？']
+        '我是 **Lei**（钱磊），上海大学本科，10+ 年研发经验。\n\n我的优势不是单点技术，而是把一个想法做成能运行的工具：需求拆解、前端体验、后端接口、CLI、自动化、测试、发布和文档都能覆盖。\n\n最近我主要做几类作品：\n\n• **Cairn / DocsGraph**：让 coding agent 更准确地读取项目文档\n• **Lumen Brief**：把 AI 信息源自动整理到个人知识库\n• **MCPort**：把 HTTP API 配置成 MCP tools\n• **Sotto / Red Green Light**：把本地 AI CLI 的内容和状态做成桌面体验\n\n我不太想把自己包装成一个很抽象的 title。我的特点更像是：看见一个流程不顺，就会想办法把它做成工具。',
+      followups: ['Cairn 是什么？', 'Lumen Brief 怎么用？', 'MCPort 有什么用？']
     },
     {
-      keys: [/vibeos|vibe os/i],
+      keys: [/cairn|docsgraph|文档|知识图谱|rag|检索/i],
       answer:
-        '**VibeOS** 是我现在最投入的个人项目 —— *AI-Native Operating System for the SDLC*。\n\n一句话：**用 AI 原生范式重构软件开发生命周期。**\n\n传统的 IDE / CI / 协作工具，是在工程链路上"叠加"AI；VibeOS 反过来，把 AI 当成第一公民来重新设计这条链路 —— 从产品意图、规格、编码、评审到部署，每一环都是 AI 增强的协作过程，而不是事后塞进去的功能。\n\n目标是让"想法 → 可上线产物"成为一段**连续、可观测、可回放**的对话，而不是一堆割裂的工具切换。\n\n目前研发中，欢迎一起聊想法。',
-      followups: ['AI.Aspect 是什么？', 'SkillAI Hub 是什么？', '你的技术栈']
+        '**Cairn / DocsGraph** 是我做的本地文档索引和 MCP 工具。\n\n它来自一个很实际的痛点：AI coding agent 经常需要读项目文档，但整篇塞进去又贵又乱。Cairn 会把文档拆成目录树、摘要、实体、交叉引用和向量索引，再通过 MCP 暴露 `search_documents`、`repo_context`、`repo_graph` 等工具。\n\n我喜欢它的原因是，它不炫。它只是让模型少猜一点，让人少复制一点，让上下文更像工程材料而不是聊天素材。',
+      followups: ['MCPort 有什么用？', '你的技术栈']
     },
     {
-      keys: [/aspect|ai\.aspect|工程范式|镜像|分发ai/i],
+      keys: [/lumen|aibrief|brief|简报|信息源|notebooklm|obsidian|yo/i],
       answer:
-        '**AI.Aspect** 是我的另一个探索 —— *Distribute AI engineering paradigms like container images*。\n\n核心想法：让成熟的 AI 工程模式（提示、工具、工作流、评测、上下文规则）像 Docker 镜像一样被打包、分发、复用。\n\n任何 AI 客户端（Claude、Cursor、自研 agent…）只要 `pull` 一个 Aspect，就能即时获得一整套完整的任务能力，就像 `docker pull` 拉取一个运行时。\n\n它在解一个真问题：现在 prompt 和 agent 工作流的复用度极低，知识被锁在各自的项目里。AI.Aspect 想让这些范式像依赖一样自然流动。',
-      followups: ['聊聊 VibeOS', 'SkillAI Hub 是什么？']
+        '**Lumen Brief** 是我的 AI 信息自动化项目。\n\n它聚合 AI 研究、开源模型、工具、社区讨论和岗位趋势，输出每日卡片、HTML 预览、Obsidian 笔记、NotebookLM 资料包和来源清单。\n\n这个项目不是做资讯站，而是解决个人知识管理中的真实问题：每天看很多材料，怎样沉淀成以后能检索、能复盘、能继续写作的资料。',
+      followups: ['Cairn 是什么？', '做过哪些项目？']
     },
     {
-      keys: [/skillai|skill ai|skill hub|物料|公司项目|公司.*ai|跨境支付|当前公司/i],
+      keys: [/mcport|http.*mcp|openapi|api|tool calling|工具调用/i],
       answer:
-        '**SkillAI Hub** 是我在当前公司（一家跨境支付公司）牵头搭建的**公司级 AI 工程中枢** —— 已在生产中。\n\n要解决的痛点很现实：各团队都在做 AI，但 prompt、agent、tool、MCP server 散落在各处，知识无法沉淀、能力无法复用、上线缺少治理。\n\nSkillAI Hub 把这些"AI 物料"全部收敛到一个平台：\n\n• **分发** · 像 npm registry 一样发布 / 拉取 prompt、agent skill、MCP server\n• **托管** · 一键托管运行 MCP server，对所有 AI 客户端开放接入\n• **运营** · 版本管理、灰度发布、Eval、调用链追踪、限流、合规审计\n\n它让"某个团队踩出来的最佳实践"能被全公司复用，让 AI 在金融级合规要求下也能跑稳。\n\n你可以把它理解成：[[AI.Aspect]] 的理念在一个真实组织里的落地实例。',
-      followups: ['聊聊 VibeOS', 'AI.Aspect 是什么？', '工作经历']
+        '**MCPort** 是一个 HTTP API 到 MCP Tool 的桥接和管理服务。\n\n很多现有 API 本来就能完成任务，只是 AI 客户端不方便直接调用。MCPort 的做法是：在 Web UI 里配置 endpoint、参数、鉴权和测试请求，再由 `/mcp` 运行时把它们暴露成 typed tools。\n\n它体现的是很实用的 AI 落地能力：把已有系统能力接入模型工具调用，而不是重新造一套服务。',
+      followups: ['Cairn 是什么？', '你的技术栈']
     },
     {
-      keys: [/经历|经验|履历|工作|职业|career|experience|大厂|背景|past/i],
+      keys: [/经历|经验|履历|工作|职业|career|experience|背景|past/i],
       answer:
-        '10+ 年研发经验，按时间线：\n\n• **实习** · IBM · Ebay\n• **阿里巴巴** · 盒马小镇 2.0 互动游戏（多人在线、实时同步）\n• **拼多多** · 多多果园等互动游戏，百万级并发\n• **美团** · 企业级 BFF（Backend for Frontend）搭建平台\n• **字节跳动** · 一站式前端研发部署平台（CI/CD · 多环境 · 自动化发布）\n• **现在** · 跨境支付公司，主导 AI 工程方向，落地 [[SkillAI Hub]]；同时推进个人项目 [[VibeOS]] / [[AI.Aspect]]\n\n工作轨迹：上海 · 深圳 · 北京。\n\n这一路给了我两个底层能力：**把复杂系统做稳**，以及**把工程链路平台化** —— 这两点放到 AI 时代特别能复用，因为 LLM 应用本质上还是分布式系统 + 一条新的研发链路。',
-      followups: ['你的技术栈', '聊聊 VibeOS', '怎么联系你？']
+        '我有 10+ 年研发经验，曾在 **阿里巴巴、拼多多、美团、字节跳动** 做过大型 Web、前端工程、BFF、研发平台、自动化发布和开发者工具。\n\n这些经历最后沉成了几个习惯：\n\n• 先把复杂流程拆清楚\n• 把重复工作做成工具\n• 从界面、服务、CLI 到 CI/CD 能一路接起来\n• 原型跑通后，继续补测试、文档、发布和可维护性\n\n现在这些习惯主要落在 AI 工具链、MCP/RAG、知识自动化和桌面效率工具上。',
+      followups: ['你的技术栈', '做过哪些项目？', '怎么联系你？']
     },
     {
       keys: [/技术栈|skill|stack|技能|擅长|能做什么|tech/i],
       answer:
-        '分四块讲：\n\n**1. LLM 工程** · Prompt / Context Engineering, RAG, Function Calling, 结构化输出, Evals, 可观测性\n**2. Agent 系统与协议** · 多 Agent 编排, Tool Use, **MCP**, A2A, 长上下文记忆, 沙箱执行\n**3. AI-Native 开发流程** · Spec-Driven Dev, Agentic Coding（Claude Code / Cursor）, 代码生成 + 自动评审管线\n**4. 工程地基（10+ 年沉淀）** · TypeScript · React / Vue / Astro · Node / Edge / Serverless · 实时流式 · 系统设计 · 性能 · 0→1 平台与开发者基础设施\n\n前三块是新范式，第四块是"让 AI 真正能上线"的底层能力 —— 两者结合才是我现在做事情的方法。',
-      followups: ['聊聊 VibeOS', 'SkillAI Hub 是什么？']
+        '我的技术栈大概分四组：\n\n**AI 工具链**：MCP、RAG、Tool Calling、结构化输出、文档索引、向量检索、评测和诊断。\n\n**工程实现**：TypeScript、React、Vue、Astro、Node、FastAPI、Python CLI、GitHub Actions、Pages、PyPI。\n\n**桌面与实时体验**：Tauri、Rust、SSE、WebSocket、macOS 窗口和菜单栏应用。\n\n**平台能力**：BFF、自动化发布、DevEx、性能、可观测性、从 0 到 1 的工具产品化。\n\n我不追求把技术栈写得很长，更在意它们能不能合在一起，把一个工具真正做完。',
+      followups: ['Cairn 是什么？', 'MCPort 有什么用？']
+    },
+    {
+      keys: [/项目|作品|github|开源|做过什么|portfolio|projects/i],
+      answer:
+        '主推公开项目如下：\n\n• **Cairn / DocsGraph**：面向 coding agent 的文档索引和 MCP 工具\n• **Lumen Brief**：AI 信息源聚合、Obsidian 笔记和 NotebookLM 资料包\n• **MCPort**：HTTP API 到 MCP Tool 的管理服务\n• **Sotto**：调用本地 AI CLI 的 macOS 桌面小工具\n• **Red Green Light**：把 AI 编码会话状态显示到菜单栏\n• **Luma District**：React Three Fiber 做的 3D 商业街区原型\n\n这些项目覆盖后端、前端、CLI、桌面、自动化和发布，能比较完整地体现我的工程面。',
+      followups: ['Cairn 是什么？', 'Lumen Brief 怎么用？', 'MCPort 有什么用？']
+    },
+    {
+      keys: [/sotto|red green|red-green|桌面|菜单栏|tauri|claude|codex/i],
+      answer:
+        '**Sotto** 和 **Red Green Light** 是两款偏日常使用的桌面工具。\n\nSotto 调用本地 Claude/Codex CLI 生成每日短内容，再用 Tauri 窗口放在桌面层，尽量不打断当前工作。\n\nRed Green Light 接收编码会话 hooks，把 idle、working、waiting 这些状态显示在菜单栏和 SSE 页面里。它解决的是一个很具体的问题：本地 agent 在运行时，不需要一直盯着终端。',
+      followups: ['做过哪些项目？', '你的技术栈']
     },
     {
       keys: [/联系|contact|邮箱|email|微信|wechat|加你|找你|reach/i],
       answer:
-        '可以这样找到我：\n\n• **邮箱** · `827919619@qq.com`\n• **微信** · `N-429228`\n• **GitHub** · `github.com/jokeuncle`\n\n聊合作、技术、或者就是想认识下，都欢迎，通常 24h 内回复。',
+        '可以这样找到我：\n\n• **邮箱** · `827919619@qq.com`\n• **微信** · `N-429228`\n• **GitHub** · `github.com/jokeuncle`\n\n合作、岗位、技术交流都可以。你把背景、目标和当前问题说清楚，我会更快说清楚能怎么帮上忙。',
       followups: ['你是谁？', '合作机会']
     },
     {
       keys: [/教育|学历|大学|毕业|education|school|college|university/i],
       answer:
-        '**上海大学** · 本科全日制。\n\n大学阶段就开始往工程方向用力 —— 实习去了 IBM 和 Ebay，毕业后直接进了阿里巴巴，后来一路走过拼多多 / 美团 / 字节，现在在跨境支付公司主导 AI。\n\n比起学历，我更想强调的是：10+ 年里每一段都在做有挑战的系统 —— 互动游戏、BFF、研发部署平台、AI 平台 —— 不同领域但同一个底层能力：**把复杂的工程链路抽象成可复用的平台**。',
-      followups: ['工作经历', '聊聊 VibeOS']
+        '**上海大学** · 本科。\n\n学历是背景信息。我更希望你同时看我的公开项目：它们能说明我怎么定义问题、怎么写代码、怎么做工具和发布。',
+      followups: ['工作经历', '做过哪些项目？']
     },
     {
       keys: [/年龄|多大|how old|岁/i],
       answer:
-        '32 岁。10+ 年工程经验里，前 8 年在大厂打地基，后面这 2-3 年集中在 AI 工程范式和工具上 —— 现在的我比 25 岁那会儿更想清楚要造什么。',
+        '年龄不是我想放在前面的信息。更值得看的，是 10+ 年工程经验、最近做的 AI 工具链项目，以及这些还在继续长大的作品。',
       followups: ['工作经历', '你的技术栈']
     },
     {
       keys: [/地点|哪里|where|城市|location|city|坐标|base|在哪|工作地/i],
       answer:
-        '工作轨迹在 **上海 · 深圳 · 北京** 之间穿梭过 —— 互联网大厂的几个主要据点都待过。具体当前坐标可以直接问本人（邮箱 / 微信都行）。',
+        '工作轨迹主要在 **上海 · 深圳 · 北京**。具体合作方式和当前安排可以直接联系我确认。',
       followups: ['工作经历', '怎么联系你？']
     },
     {
       keys: [/ai|大模型|llm|gpt|claude|gemini|模型|生成式|看法|怎么看|观点/i],
       answer:
-        '我对 AI 的判断很简单：**这不是又一波技术浪潮，是软件开发本身的基底在换。**\n\n所以我不把它当作"加一个 AI 功能"来做，而是想清楚三层：\n\n1. **流程层** · 怎么让整条 SDLC 从工具协作变成 AI 协作？→ [[VibeOS]]\n2. **范式层** · 怎么让 AI 工程范式被复用、被分发？→ [[AI.Aspect]]\n3. **组织层** · 怎么让一家公司的 AI 物料被治理、被运营？→ [[SkillAI Hub]]\n\n其它技术细节（RAG、agent、eval、MCP、流式…）都是为这三件事服务的零件。',
-      followups: ['聊聊 VibeOS', 'AI.Aspect 是什么？', 'SkillAI Hub 是什么？']
+        '我看 AI 项目会先问几个工程问题：输入是什么，输出给谁用，工具怎么接入，失败怎么处理，能不能被测试和发布。\n\n所以我现在做的项目都尽量落到具体流程：Cairn 让 agent 读文档更准，MCPort 让已有 API 变成工具，Lumen Brief 帮我持续整理信息，桌面工具让本地 AI CLI 更容易融入日常工作。\n\n这也是我希望简历呈现的重点：不是只会调用模型，而是能把模型能力接到真实工作流里。',
+      followups: ['Cairn 是什么？', 'MCPort 有什么用？']
     },
     {
       keys: [/合作|hire|招聘|外包|项目机会|opportunity|offer|挖你|挖我|招你/i],
       answer:
-        '开放合作中 —— 几类比较对胃口：\n\n• **AI 原生工具 / 开发者基础设施**方向的早期项目（创始团队或核心成员）\n• 已有产品要做 **"AI 化改造"**，需要懂工程 + 懂模型的人\n• **企业 AI 平台 / MCP 基础设施**类的咨询或共建\n• 技术合伙 / 顾问 / 短期高强度交付 都可以聊\n\n直接邮件 `827919619@qq.com` 或者微信 `N-429228`，把你想做的事一句话讲清就行 —— 越具体越快回复。',
-      followups: ['怎么联系你？', 'SkillAI Hub 是什么？']
+        '开放合作中。更匹配的方向包括：\n\n• AI 工具、开发者工具、本地自动化、知识库产品\n• 需要把模型能力接入现有流程的产品原型\n• MCP、RAG、CLI、桌面工具、发布流水线相关共建\n• 技术合伙、顾问、短期交付也可以具体看项目\n\n邮件 `827919619@qq.com` 或微信 `N-429228` 都可以。你把目标和当前卡点发我，我会直说能不能推进、怎么推进。',
+      followups: ['怎么联系你？', '做过哪些项目？']
     },
     {
       keys: [/(谢谢|thanks|thank you|多谢|感谢|辛苦)/i],
-      answer: '客气啦 🙏 有任何后续想法，邮箱 / 微信随时都行。'
+      answer: '客气。有后续想法，邮箱或微信都可以继续聊。'
     },
     {
       keys: [/再见|bye|拜拜|goodbye|回头见/i],
-      answer: '回头见 👋 想继续聊随时再打开。'
+      answer: '回头见。想继续聊可以随时再打开。'
     }
   ];
 
   const fallbacks = [
-    '这个问题我没准备好"预制答案"，不过你可以直接邮件 `827919619@qq.com` 或者微信 `N-429228` 问本人 —— 我会很快回复。\n\n或者你也可以问我：项目、技术栈、工作经历、怎么联系。',
-    '抱歉这个问得有点超纲了 🙇 我这版对话主要覆盖：**我是谁 / vibeos / AI.Aspect / 技术栈 / 工作经历 / 联系方式**。其它的直接问本人最靠谱。',
-    '我对这块还没准备答案，要不换个角度？比如问问 vibeos、AI.Aspect、或者技术栈，我能给你更具体的内容。'
+    '这个问题适合直接聊。你可以邮件 `827919619@qq.com` 或微信 `N-429228` 找我。\n\n也可以换个角度问：项目、技术栈、工作经历、怎么联系。',
+    '我目前整理得比较完整的是：**我是谁 / Cairn / Lumen Brief / MCPort / 技术栈 / 项目 / 联系方式**。',
+    '这块我还没有展开。你可以先问 Cairn、Lumen Brief、MCPort，或者直接看项目卡片里的 GitHub 链接。'
   ];
 
   function matchIntent(text: string): Intent | null {
@@ -706,6 +719,16 @@ const greeting =
   const form = document.getElementById('resume-chat-form') as HTMLFormElement | null;
   const input = document.getElementById('resume-chat-input') as HTMLInputElement | null;
   const suggestionsBar = document.getElementById('resume-chat-suggestions') as HTMLDivElement | null;
+  const greetingNode = document.getElementById('resume-chat-greeting') as HTMLScriptElement | null;
+
+  function readGreeting() {
+    if (!greetingNode?.textContent) return '';
+    try {
+      return JSON.parse(greetingNode.textContent) as string;
+    } catch {
+      return greetingNode.textContent;
+    }
+  }
 
   if (!root || !body || !form || !input || !suggestionsBar) {
     console.warn('[ResumeChat] missing elements');
@@ -728,8 +751,7 @@ const greeting =
     setTimeout(() => input?.focus(), 200);
     if (!hasGreeted) {
       hasGreeted = true;
-      const greeting = body?.getAttribute('data-greeting') || '';
-      streamAssistant(greeting);
+      streamAssistant(readGreeting());
     }
   }
 

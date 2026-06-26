@@ -44,18 +44,18 @@
       
       <div class="about-text fade-up stagger-2">
         <p class="about-intro">
-          我是一名 <strong>10+ 年研发经验</strong> 的工程师，正以 <strong>AI 原生</strong> 的方式重新组织自己的能力 —— 把模型变成可靠产品，也把工程链路本身交给 AI 重塑。
+          我是钱磊，一名有 <strong>10+ 年研发经验</strong> 的工程师。以前做复杂 Web 和平台工具，现在更认真地做自己的 AI 工具、自动化系统和桌面效率产品。
         </p>
 
         <p>
-          上海大学本科毕业，先后在 <strong>IBM</strong> 与 <strong>Ebay</strong> 实习，随后正式加入 <strong>阿里巴巴</strong>、<strong>拼多多</strong>、<strong>美团</strong>、<strong>字节跳动</strong>，主导过互动游戏平台、BFF 平台、研发部署平台和高并发系统等多类 0→1 与平台化项目。工作轨迹在 <em>上海 · 深圳 · 北京</em> 之间穿梭。
+          上海大学本科毕业。后来在阿里巴巴、拼多多、美团、字节跳动一路做过大型 Web、前端工程、BFF、研发平台和自动化发布。那段经历给我留下的不是简历标签，而是两件事：把复杂流程拆清楚，把重复工作做成工具。
         </p>
 
         <p>
-          目前在一家<strong>跨境支付公司</strong>主导 AI 工程方向，同时推进个人项目 <strong>VibeOS</strong>（AI 原生 SDLC）与 <strong>AI.Aspect</strong>（AI 工程范式分发），并在公司内部牵头搭建 <strong>SkillAI Hub</strong> —— 公司级 MCP & AI 物料的分发、托管、运营平台。
+          最近我把更多时间放在自己的作品上：<strong>Cairn / DocsGraph</strong> 让文档变成 Agent 可用的上下文，<strong>Lumen Brief</strong> 把 AI 信息源整理进知识库，<strong>MCPort</strong> 把 HTTP API 配成 MCP 工具，<strong>Sotto</strong> 和 <strong>Red Green Light</strong> 则把本地 AI CLI 做进日常桌面。
         </p>
 
-        <div class="company-wall" aria-label="工作过的公司">
+        <div class="evidence-wall" aria-label="过往经历与近期作品">
           <span class="wall-label">Past</span>
           <div class="wall-logos">
             <span class="brand brand-alibaba">Alibaba</span>
@@ -64,10 +64,11 @@
             <span class="brand brand-bytedance">ByteDance</span>
           </div>
           <span class="wall-divider"></span>
-          <div class="wall-internships">
-            <span class="internship-label">Intern</span>
-            <span class="brand brand-ibm">IBM</span>
-            <span class="brand brand-ebay">eBay</span>
+          <div class="wall-side">
+            <span class="side-label">Now</span>
+            <span class="brand brand-cairn">Cairn</span>
+            <span class="brand brand-mcport">MCPort</span>
+            <span class="brand brand-sotto">Sotto</span>
           </div>
         </div>
 
@@ -77,31 +78,31 @@
               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
               <polyline points="22 4 12 14.01 9 11.01"></polyline>
             </svg>
-            <span>10+ 年大厂研发沉淀（阿里 / 拼多多 / 美团 / 字节）</span>
+            <span>阿里巴巴 / 拼多多 / 美团 / 字节跳动等一线工程经历</span>
           </div>
           <div class="highlight-item">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
               <polyline points="22 4 12 14.01 9 11.01"></polyline>
             </svg>
-            <span>AI 原生工程范式 · LLM / Agent / MCP / Evals</span>
+            <span>MCP / RAG / Agent 工具调用 / CLI 自动化</span>
           </div>
           <div class="highlight-item">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
               <polyline points="22 4 12 14.01 9 11.01"></polyline>
             </svg>
-            <span>0→1 平台与开发者基础设施建设</span>
+            <span>从想法、原型、测试到上线页面</span>
           </div>
         </div>
         
-        <button type="button" class="btn btn-secondary about-cta" data-resume-chat aria-label="打开 AI 对话简历">
+        <button type="button" class="btn btn-secondary about-cta" data-resume-chat aria-label="和我聊聊">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
             <path d="M12 7l1.5 3 3 .4-2.2 2.1.5 3-2.8-1.4-2.8 1.4.5-3L7.5 10.4 10.5 10z" fill="currentColor" stroke="none" opacity="0.85"/>
           </svg>
-          与 AI 对话了解我
-          <span class="cta-badge">完整简历</span>
+          和我聊聊
+          <span class="cta-badge">作品</span>
         </button>
       </div>
     </div>
@@ -304,7 +305,7 @@
   }
 
   /* === Company / Logo Wall === */
-  .company-wall {
+  .evidence-wall {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -326,7 +327,7 @@
   }
 
   .wall-logos,
-  .wall-internships {
+  .wall-side {
     display: inline-flex;
     align-items: center;
     gap: 0.85rem;
@@ -358,15 +359,19 @@
     color: var(--text-primary);
   }
 
+  .brand-cairn:hover { color: #22d3ee; border-color: #22d3ee; background: rgba(34, 211, 238, 0.08); }
+  .brand-lumen:hover { color: #f59e0b; border-color: #f59e0b; background: rgba(245, 158, 11, 0.08); }
+  .brand-mcport:hover { color: #8b5cf6; border-color: #8b5cf6; background: rgba(139, 92, 246, 0.08); }
+  .brand-sotto:hover { color: #34d399; border-color: #34d399; background: rgba(52, 211, 153, 0.08); }
+  .brand-rgl:hover { color: #ef4444; border-color: #ef4444; background: rgba(239, 68, 68, 0.08); }
+  .brand-luma:hover { color: #ec4899; border-color: #ec4899; background: rgba(236, 72, 153, 0.08); }
   .brand-alibaba:hover { color: #ff6a00; border-color: #ff6a00; background: rgba(255, 106, 0, 0.08); }
   .brand-pdd:hover { color: #e02e24; border-color: #e02e24; background: rgba(224, 46, 36, 0.08); }
   .brand-meituan:hover { color: #ffd000; border-color: #ffd000; background: rgba(255, 208, 0, 0.08); }
   .brand-bytedance:hover { color: #25f4ee; border-color: #25f4ee; background: rgba(37, 244, 238, 0.08); }
-  .brand-ibm:hover { color: #1f70c1; border-color: #1f70c1; background: rgba(31, 112, 193, 0.08); }
-  .brand-ebay:hover { color: #e53238; border-color: #e53238; background: rgba(229, 50, 56, 0.08); }
 
   @media (max-width: 640px) {
-    .company-wall {
+    .evidence-wall {
       gap: 0.5rem 0.8rem;
       padding: 0.85rem 1rem;
     }

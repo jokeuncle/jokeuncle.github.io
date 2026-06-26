@@ -7,25 +7,25 @@ const ragText =
 
 const skills = [
   {
-    category: 'LLM 工程',
-    tagline: 'Building reliable LLM-powered systems',
+    category: '模型应用与知识系统',
+    tagline: '让回答有来源，工具能长期维护',
     icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M12 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/>
       <path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/>
       <path d="M5 14l.6 1.6L7.2 16l-1.6.4L5 18l-.6-1.6L2.8 16l1.6-.4z"/>
     </svg>`,
     items: [
-      'Prompt / Context Engineering',
-      'RAG · Vector Search · Embeddings',
-      'Function Calling · Structured Output',
-      'Streaming UX · Token-level Control',
-      'Evals · Tracing · Guardrails'
+      'Prompt / Context 设计',
+      'RAG · 向量检索 · 文档切分',
+      'Function Calling · 结构化输出',
+      'Streaming UX · 长任务反馈',
+      '评测 · 追踪 · 失败兜底'
     ],
     color: '#6366f1'
   },
   {
-    category: 'Agent 系统与协议',
-    tagline: 'Composable agents that ship work',
+    category: 'Agent 与工具协议',
+    tagline: '让模型能清楚、安全地调用工具',
     icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="2.5"/>
       <circle cx="4" cy="6" r="2"/>
@@ -35,17 +35,17 @@ const skills = [
       <path d="M9.7 10.7L5.4 7.4M14.3 10.7l4.3-3.3M9.7 13.3l-4.3 3.3M14.3 13.3l4.3 3.3"/>
     </svg>`,
     items: [
-      'Multi-Agent Orchestration',
-      'Tool Use · MCP · A2A',
-      'Stateful Memory · Long-Context',
-      'Planning · Reflection · Routing',
-      'Sandboxed Execution · Recovery'
+      'MCP · Tool Use · typed schema',
+      'HTTP API 到 MCP Tool 桥接',
+      '长上下文资料组织',
+      '任务规划 · 路由 · 回退',
+      '本地执行 · 日志 · 诊断'
     ],
     color: '#22d3ee'
   },
   {
-    category: 'AI-Native 开发流程',
-    tagline: 'Reshaping the SDLC with AI in the loop',
+    category: '自动化工作流',
+    tagline: '把重复工作做成命令、脚本和发布流程',
     icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <rect x="2" y="3" width="20" height="14" rx="2"/>
       <polyline points="6 8 9 11 6 14"/>
@@ -53,17 +53,17 @@ const skills = [
       <path d="M19 19l.6 1.5L21 21l-1.4.5L19 23l-.6-1.5L17 21l1.4-.5z"/>
     </svg>`,
     items: [
-      'Spec-Driven Development',
-      'Agentic Coding (Claude Code · Cursor)',
-      'Codegen · Auto-Review Pipelines',
-      'Eval-Driven Iteration',
-      'AI Workflow as Versioned Artifact'
+      'CLI 产品设计与参数建模',
+      'GitHub Actions · Pages · PyPI',
+      'Obsidian / NotebookLM 内容流',
+      '本地 hooks · 定时任务 · smoke test',
+      '安装、升级、doctor 诊断'
     ],
     color: '#8b5cf6'
   },
   {
     category: '工程地基 · 10+ 年',
-    tagline: 'The fullstack craft that makes AI shippable',
+    tagline: '把原型做成能上线的工具',
     icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <polygon points="12 2 22 8.5 12 15 2 8.5"/>
       <polyline points="2 13 12 19.5 22 13"/>
@@ -74,7 +74,7 @@ const skills = [
       'Node · Edge · Serverless · BFF',
       'Real-time · WebSocket · SSE · Streaming',
       'System Design · Performance · Observability',
-      '0→1 Product · DevEx · Platform Engineering'
+      '0→1 产品 · DevEx · 平台工具'
     ],
     color: '#ec4899'
   }
@@ -85,14 +85,14 @@ const skills = [
   <BgText text={ragText} duration={12} opacity={0.5} fade={0.9} stripe={['rgba(34, 211, 238, 0.5)', 'rgba(139, 92, 246, 0.95)', 'rgba(236, 72, 153, 0.6)']} angle={100} />
   <div class="container">
     <div class="section-header fade-up">
-      <span class="section-tag">技术栈 · AI Era</span>
+      <span class="section-tag">技术栈 · Stack</span>
       <h2 class="section-title">
-        <span class="gradient-text">以 AI 原生方式</span>
+        <span class="gradient-text">围绕实际项目</span>
         <br />
-        <span>重新组织的工程能力</span>
+        <span>重新整理的工程能力</span>
       </h2>
       <p class="section-desc">
-        10+ 年大厂研发沉淀的工程地基 × LLM 时代的新范式 —— 既能把模型变成可靠产品，也能让工程链路被 AI 重塑。
+        我不太喜欢孤立地罗列技术名词。更关心它们放进真实流程里之后，能不能让人少一步、稳一点、清楚一点。
       </p>
     </div>
 

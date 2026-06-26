@@ -44,12 +44,12 @@ const socialLinks = [
       <div class="contact-info fade-up">
         <span class="section-tag">联系我 · Reach Out</span>
         <h2 class="section-title">
-          <span class="gradient-text">把机会</span>
+          <span class="gradient-text">聊聊项目</span>
           <br />
-          <span>抛过来</span>
+          <span>或合适的位置</span>
         </h2>
         <p class="contact-desc">
-          AI 原生项目、技术合作、合伙创业、或者只是想聊聊 LLM / Agent / 工程范式 —— 都欢迎直接找我。通常 24h 内回复。
+          如果你在做 AI 工具、开发者工具、知识库、自动化或桌面效率产品，可以直接联系我。把事情讲具体，我会直说能不能帮上忙。
         </p>
         
         <div class="social-links">
@@ -102,7 +102,7 @@ const socialLinks = [
             <span></span>
             <span></span>
           </div>
-          <span class="card-title">i-want-you.sh</span>
+          <span class="card-title">contact-lei.sh</span>
           <span class="card-status">
             <span class="card-status-dot"></span>
             ready to receive
@@ -111,28 +111,27 @@ const socialLinks = [
 
         <form class="contact-form" id="contact-form" data-target-email={EMAIL}>
           <div class="form-intro">
-            <span class="form-intro-eyebrow">RECRUITER MODE</span>
+            <span class="form-intro-eyebrow">CONTACT</span>
             <h3 class="form-intro-title">
-              <span class="point-emoji" aria-hidden="true">🫵</span>
-              <span class="gradient-text">I want you</span>
-              <span>, Lei.</span>
+              <span class="gradient-text">把项目背景</span>
+              <span>发给我</span>
             </h3>
-            <p class="form-intro-desc">把你想给我的机会、合作、或者只是想聊的话题写下来 —— 这条消息会带着你预填好的内容直接飞向我的邮箱。</p>
+            <p class="form-intro-desc">简单说明你的场景、目标和希望我参与的部分。能做我会直说，暂时不合适也会直说。</p>
           </div>
 
           <div class="form-group">
-            <label for="name">你是 / Your name</label>
-            <input type="text" id="name" name="name" placeholder="比如：某某 · 某团队负责人" required />
+            <label for="name">你的姓名 / 团队</label>
+            <input type="text" id="name" name="name" placeholder="比如：某某 · 某团队" required />
           </div>
 
           <div class="form-group">
-            <label for="email">回信地址 / Your email</label>
+            <label for="email">回信邮箱</label>
             <input type="email" id="email" name="email" placeholder="your@email.com" required />
           </div>
 
           <div class="form-group">
-            <label for="message">想给我的机会 / Pitch</label>
-            <textarea id="message" name="message" rows="4" placeholder="一句话讲清你的场景 + 你想让我做什么 —— 越具体越快回复。" required></textarea>
+            <label for="message">项目 / 岗位 / 合作说明</label>
+            <textarea id="message" name="message" rows="4" placeholder="说清楚场景、目标、当前卡点，以及你希望我参与的部分。" required></textarea>
           </div>
 
           <button type="submit" class="btn btn-primary submit-btn">
@@ -140,9 +139,9 @@ const socialLinks = [
               <line x1="22" y1="2" x2="11" y2="13"></line>
               <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
             </svg>
-            <span class="submit-main">I Want You · 把机会发给我</span>
+            <span class="submit-main">发送合作信息</span>
           </button>
-          <p class="form-hint">提交会打开你的邮件客户端，内容预填好直发到 <code>{EMAIL}</code> · 通常 24h 内回复</p>
+          <p class="form-hint">提交会打开你的邮件客户端，内容预填好发送到 <code>{EMAIL}</code></p>
         </form>
 
         <div class="card-glow"></div>
@@ -352,7 +351,7 @@ const socialLinks = [
     animation: pulse-glow 2s ease-in-out infinite;
   }
 
-  /* === I Want You intro === */
+  /* === Contact intro === */
   .form-intro {
     margin-bottom: 0.5rem;
     padding-bottom: 1.25rem;

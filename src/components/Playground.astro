@@ -1,18 +1,18 @@
 ---
-// Playground - an interactive terminal-style demo of AI.Aspect.
-// It mocks the CLI experience so visitors can "feel" the concept.
+// Playground - an interactive terminal-style demo of public AI tools.
+// It mocks several commands so visitors can feel the workflow.
 ---
 
-<section class="playground section" id="playground" aria-label="AI.Aspect Playground">
+<section class="playground section" id="playground" aria-label="AI toolchain playground">
   <div class="container">
     <div class="section-header fade-up">
       <span class="section-tag">Playground · 摸一下</span>
       <h2 class="section-title">
         <span class="gradient-text">在终端里感受</span>
-        <span class="title-cn">AI.Aspect</span>
+        <span class="title-cn">作品怎么跑</span>
       </h2>
       <p class="section-desc">
-        与其听我描述"像 Docker 镜像一样分发 AI 工程范式"，不如点几个命令亲手试一下。下面是一个 mock 但语义真实的 CLI 会话。
+        我把几个公开项目压成了终端演示：索引文档、暴露工具、整理资料、导入 API。真实代码和发布记录都在项目卡片里。
       </p>
     </div>
 
@@ -21,7 +21,7 @@
         <div class="bar-dots">
           <span></span><span></span><span></span>
         </div>
-        <span class="bar-title">ai-aspect · interactive demo</span>
+        <span class="bar-title">jokeuncle-tools · interactive demo</span>
         <span class="bar-status">
           <span class="status-led"></span>
           mock mode
@@ -29,23 +29,23 @@
       </div>
 
       <div class="terminal-body" id="playground-body" aria-live="polite">
-        <div class="line line-comment"># 试试这些命令，看看 AI 工程范式像依赖一样被拉下来是什么感觉</div>
+        <div class="line line-comment"># 点几个命令，看看这些公开项目大概解决什么问题</div>
         <div class="line line-comment"># —— 点击右侧或下方的命令运行</div>
         <div class="line line-prompt"><span class="prompt-prefix">~/jokeuncle</span> <span class="prompt-arrow">›</span> <span class="prompt-cursor">▍</span></div>
       </div>
 
       <div class="terminal-chips" id="playground-chips">
-        <button type="button" class="cmd-chip" data-cmd="aspect search code-review">
-          <span class="chip-key">$</span> aspect search code-review
+        <button type="button" class="cmd-chip" data-cmd="docsgraph init --repo .">
+          <span class="chip-key">$</span> docsgraph init --repo .
         </button>
-        <button type="button" class="cmd-chip" data-cmd="aspect pull lei/code-review">
-          <span class="chip-key">$</span> aspect pull lei/code-review
+        <button type="button" class="cmd-chip" data-cmd="docsgraph serve --mcp">
+          <span class="chip-key">$</span> docsgraph serve --mcp
         </button>
-        <button type="button" class="cmd-chip" data-cmd="aspect run lei/code-review --pr 1234">
-          <span class="chip-key">$</span> aspect run lei/code-review --pr 1234
+        <button type="button" class="cmd-chip" data-cmd="yo brief --today --notebooklm">
+          <span class="chip-key">$</span> yo brief --today --notebooklm
         </button>
-        <button type="button" class="cmd-chip" data-cmd="aspect inspect lei/code-review">
-          <span class="chip-key">$</span> aspect inspect lei/code-review
+        <button type="button" class="cmd-chip" data-cmd="mcport import openapi.yaml">
+          <span class="chip-key">$</span> mcport import openapi.yaml
         </button>
         <button type="button" class="cmd-chip cmd-chip-secondary" data-cmd="__clear">
           <span class="chip-key">⌫</span> clear
@@ -54,7 +54,7 @@
     </div>
 
     <p class="playground-note fade-up">
-      <span>这不是真实 CLI —— 但 <strong>schema、流程、输出形态都是我对 AI.Aspect 的真实设想</strong>。想看真实版本可以 <a href="#contact">直接找我聊</a>。</span>
+      <span>这里展示的是流程和输出形态。要看真实实现，可以从项目卡片进入 GitHub。</span>
     </p>
   </div>
 </section>
@@ -349,72 +349,58 @@
   type Line = { text: string; cls?: string };
 
   const responses: Record<string, Line[]> = {
-    'aspect search code-review': [
-      { text: 'Searching aspects on registry.ai-aspect.io …', cls: 'line-dim' },
+    'docsgraph init --repo .': [
+      { text: 'Scanning repository docs ...', cls: 'line-dim' },
+      { text: '  README.md                 parsed', cls: 'line-success' },
+      { text: '  docs/*.md                 parsed', cls: 'line-success' },
+      { text: '  papers/*.pdf              text extracted', cls: 'line-success' },
       { text: '' },
-      { text: 'NAME                          STARS   PULLS    LATEST   SUMMARY', cls: 'line-key' },
-      { text: 'lei/code-review               ★ 4.9   12,431   v1.4.2   Multi-stage code review (lint→sec→perf→arch)', cls: 'line-value' },
-      { text: 'anthropic/code-review-base    ★ 4.8   38,902   v2.1.0   Reference review aspect bundled with Claude', cls: 'line-value' },
-      { text: 'oss/pr-summary                ★ 4.6    8,712   v0.9.0   Concise PR summary + risk flags', cls: 'line-value' },
+      { text: 'Index layers', cls: 'line-key' },
+      { text: '  tree      sections and headings', cls: 'line-value' },
+      { text: '  summary   gist and synopsis', cls: 'line-value' },
+      { text: '  entities  terms, code names, proper names', cls: 'line-value' },
+      { text: '  xref      links and mentions', cls: 'line-value' },
+      { text: '  vector    semantic search chunks', cls: 'line-value' },
       { text: '' },
-      { text: 'Found 3 aspects · 19,945 keys indexed · search took 38ms', cls: 'line-dim' }
+      { text: 'done: .cairn/index is ready for local agent clients', cls: 'line-success' }
     ],
-    'aspect pull lei/code-review': [
-      { text: 'Resolving lei/code-review …', cls: 'line-dim' },
-      { text: '  └─ manifest:  aspect.yaml      ✓ 1.4 KB', cls: 'line-success' },
-      { text: '  └─ prompts:   review.prompt   ✓ 8.2 KB · 4 staged turns', cls: 'line-success' },
-      { text: '  └─ tools:     git, eslint, semgrep, perf-probe  ✓ 4 declared', cls: 'line-success' },
-      { text: '  └─ evals:     12 cases · pass-rate 96.3%', cls: 'line-success' },
-      { text: '  └─ context:   rules/, examples/, refs/  ✓ 22 files', cls: 'line-success' },
+    'docsgraph serve --mcp': [
+      { text: 'Starting DocsGraph MCP server ...', cls: 'line-info' },
+      { text: 'transport: stdio', cls: 'line-dim' },
       { text: '' },
-      { text: '[████████████████████████] 100%   ·   verified by sigstore', cls: 'line-info' },
+      { text: 'tools exposed', cls: 'line-key' },
+      { text: '  list_documents     list indexed docs', cls: 'line-value' },
+      { text: '  search_documents   ranked section search', cls: 'line-value' },
+      { text: '  repo_context       compact context pack', cls: 'line-value' },
+      { text: '  repo_graph         docs relationship map', cls: 'line-value' },
+      { text: '  repo_impact        affected docs surface', cls: 'line-value' },
       { text: '' },
-      { text: '✓ Pulled lei/code-review@1.4.2 (38.4 KB, 0.8s)', cls: 'line-success' },
-      { text: '  Compatible clients: claude · cursor · vscode-mcp · openai-agent · custom', cls: 'line-dim' },
-      { text: '', },
-      { text: '  → run with `aspect run lei/code-review --on <target>`', cls: 'line-dim' }
+      { text: 'ready: connect from Codex, Claude Code, Cursor, Goose, or any MCP client', cls: 'line-success' }
     ],
-    'aspect run lei/code-review --pr 1234': [
-      { text: '▸ Loading aspect lei/code-review@1.4.2', cls: 'line-info' },
-      { text: '▸ Binding to client: claude-3.7-sonnet via MCP', cls: 'line-info' },
-      { text: '▸ Fetching PR #1234 metadata … 23 files · +412/-87', cls: 'line-info' },
+    'yo brief --today --notebooklm': [
+      { text: 'Collecting sources ...', cls: 'line-info' },
+      { text: '  labs blogs, arXiv, GitHub trending, HN, LocalLLaMA', cls: 'line-dim' },
+      { text: 'Ranking high-signal items ...', cls: 'line-info' },
+      { text: 'Writing outputs ...', cls: 'line-info' },
       { text: '' },
-      { text: 'Stage 1 · LINT     [▓▓▓▓▓▓▓▓▓▓] done  · 4 minor', cls: 'line-success' },
-      { text: 'Stage 2 · SEC      [▓▓▓▓▓▓▓▓▓▓] done  · 1 high (sql-injection-risk)', cls: 'line-warn' },
-      { text: 'Stage 3 · PERF     [▓▓▓▓▓▓▓▓▓▓] done  · n+1 query in users.controller.ts', cls: 'line-warn' },
-      { text: 'Stage 4 · ARCH     [▓▓▓▓▓▓▓▓▓▓] done  · 2 suggestions on layering', cls: 'line-success' },
+      { text: '  card.md              daily push card', cls: 'line-success' },
+      { text: '  preview.html          readable browser view', cls: 'line-success' },
+      { text: '  obsidian/*.md         long-term notes', cls: 'line-success' },
+      { text: '  notebooklm-pack/      source bundle', cls: 'line-success' },
       { text: '' },
-      { text: '────────── Review Summary ──────────', cls: 'line-key' },
-      { text: '  Verdict:        REQUEST CHANGES', cls: 'line-warn' },
-      { text: '  Confidence:     0.91', cls: 'line-value' },
-      { text: '  Critical:       1   ·  Major: 2   ·  Minor: 4', cls: 'line-value' },
-      { text: '  Tokens used:    18,402 in · 3,118 out  ($0.038)', cls: 'line-dim' },
-      { text: '  Trace:          aspect://run/3f8c2e1a  (replay any time)', cls: 'line-dim' },
-      { text: '' },
-      { text: '✓ Review posted to PR #1234 · 7 inline comments', cls: 'line-success' }
+      { text: 'done: today brief archived and ready to review', cls: 'line-success' }
     ],
-    'aspect inspect lei/code-review': [
-      { text: '# aspect.yaml — lei/code-review@1.4.2', cls: 'line-comment' },
-      { text: 'name:        lei/code-review', cls: 'line-key' },
-      { text: 'version:     1.4.2', cls: 'line-value' },
-      { text: 'kind:        agent.workflow', cls: 'line-value' },
-      { text: 'description: Multi-stage code review with explainable verdict', cls: 'line-value' },
-      { text: '', },
-      { text: 'inputs:', cls: 'line-key' },
-      { text: '  - name: target   type: git.pr | file.diff', cls: 'line-value' },
-      { text: '  - name: depth    type: enum(lite,standard,deep)  default: standard', cls: 'line-value' },
-      { text: '', },
-      { text: 'tools:', cls: 'line-key' },
-      { text: '  - mcp: git · eslint · semgrep · perf-probe', cls: 'line-value' },
-      { text: '', },
-      { text: 'stages:', cls: 'line-key' },
-      { text: '  - lint   { model: haiku, parallel: true }', cls: 'line-value' },
-      { text: '  - sec    { model: sonnet, tools: [semgrep] }', cls: 'line-value' },
-      { text: '  - perf   { model: sonnet, tools: [perf-probe] }', cls: 'line-value' },
-      { text: '  - arch   { model: opus,   context: refs/ }', cls: 'line-value' },
-      { text: '', },
-      { text: 'evals:       12 cases · pass-rate 96.3% · last run 3h ago', cls: 'line-dim' },
-      { text: 'compat:      claude>=3.5 · cursor>=0.45 · any-mcp-client', cls: 'line-dim' }
+    'mcport import openapi.yaml': [
+      { text: 'Reading OpenAPI document ...', cls: 'line-info' },
+      { text: '  14 paths · 37 operations', cls: 'line-dim' },
+      { text: 'Creating endpoint drafts ...', cls: 'line-info' },
+      { text: '' },
+      { text: 'mapped tools', cls: 'line-key' },
+      { text: '  get_user_profile      GET /users/{id}', cls: 'line-value' },
+      { text: '  search_documents      POST /search', cls: 'line-value' },
+      { text: '  create_ticket         POST /tickets', cls: 'line-value' },
+      { text: '' },
+      { text: 'next: review auth profile, test calls, then enable /mcp runtime', cls: 'line-warn' }
     ]
   };
 
