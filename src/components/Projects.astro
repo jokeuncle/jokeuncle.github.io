@@ -28,7 +28,7 @@ const featuredProjects = [
       '一个面向个人学习的自动化简报 CLI。它聚合 AI 研究、开源模型、工具和岗位趋势，输出卡片、HTML 预览、Obsidian 笔记、NotebookLM 资料包和每日归档。',
     status: '日常运行',
     statusType: 'building',
-    link: 'https://github.com/jokeuncle/aibrief',
+    link: 'https://github.com/jokeuncle/lumen-brief',
     glyph: 'LB',
     tags: ['CLI', 'Obsidian', 'NotebookLM', 'Automation'],
     color: '#22d3ee',
@@ -78,6 +78,19 @@ const workProjects = [
     color: '#ec4899'
   },
   {
+    title: 'Lumen Atelier · AI Infra 源码学习',
+    description: '一个 90 天、source-code-first 的学习项目，围绕 vLLM/SGLang internals、MLX、Metal kernels 和 Apple Silicon 推理实验做持续记录。',
+    metrics: [
+      { label: '周期', value: '90 天' },
+      { label: '方法', value: '源码优先' },
+      { label: '方向', value: 'AI Infra' }
+    ],
+    link: 'https://github.com/jokeuncle/lumen-atelier',
+    icon: 'LA',
+    tags: ['vLLM', 'SGLang', 'MLX', 'Metal'],
+    color: '#a78bfa'
+  },
+  {
     title: 'Luma District · 3D 商业街区原型',
     description: 'React Three Fiber 做的 3D 商业街区原型，把铺位、商家、货架、营销位、购物车和 WebXR 入口放进同一个体验里。',
     metrics: [
@@ -123,6 +136,8 @@ const workProjects = [
       {featuredProjects.map((project, index) => (
         <a
           href={project.link}
+          target="_blank"
+          rel="noopener noreferrer"
           class={`featured-card fade-up stagger-${index + 1}`}
           style={`--project-color: ${project.color}; --project-accent: ${project.accent};`}
         >
@@ -171,6 +186,8 @@ const workProjects = [
       {workProjects.map((project, index) => (
         <a
           href={project.link}
+          target="_blank"
+          rel="noopener noreferrer"
           class={`project-card fade-up stagger-${index + 1}`}
           style={`--project-color: ${project.color}`}
         >

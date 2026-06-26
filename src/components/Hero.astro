@@ -1,5 +1,5 @@
 ---
-// Hero Component - 3D floating background with typewriter effect
+// Hero Component - animated text background with typewriter effect
 import BgText from '@/components/BgText.astro';
 
 const roles = ['AI 工具开发者', '自动化实践者', '前端工程师', '长期主义 Builder'];
@@ -11,7 +11,6 @@ const transformerText =
 <section class="hero" id="home">
   <!-- Background Effects -->
   <div class="hero-bg">
-    <div class="three-bg" id="three-bg" aria-hidden="true"></div>
     <div class="gradient-orb orb-1"></div>
     <div class="gradient-orb orb-2"></div>
     <div class="gradient-orb orb-3"></div>
@@ -23,7 +22,7 @@ const transformerText =
   <div class="hero-content container">
     <div class="hero-badge fade-up">
       <span class="badge-dot"></span>
-      <span>开放合作中</span>
+      <span>开放工作机会</span>
     </div>
     
     <h1 class="hero-title fade-up stagger-1">
@@ -68,7 +67,7 @@ const transformerText =
       </div>
       <div class="stat-divider"></div>
       <div class="stat">
-        <span class="stat-value">6+</span>
+        <span class="stat-value">8+</span>
         <span class="stat-label">公开项目</span>
       </div>
       <div class="stat-divider"></div>
@@ -155,22 +154,6 @@ const transformerText =
     left: 50%;
     transform: translate(-50%, -50%);
     animation-delay: -5s;
-  }
-  
-  .three-bg {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    opacity: 0.9;
-    filter: saturate(1.1) contrast(1.05);
-    transform: translateZ(0);
-  }
-
-  .three-bg canvas {
-    width: 100% !important;
-    height: 100% !important;
-    display: block;
   }
   
   .grid-overlay {
@@ -480,11 +463,6 @@ const transformerText =
 </style>
 
 <script>
-  // Astro hoists this module script so Vite can transform the `import 'three'`
-  // and rewrite bare specifiers. Avoid `define:vars` here — it would force the
-  // script to render inline, breaking module resolution in the browser.
-  import * as THREE from 'three';
-
   // Typewriter Effect
   class Typewriter {
     constructor(element, words, wait = 3000) {
@@ -542,201 +520,4 @@ const transformerText =
     }
     new Typewriter(typewriterEl, roles, 2000);
   });
-
-  // Three.js background
-  async function initThreeBackground() {
-    const container = document.getElementById('three-bg');
-    if (!container) return;
-
-    const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
-    if (prefersReducedMotion) {
-      container.style.display = 'none';
-      return;
-    }
-
-    const renderer = new THREE.WebGLRenderer({
-      antialias: true,
-      alpha: true,
-      powerPreference: 'high-performance',
-    });
-
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 200);
-    camera.position.set(0, 0, 18);
-
-    // Add a subtle fog for depth
-    scene.fog = new THREE.Fog(0x0a0a0f, 18, 55);
-
-    // Lights
-    scene.add(new THREE.AmbientLight(0xffffff, 0.35));
-
-    const keyLight = new THREE.DirectionalLight(0xffffff, 0.95);
-    keyLight.position.set(6, 10, 14);
-    scene.add(keyLight);
-
-    const rimLight = new THREE.DirectionalLight(0x22d3ee, 0.55);
-    rimLight.position.set(-10, -4, 10);
-    scene.add(rimLight);
-
-    const magentaLight = new THREE.PointLight(0xec4899, 1.1, 60);
-    magentaLight.position.set(8, -6, 6);
-    scene.add(magentaLight);
-
-    // Materials
-    const materialA = new THREE.MeshPhysicalMaterial({
-      color: 0x6366f1,
-      roughness: 0.25,
-      metalness: 0.65,
-      clearcoat: 1,
-      clearcoatRoughness: 0.2,
-      transmission: 0.05,
-      thickness: 1.0,
-    });
-
-    const materialB = new THREE.MeshPhysicalMaterial({
-      color: 0x22d3ee,
-      roughness: 0.18,
-      metalness: 0.45,
-      clearcoat: 1,
-      clearcoatRoughness: 0.15,
-      transmission: 0.06,
-      thickness: 1.0,
-    });
-
-    // Geometries
-    const geometries = [
-      new THREE.TorusKnotGeometry(1.6, 0.42, 220, 28),
-      new THREE.IcosahedronGeometry(1.6, 1),
-      new THREE.OctahedronGeometry(1.7, 0),
-      new THREE.TorusGeometry(1.6, 0.36, 24, 160),
-    ];
-
-    const meshes = [];
-    const count = 7;
-    for (let i = 0; i < count; i++) {
-      const geo = geometries[i % geometries.length];
-      const mat = i % 2 === 0 ? materialA : materialB;
-      const mesh = new THREE.Mesh(geo, mat);
-
-      const angle = (i / count) * Math.PI * 2;
-      const radius = 3.8 + Math.random() * 4.2;
-      mesh.position.set(
-        Math.cos(angle) * radius,
-        (Math.random() - 0.5) * 3.6,
-        Math.sin(angle) * radius - 4
-      );
-
-      const s = 0.28 + Math.random() * 0.55;
-      mesh.scale.setScalar(s);
-      mesh.rotation.set(
-        Math.random() * Math.PI,
-        Math.random() * Math.PI,
-        Math.random() * Math.PI
-      );
-
-      mesh.userData = {
-        rot: 0.003 + Math.random() * 0.006,
-        float: 0.2 + Math.random() * 0.45,
-        baseY: mesh.position.y,
-      };
-
-      scene.add(mesh);
-      meshes.push(mesh);
-    }
-
-    // Resize + attach
-    function resize() {
-      const rect = container.getBoundingClientRect();
-      const w = Math.max(1, Math.floor(rect.width));
-      const h = Math.max(1, Math.floor(rect.height));
-      renderer.setSize(w, h, false);
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-    }
-
-    container.innerHTML = '';
-    container.appendChild(renderer.domElement);
-    resize();
-
-    // Interaction
-    let targetX = 0;
-    let targetY = 0;
-
-    function onPointerMove(e) {
-      const rect = container.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width;
-      const y = (e.clientY - rect.top) / rect.height;
-      targetX = (x - 0.5) * 1.6;
-      targetY = (y - 0.5) * 1.2;
-    }
-
-    window.addEventListener('pointermove', onPointerMove, { passive: true });
-
-    // Visibility-aware loop
-    let raf = 0;
-    let running = true;
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        running = entries.some((en) => en.isIntersecting);
-        if (running && !raf) loop();
-      },
-      { threshold: 0.01 }
-    );
-
-    io.observe(container);
-
-    const clock = new THREE.Clock();
-
-    function loop() {
-      if (!running) {
-        raf = 0;
-        return;
-      }
-
-      raf = requestAnimationFrame(loop);
-
-      const t = clock.getElapsedTime();
-
-      camera.position.x += (targetX - camera.position.x) * 0.03;
-      camera.position.y += (-targetY - camera.position.y) * 0.03;
-      camera.lookAt(0, 0, 0);
-
-      meshes.forEach((m, idx) => {
-        m.rotation.x += m.userData.rot * 0.7;
-        m.rotation.y += m.userData.rot;
-        m.position.y = m.userData.baseY + Math.sin(t * m.userData.float + idx) * 0.25;
-      });
-
-      renderer.render(scene, camera);
-    }
-
-    // Resize observer
-    const ro = new ResizeObserver(() => resize());
-    ro.observe(container);
-
-    // Start
-    loop();
-
-    // Cleanup
-    window.addEventListener('pagehide', () => {
-      try {
-        cancelAnimationFrame(raf);
-        io.disconnect();
-        ro.disconnect();
-        window.removeEventListener('pointermove', onPointerMove);
-        renderer.dispose();
-        meshes.forEach((m) => {
-          m.geometry.dispose?.();
-          m.material.dispose?.();
-        });
-      } catch {
-        // ignore
-      }
-    });
-  }
-
-  initThreeBackground();
 </script>

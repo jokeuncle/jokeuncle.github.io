@@ -5,16 +5,16 @@
 
 const suggestions = [
   '你是谁？',
+  '工作经历',
   'Cairn 是什么？',
-  'Lumen Brief 怎么用？',
-  'MCPort 有什么用？',
+  'Lumen Atelier',
   '做过哪些项目？',
-  '怎么联系你？'
+  '岗位机会'
 ];
 
 // Initial greeting shown when the chat opens
 const greeting =
-  '你好，我是 Lei。10+ 年工程经验，最近主要做 AI 工具、MCP/RAG、信息自动化和桌面效率工具。\n\n我喜欢把想法做成能跑的东西：有入口、有命令、有发布记录，也有继续打磨的空间。你可以问我的项目、技术栈、合作方式或联系方式。';
+  '你好，我是 Lei。你可以直接问我做过什么、适合什么岗位、公开项目在哪里、怎么联系。\n\n我有 10+ 年工程经验，过去在阿里巴巴、拼多多、美团、字节跳动做过互动业务、BFF、研发平台和自动化发布；最近主要做 AI 工具、MCP/RAG、信息自动化和桌面效率产品。';
 ---
 
 <div class="resume-chat" id="resume-chat" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="resume-chat-title">
@@ -37,7 +37,7 @@ const greeting =
           </h2>
           <div class="chat-status">
             <span class="status-led"></span>
-            在线 · 项目、经验、合作方式
+            在线 · 简历、项目、岗位机会
           </div>
         </div>
       </div>
@@ -70,7 +70,7 @@ const greeting =
           type="text"
           id="resume-chat-input"
           name="message"
-          placeholder="问项目、技术栈或合作方式 …"
+          placeholder="问经历、项目或岗位匹配 …"
           aria-label="输入问题"
           autocomplete="off"
         />
@@ -84,7 +84,7 @@ const greeting =
     </form>
 
     <div class="chat-footer">
-      <span class="footer-hint">想深入聊具体项目 · 直接 <button type="button" class="footer-link" data-resume-chat-action="contact">看联系方式</button></span>
+      <span class="footer-hint">想正式聊岗位或项目 · 直接 <button type="button" class="footer-link" data-resume-chat-action="contact">看联系方式</button></span>
     </div>
   </div>
 </div>
@@ -387,6 +387,16 @@ const greeting =
     font-weight: 600;
   }
 
+  .msg-bubble a {
+    color: var(--accent-cyan);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .msg-bubble a:hover {
+    color: var(--text-primary);
+  }
+
   /* Blinking caret while AI is streaming */
   .msg-bubble.streaming::after {
     content: '▍';
@@ -596,50 +606,56 @@ const greeting =
     {
       keys: [/^(你好|您好|hi|hello|hey|嗨|在吗|哈喽)/i],
       answer:
-        '你好，我是 **Lei**。我有 10+ 年工程经验，最近主要做 AI 工具、MCP/RAG、信息自动化和桌面效率工具。\n\n我比较在意一件事：想法最后要落到能用的工具里。你可以问我具体项目、技术栈、合作方式，或者直接看 GitHub。',
-      followups: ['你是谁？', 'Cairn 是什么？', '你的技术栈']
+        '你好，我是 **Lei**。我有 10+ 年工程经验，过去在阿里巴巴、拼多多、美团、字节跳动做过互动业务、BFF、研发平台和自动化发布；最近主要做 AI 工具、MCP/RAG、信息自动化和桌面效率产品。\n\n你可以直接问我：工作经历、项目、技术栈、适合什么岗位、怎么联系。',
+      followups: ['工作经历', '做过哪些项目？', '岗位机会']
     },
     {
       keys: [/你是谁|介绍.*你|介绍.*自己|about you|who are you|介绍下/i],
       answer:
-        '我是 **Lei**（钱磊），上海大学本科，10+ 年研发经验。\n\n我的优势不是单点技术，而是把一个想法做成能运行的工具：需求拆解、前端体验、后端接口、CLI、自动化、测试、发布和文档都能覆盖。\n\n最近我主要做几类作品：\n\n• **Cairn / DocsGraph**：让 coding agent 更准确地读取项目文档\n• **Lumen Brief**：把 AI 信息源自动整理到个人知识库\n• **MCPort**：把 HTTP API 配置成 MCP tools\n• **Sotto / Red Green Light**：把本地 AI CLI 的内容和状态做成桌面体验\n\n我不太想把自己包装成一个很抽象的 title。我的特点更像是：看见一个流程不顺，就会想办法把它做成工具。',
-      followups: ['Cairn 是什么？', 'Lumen Brief 怎么用？', 'MCPort 有什么用？']
+        '我是 **Lei**（钱磊），上海大学本科，10+ 年研发经验。\n\n我的优势不是只会某个框架，而是能把一个想法做成能运行、能发布、能继续维护的工具：需求拆解、前端体验、后端接口、CLI、自动化、测试、文档和发布都能接起来。\n\n最近我主要做几类公开作品：\n\n• [Cairn / DocsGraph](https://github.com/jokeuncle/cairn)：让 coding agent 更准确地读取项目文档\n• [Lumen Brief](https://github.com/jokeuncle/lumen-brief)：把 AI 信息源自动整理到个人知识库\n• [Lumen Atelier](https://github.com/jokeuncle/lumen-atelier)：90 天源码优先的 AI Infra 学习，覆盖 vLLM/SGLang、MLX、Metal kernels、GGUF/BPE 和 benchmark\n• [MCPort](https://github.com/jokeuncle/mcport)：把 HTTP API 配置成 MCP tools\n• [Sotto](https://github.com/jokeuncle/sotto) / [Red Green Light](https://github.com/jokeuncle/red-green-light)：把本地 AI CLI 的内容和状态做成桌面体验\n\n我不太想把自己包装成一个很抽象的 title。我的特点更像是：看见一个流程不顺，就会想办法把它做成工具。',
+      followups: ['工作经历', 'Cairn 是什么？', '岗位机会']
     },
     {
       keys: [/cairn|docsgraph|文档|知识图谱|rag|检索/i],
       answer:
-        '**Cairn / DocsGraph** 是我做的本地文档索引和 MCP 工具。\n\n它来自一个很实际的痛点：AI coding agent 经常需要读项目文档，但整篇塞进去又贵又乱。Cairn 会把文档拆成目录树、摘要、实体、交叉引用和向量索引，再通过 MCP 暴露 `search_documents`、`repo_context`、`repo_graph` 等工具。\n\n我喜欢它的原因是，它不炫。它只是让模型少猜一点，让人少复制一点，让上下文更像工程材料而不是聊天素材。',
+        '[Cairn / DocsGraph](https://github.com/jokeuncle/cairn) 是我做的本地文档索引和 MCP 工具。\n\n它来自一个很实际的痛点：AI coding agent 经常需要读项目文档，但整篇塞进去又贵又乱。Cairn 会把文档拆成目录树、摘要、实体、交叉引用和向量索引，再通过 MCP 暴露 `search_documents`、`repo_context`、`repo_graph` 等工具。\n\n我喜欢它的原因是，它不炫。它只是让模型少猜一点，让人少复制一点，让上下文更像工程材料而不是聊天素材。',
       followups: ['MCPort 有什么用？', '你的技术栈']
+    },
+    {
+      keys: [/lumen atelier|atelier|ai infra|基础设施|推理引擎|vllm|sglang|mlx|metal|gguf|bpe|llama|triton|a100|h100|源码学习|学习项目/i],
+      answer:
+        '[Lumen Atelier](https://github.com/jokeuncle/lumen-atelier) 是我用来暴露 AI Infra 知识面的学习项目，不是一个只写口号的学习清单。\n\n它的设计是 **90 天、source-code-first**：一边读源码，一边做本地实验和 benchmark，公开产出才算完成。\n\n目前规划的知识面大概是三条线：\n\n• **推理引擎主线**：vLLM / SGLang internals、PagedAttention、continuous batching、KV cache / KV quant、speculative decoding\n• **Apple Silicon 线**：MLX、llama.cpp、GGUF、tokenizer / BPE、Metal kernels、本地 7B 模型实验\n• **云端补完线**：Triton kernels、A100 / H100 sanity checks、tensor parallel 和真实负载下的性能判断\n\n我把它放进简历，是想表达一个很明确的信号：我不满足于只会调用模型 API，也在补推理、运行时、算子、硬件和性能这条更底层的线。',
+      followups: ['你的技术栈', '做过哪些项目？']
     },
     {
       keys: [/lumen|aibrief|brief|简报|信息源|notebooklm|obsidian|yo/i],
       answer:
-        '**Lumen Brief** 是我的 AI 信息自动化项目。\n\n它聚合 AI 研究、开源模型、工具、社区讨论和岗位趋势，输出每日卡片、HTML 预览、Obsidian 笔记、NotebookLM 资料包和来源清单。\n\n这个项目不是做资讯站，而是解决个人知识管理中的真实问题：每天看很多材料，怎样沉淀成以后能检索、能复盘、能继续写作的资料。',
+        '[Lumen Brief](https://github.com/jokeuncle/lumen-brief) 是我的 AI 信息自动化项目。\n\n它聚合 AI 研究、开源模型、工具、社区讨论和岗位趋势，输出每日卡片、HTML 预览、Obsidian 笔记、NotebookLM 资料包和来源清单。\n\n这个项目不是做资讯站，而是解决个人知识管理中的真实问题：每天看很多材料，怎样沉淀成以后能检索、能复盘、能继续写作的资料。',
       followups: ['Cairn 是什么？', '做过哪些项目？']
     },
     {
       keys: [/mcport|http.*mcp|openapi|api|tool calling|工具调用/i],
       answer:
-        '**MCPort** 是一个 HTTP API 到 MCP Tool 的桥接和管理服务。\n\n很多现有 API 本来就能完成任务，只是 AI 客户端不方便直接调用。MCPort 的做法是：在 Web UI 里配置 endpoint、参数、鉴权和测试请求，再由 `/mcp` 运行时把它们暴露成 typed tools。\n\n它体现的是很实用的 AI 落地能力：把已有系统能力接入模型工具调用，而不是重新造一套服务。',
+        '[MCPort](https://github.com/jokeuncle/mcport) 是一个 HTTP API 到 MCP Tool 的桥接和管理服务。\n\n很多现有 API 本来就能完成任务，只是 AI 客户端不方便直接调用。MCPort 的做法是：在 Web UI 里配置 endpoint、参数、鉴权和测试请求，再由 `/mcp` 运行时把它们暴露成 typed tools。\n\n它体现的是很实用的 AI 落地能力：把已有系统能力接入模型工具调用，而不是重新造一套服务。',
       followups: ['Cairn 是什么？', '你的技术栈']
     },
     {
       keys: [/经历|经验|履历|工作|职业|career|experience|背景|past/i],
       answer:
-        '我有 10+ 年研发经验，曾在 **阿里巴巴、拼多多、美团、字节跳动** 做过大型 Web、前端工程、BFF、研发平台、自动化发布和开发者工具。\n\n这些经历最后沉成了几个习惯：\n\n• 先把复杂流程拆清楚\n• 把重复工作做成工具\n• 从界面、服务、CLI 到 CI/CD 能一路接起来\n• 原型跑通后，继续补测试、文档、发布和可维护性\n\n现在这些习惯主要落在 AI 工具链、MCP/RAG、知识自动化和桌面效率工具上。',
+        '按公司讲会更清楚：\n\n• **阿里巴巴**：做过零售场景的互动业务和实时体验，重点是多人在线、状态同步、活动承载和前端体验。\n• **拼多多**：做过大规模 C 端互动产品和活动链路，重点是高并发、性能、稳定性和容灾。\n• **美团**：做过 BFF 与接口编排平台，把协议聚合、模块复用和前后端协作做成平台能力。\n• **字节跳动**：做过前端研发部署平台，覆盖 CI/CD、多环境、灰度、监控告警和自动化发布。\n\n具体业务细节我不在这里展开。我更想让你看到的是：我不是只做页面，也不是只写服务，而是能把复杂业务、平台能力和工程效率连成完整链路。\n\n现在这些经验主要落在 AI 工具链、MCP/RAG、知识自动化和桌面效率工具上。',
       followups: ['你的技术栈', '做过哪些项目？', '怎么联系你？']
     },
     {
       keys: [/技术栈|skill|stack|技能|擅长|能做什么|tech/i],
       answer:
-        '我的技术栈大概分四组：\n\n**AI 工具链**：MCP、RAG、Tool Calling、结构化输出、文档索引、向量检索、评测和诊断。\n\n**工程实现**：TypeScript、React、Vue、Astro、Node、FastAPI、Python CLI、GitHub Actions、Pages、PyPI。\n\n**桌面与实时体验**：Tauri、Rust、SSE、WebSocket、macOS 窗口和菜单栏应用。\n\n**平台能力**：BFF、自动化发布、DevEx、性能、可观测性、从 0 到 1 的工具产品化。\n\n我不追求把技术栈写得很长，更在意它们能不能合在一起，把一个工具真正做完。',
-      followups: ['Cairn 是什么？', 'MCPort 有什么用？']
+        '我的技术栈大概分五组：\n\n**AI 应用层**：MCP、RAG、Tool Calling、结构化输出、文档索引、向量检索、评测和诊断。\n\n**AI Infra 学习线**：vLLM / SGLang internals、PagedAttention、continuous batching、KV cache、speculative decoding、llama.cpp、GGUF、BPE、MLX、Metal kernels、Triton。\n\n**工程实现**：TypeScript、React、Vue、Astro、Node、FastAPI、Python CLI、GitHub Actions、Pages、PyPI。\n\n**桌面与实时体验**：Tauri、Rust、SSE、WebSocket、macOS 窗口和菜单栏应用。\n\n**平台能力**：BFF、自动化发布、DevEx、性能、可观测性、从 0 到 1 的工具产品化。\n\n我不追求把技术栈写得很长，更在意它们能不能合在一起，把一个工具真正做完。',
+      followups: ['Lumen Atelier', 'Cairn 是什么？']
     },
     {
       keys: [/项目|作品|github|开源|做过什么|portfolio|projects/i],
       answer:
-        '主推公开项目如下：\n\n• **Cairn / DocsGraph**：面向 coding agent 的文档索引和 MCP 工具\n• **Lumen Brief**：AI 信息源聚合、Obsidian 笔记和 NotebookLM 资料包\n• **MCPort**：HTTP API 到 MCP Tool 的管理服务\n• **Sotto**：调用本地 AI CLI 的 macOS 桌面小工具\n• **Red Green Light**：把 AI 编码会话状态显示到菜单栏\n• **Luma District**：React Three Fiber 做的 3D 商业街区原型\n\n这些项目覆盖后端、前端、CLI、桌面、自动化和发布，能比较完整地体现我的工程面。',
-      followups: ['Cairn 是什么？', 'Lumen Brief 怎么用？', 'MCPort 有什么用？']
+        '主推公开项目如下，项目名可以直接点开：\n\n• [Cairn / DocsGraph](https://github.com/jokeuncle/cairn)：面向 coding agent 的文档索引和 MCP 工具\n• [Lumen Brief](https://github.com/jokeuncle/lumen-brief)：AI 信息源聚合、Obsidian 笔记和 NotebookLM 资料包\n• [Lumen Atelier](https://github.com/jokeuncle/lumen-atelier)：90 天 AI Infra 源码学习，覆盖 vLLM/SGLang、MLX、Metal kernels、llama.cpp、GGUF/BPE 和 benchmark\n• [MCPort](https://github.com/jokeuncle/mcport)：HTTP API 到 MCP Tool 的管理服务\n• [Sotto](https://github.com/jokeuncle/sotto)：调用本地 AI CLI 的 macOS 桌面小工具\n• [Red Green Light](https://github.com/jokeuncle/red-green-light)：把 AI 编码会话状态显示到菜单栏\n• [Luma District](https://github.com/jokeuncle/luma-district)：React Three Fiber 做的 3D 商业街区原型\n\n这些项目覆盖后端、前端、CLI、桌面、自动化、发布和底层学习，能比较完整地体现我的工程面。',
+      followups: ['Cairn 是什么？', 'Lumen Atelier', 'MCPort 有什么用？']
     },
     {
       keys: [/sotto|red green|red-green|桌面|菜单栏|tauri|claude|codex/i],
@@ -650,13 +666,13 @@ const greeting =
     {
       keys: [/联系|contact|邮箱|email|微信|wechat|加你|找你|reach/i],
       answer:
-        '可以这样找到我：\n\n• **邮箱** · `827919619@qq.com`\n• **微信** · `N-429228`\n• **GitHub** · `github.com/jokeuncle`\n\n合作、岗位、技术交流都可以。你把背景、目标和当前问题说清楚，我会更快说清楚能怎么帮上忙。',
-      followups: ['你是谁？', '合作机会']
+        '可以这样找到我：\n\n• **邮箱** · `827919619@qq.com`\n• **微信** · `N-429228`\n• **GitHub** · [github.com/jokeuncle](https://github.com/jokeuncle)\n\n岗位、合作、技术交流都可以。你把背景、目标和当前问题说清楚，我会更快说清楚能怎么帮上忙。',
+      followups: ['你是谁？', '岗位机会']
     },
     {
       keys: [/教育|学历|大学|毕业|education|school|college|university/i],
       answer:
-        '**上海大学** · 本科。\n\n学历是背景信息。我更希望你同时看我的公开项目：它们能说明我怎么定义问题、怎么写代码、怎么做工具和发布。',
+        '**上海大学** · 本科。\n\n大学阶段之后，我从 IBM / eBay 实习起步，后来进入阿里巴巴、拼多多、美团、字节跳动。学历是背景信息，我更希望你同时看我的公开项目：它们能说明我怎么定义问题、怎么写代码、怎么做工具和发布。',
       followups: ['工作经历', '做过哪些项目？']
     },
     {
@@ -668,7 +684,7 @@ const greeting =
     {
       keys: [/地点|哪里|where|城市|location|city|坐标|base|在哪|工作地/i],
       answer:
-        '工作轨迹主要在 **上海 · 深圳 · 北京**。具体合作方式和当前安排可以直接联系我确认。',
+        '工作轨迹主要在 **上海 · 深圳 · 北京**。具体到岗方式、远程/现场安排和当前可聊机会，可以直接联系我确认。',
       followups: ['工作经历', '怎么联系你？']
     },
     {
@@ -678,9 +694,9 @@ const greeting =
       followups: ['Cairn 是什么？', 'MCPort 有什么用？']
     },
     {
-      keys: [/合作|hire|招聘|外包|项目机会|opportunity|offer|挖你|挖我|招你/i],
+      keys: [/合作|hire|招聘|外包|项目机会|岗位机会|工作机会|岗位|opportunity|offer|挖你|挖我|招你/i],
       answer:
-        '开放合作中。更匹配的方向包括：\n\n• AI 工具、开发者工具、本地自动化、知识库产品\n• 需要把模型能力接入现有流程的产品原型\n• MCP、RAG、CLI、桌面工具、发布流水线相关共建\n• 技术合伙、顾问、短期交付也可以具体看项目\n\n邮件 `827919619@qq.com` 或微信 `N-429228` 都可以。你把目标和当前卡点发我，我会直说能不能推进、怎么推进。',
+        '我在看更匹配的工作机会，也开放少量技术合作。\n\n更适合我的方向包括：\n\n• AI 工具、开发者工具、DevEx、知识库产品\n• 前端平台、BFF、研发效能、自动化发布\n• 需要把模型能力接进真实工作流的产品或平台\n• MCP、RAG、CLI、桌面工具、工程工具产品化\n\n我比较看重团队是否真的要把东西做出来，而不是只做概念包装。邮件 `827919619@qq.com` 或微信 `N-429228` 都可以。把岗位方向、团队问题和期望我负责的部分说清楚，我会认真判断匹配度。',
       followups: ['怎么联系你？', '做过哪些项目？']
     },
     {
@@ -770,11 +786,12 @@ const greeting =
     body.scrollTo({ top: body.scrollHeight, behavior: 'smooth' });
   }
 
-  // Minimal markdown-ish formatting for bubbles (bold, inline code, [[link]])
+  // Minimal markdown-ish formatting for bubbles (links, bold, inline code)
   function renderInline(text: string): string {
     const escape = (s: string) =>
       s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     return escape(text)
+      .replace(/\[([^\]]+)\]\((https?:\/\/[^)"\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
       .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
       .replace(/`([^`]+)`/g, '<code>$1</code>')
       .replace(/\[\[([^\]]+)\]\]/g, '<strong>$1</strong>');
