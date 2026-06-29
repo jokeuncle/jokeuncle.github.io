@@ -1,0 +1,209 @@
+---
+import { getCollection } from 'astro:content';
+
+const learningPosts = (await getCollection('blog', ({ data }) =>
+  !data.draft && data.tags.includes('learning-log')
+))
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
+  .slice(0, 3);
+---
+
+<section class="learning-log section" id="learning-log" aria-label="Daily learning log">
+  <div class="container">
+    <div class="learning-header fade-up">
+      <span class="section-tag">Daily Learning</span>
+      <div class="header-main">
+        <h2 class="section-title">
+          <span class="gradient-text">每日学习日志</span>
+        </h2>
+        <a class="all-link" href="/blog">全部博客</a>
+      </div>
+      <p class="section-desc">
+        Lumen Brief 跑出的 Codex 深度消化会沉淀到这里，保留每天真正学过的一小块内容。
+      </p>
+    </div>
+
+    {learningPosts.length > 0 ? (
+      <div class="log-grid">
+        {learningPosts.map((post, index) => (
+          <article class={`log-card fade-up stagger-${(index % 3) + 1}`}>
+            <a href={`/blog/${post.slug}`} class="log-link">
+              <time class="log-date" datetime={post.data.pubDate.toISOString()}>
+                {new Date(post.data.pubDate).toLocaleDateString('zh-CN', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </time>
+              <h3>{post.data.title}</h3>
+              <p>{post.data.description}</p>
+              <div class="log-tags" aria-label="Tags">
+                {post.data.tags.slice(0, 4).map((tag) => (
+                  <span>{tag}</span>
+                ))}
+              </div>
+            </a>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <div class="empty-log fade-up">
+        <p>学习日志生成后会出现在这里。</p>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .learning-log {
+    background: var(--bg-primary);
+    position: relative;
+  }
+
+  .learning-log::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+  }
+
+  .learning-header {
+    max-width: 780px;
+    margin-bottom: 2rem;
+  }
+
+  .section-tag {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid rgba(34, 211, 238, 0.22);
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent-cyan);
+    margin-bottom: 1rem;
+  }
+
+  .header-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .section-title {
+    margin: 0;
+  }
+
+  .section-desc {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 640px;
+  }
+
+  .all-link {
+    flex: 0 0 auto;
+    padding: 0.55rem 0.85rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+  }
+
+  .all-link:hover {
+    border-color: rgba(34, 211, 238, 0.45);
+    color: var(--accent-cyan);
+  }
+
+  .log-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .log-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    transition: transform var(--transition-normal), border-color var(--transition-normal);
+  }
+
+  .log-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(34, 211, 238, 0.35);
+  }
+
+  .log-link {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding: 1.25rem;
+    color: inherit;
+  }
+
+  .log-date {
+    color: var(--accent-cyan);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .log-card h3 {
+    font-size: 1.1rem;
+    line-height: 1.35;
+    margin-bottom: 0.7rem;
+    letter-spacing: 0;
+  }
+
+  .log-card p {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.65;
+    margin: 0 0 1rem;
+    max-width: none;
+  }
+
+  .log-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: auto;
+  }
+
+  .log-tags span {
+    padding: 0.2rem 0.45rem;
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    border-radius: 5px;
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+  }
+
+  .empty-log {
+    border: 1px dashed var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+  }
+
+  .empty-log p {
+    color: var(--text-tertiary);
+    font-size: 0.95rem;
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .log-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .header-main {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+</style>

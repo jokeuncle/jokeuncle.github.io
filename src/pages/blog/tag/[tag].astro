@@ -3,24 +3,42 @@ import Layout from '@/layouts/Layout.astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
 import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
 
-const allPosts = await getCollection('blog', ({ data }) => !data.draft);
-const posts = allPosts.sort((a, b) => 
-  b.data.pubDate.getTime() - a.data.pubDate.getTime()
-);
+export async function getStaticPaths() {
+  const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+  const tags = Array.from(new Set(allPosts.flatMap((post) => post.data.tags))).sort();
 
-const tagHref = (tag: string) => `/blog/tag/${encodeURIComponent(tag)}`;
+  return tags.map((tag) => ({
+    params: { tag: encodeURIComponent(tag) },
+    props: {
+      tag,
+      posts: allPosts
+        .filter((post) => post.data.tags.includes(tag))
+        .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()),
+    },
+  }));
+}
+
+interface Props {
+  tag: string;
+  posts: CollectionEntry<'blog'>[];
+}
+
+const { tag, posts } = Astro.props;
+const tagHref = (value: string) => `/blog/tag/${encodeURIComponent(value)}`;
 ---
 
-<Layout title="博客 | Lei" description="Lei 的个人博客 - AI 工具、自动化、工程实践与项目记录">
+<Layout title={`#${tag} | Lei 的博客`} description={`Lei 的博客中带有 ${tag} 标签的文章`}>
   <Header />
   <main class="blog-page">
     <section class="blog-hero section">
       <div class="container">
         <div class="blog-hero-content fade-up">
-          <h1 class="blog-title">博客</h1>
+          <a class="back-link" href="/blog">返回全部博客</a>
+          <h1 class="blog-title">#{tag}</h1>
           <p class="blog-subtitle">
-            记录 AI 工具、自动化、工程实践和项目复盘
+            {posts.length} 篇相关记录
           </p>
         </div>
       </div>
@@ -28,49 +46,47 @@ const tagHref = (tag: string) => `/blog/tag/${encodeURIComponent(tag)}`;
 
     <section class="blog-list section">
       <div class="container">
-        {posts.length === 0 ? (
-          <div class="blog-empty fade-in">
-            <p>暂无文章，敬请期待...</p>
-          </div>
-        ) : (
-          <div class="blog-grid">
-            {posts.map((post) => (
-              <article class="blog-card card-3d fade-up">
-                {post.data.image && (
-                  <a href={`/blog/${post.slug}`} class="blog-card-image">
-                    <img 
-                      src={post.data.image} 
-                      alt={post.data.title}
-                      loading="lazy"
-                    />
-                  </a>
+        <div class="blog-grid">
+          {posts.map((post) => (
+            <article class="blog-card card-3d fade-up">
+              {post.data.image && (
+                <a href={`/blog/${post.slug}`} class="blog-card-image">
+                  <img
+                    src={post.data.image}
+                    alt={post.data.title}
+                    loading="lazy"
+                  />
+                </a>
+              )}
+              <div class="blog-card-content">
+                <a href={`/blog/${post.slug}`} class="blog-card-link">
+                  <time class="blog-card-date" datetime={post.data.pubDate.toISOString()}>
+                    {new Date(post.data.pubDate).toLocaleDateString('zh-CN', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </time>
+                  <h2 class="blog-card-title">{post.data.title}</h2>
+                  <p class="blog-card-desc">{post.data.description}</p>
+                </a>
+                {post.data.tags.length > 0 && (
+                  <div class="blog-card-tags">
+                    {post.data.tags.map((item) => (
+                      <a
+                        href={tagHref(item)}
+                        class:list={['blog-tag', { active: item === tag }]}
+                        aria-label={`查看 ${item} 标签文章`}
+                      >
+                        {item}
+                      </a>
+                    ))}
+                  </div>
                 )}
-                <div class="blog-card-content">
-                  <a href={`/blog/${post.slug}`} class="blog-card-link">
-                    <time class="blog-card-date" datetime={post.data.pubDate.toISOString()}>
-                      {new Date(post.data.pubDate).toLocaleDateString('zh-CN', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
-                    </time>
-                    <h2 class="blog-card-title">{post.data.title}</h2>
-                    <p class="blog-card-desc">{post.data.description}</p>
-                  </a>
-                  {post.data.tags.length > 0 && (
-                    <div class="blog-card-tags">
-                      {post.data.tags.map((tag) => (
-                        <a href={tagHref(tag)} class="blog-tag" aria-label={`查看 ${tag} 标签文章`}>
-                          {tag}
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </article>
-            ))}
-          </div>
-        )}
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   </main>
@@ -86,6 +102,16 @@ const tagHref = (tag: string) => `/blog/tag/${encodeURIComponent(tag)}`;
   .blog-hero {
     text-align: center;
     padding-bottom: 3rem;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    color: var(--accent-cyan);
+    font-size: 0.9rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   .blog-title {
@@ -106,13 +132,6 @@ const tagHref = (tag: string) => `/blog/tag/${encodeURIComponent(tag)}`;
 
   .blog-list {
     padding-top: 2rem;
-  }
-
-  .blog-empty {
-    text-align: center;
-    padding: 4rem 2rem;
-    color: var(--text-tertiary);
-    font-size: 1.125rem;
   }
 
   .blog-grid {
@@ -210,7 +229,8 @@ const tagHref = (tag: string) => `/blog/tag/${encodeURIComponent(tag)}`;
     transition: border-color var(--transition-fast), background var(--transition-fast);
   }
 
-  .blog-tag:hover {
+  .blog-tag:hover,
+  .blog-tag.active {
     background: rgba(99, 102, 241, 0.24);
     border-color: rgba(99, 102, 241, 0.55);
     color: var(--accent-cyan);

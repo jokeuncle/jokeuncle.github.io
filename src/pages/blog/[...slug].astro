@@ -26,6 +26,7 @@ const sortedPosts = allPosts.sort((a, b) =>
 const currentIndex = sortedPosts.findIndex((p) => p.slug === post.slug);
 const prevPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
 const nextPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
+const tagHref = (tag: string) => `/blog/tag/${encodeURIComponent(tag)}`;
 ---
 
 <Layout 
@@ -66,7 +67,7 @@ const nextPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentInde
           {post.data.tags.length > 0 && (
             <div class="blog-post-tags">
               {post.data.tags.map((tag) => (
-                <a href={`/blog?tag=${tag}`} class="blog-tag">{tag}</a>
+                <a href={tagHref(tag)} class="blog-tag">{tag}</a>
               ))}
             </div>
           )}
@@ -346,4 +347,3 @@ const nextPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentInde
     }
   }
 </style>
-
