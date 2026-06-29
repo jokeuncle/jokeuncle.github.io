@@ -61,6 +61,7 @@ coverage/
 *.tmp
 *.temp
 .cache/
+.codegraph/
 
 # Package manager lock files (optional - uncomment if you want to ignore)
 # package-lock.json
@@ -78,4 +79,3 @@ coverage/
 
 # Local development
 .local/
-
